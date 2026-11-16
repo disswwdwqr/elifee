@@ -279,7 +279,7 @@
       const scored=state.customers.map(function(c){return {c:c,s:scoreCustomer(c)};});
       $("kpiCustomers").textContent=state.customers.length.toLocaleString("zh-TW");
       $("kpiCustomerHint").textContent=state.demoCustomers?"目前顯示虛構示範設備":"客戶資料在本機記憶體處理";
-      $("kpiHigh").textContent=scored.filter(function(x){return x.s.risk==="高"&&x.c.consent;}).length.toLocaleString("zh-TW");
+      $("kpiHigh").textContent=scored.filter(function(x){return x.s.risk==="高"&&x.c.consent&&x.c.outcome!==true;}).length.toLocaleString("zh-TW");
       $("kpiHistoryDistricts").textContent=new Set(state.history.map(function(h){return h.district;})).size.toLocaleString("zh-TW");
       $("kpiHistoryHint").textContent=state.demoHistory?"目前顯示虛構安裝示範資料":"匯入安裝歷史後產生需求預估";
     }
@@ -290,7 +290,7 @@
     }
     function renderLeads(){
       const query=$("leadSearch").value.trim().toLowerCase(),risk=$("riskFilter").value,consent=$("consentFilter").value,district=$("districtFilter").value;
-      const rows=state.customers.map(function(c){return {c:c,s:scoreCustomer(c)};}).filter(function(x){
+      const rows=state.customers.filter(function(c){return c.outcome!==true;}).map(function(c){return {c:c,s:scoreCustomer(c)};}).filter(function(x){
         return (!query||(x.c.id+" "+x.c.district).toLowerCase().includes(query))&&(risk==="all"||x.s.risk===risk)&&(consent==="all"||(consent==="yes"?x.c.consent:!x.c.consent))&&(district==="all"||x.c.district===district);
       }).sort(function(a,b){return (b.s.score||-1)-(a.s.score||-1);});
       $("leadRows").innerHTML=rows.map(function(x){
@@ -298,7 +298,7 @@
         return '<tr><td class="id-cell">'+esc(c.id)+'</td><td>'+esc(c.district||"未提供")+'區</td><td class="number">'+(s.age==null?"—":s.age+" 年")+'</td><td class="number">'+(Number.isFinite(c.repairs)?c.repairs:"—")+' 次</td><td><span class="risk-badge '+cls+'">'+(s.score==null?"資料不足":s.risk+"關注 · "+s.score)+'</span></td><td class="reason">'+esc(s.reasons.join("、"))+'</td><td><span class="consent-badge '+(c.consent?"consent-yes":"consent-no")+'">'+(c.consent?"已同意":"不可主動聯繫")+'</span></td><td><span class="review-badge '+rcls+'">'+esc(reviewLabel)+'</span></td><td>'+(c.outcome===true?'<span class="review-badge review-done">已換機成功</span>':'<div class="row-actions"><button class="btn btn-small btn-primary review-action" data-id="'+esc(c.id)+'" data-value="已確認換機">確認換機</button><button class="btn btn-small review-action" data-id="'+esc(c.id)+'" data-value="暫緩">暫緩</button></div>')+'</td></tr>';
       }).join("");
       $("leadEmpty").style.display=rows.length?"none":"block";
-      $("leadEmpty").textContent=state.customers.length?"沒有符合目前篩選的資料。":"尚無客戶資料。可載入示範資料或匯入 CSV。";
+      $("leadEmpty").textContent=state.customers.length?(state.customers.every(function(c){return c.outcome===true;})?"目前匯入的設備都已標記為六個月內換機成功，已移至「換機成功名單」。":"沒有符合目前篩選的資料。已換機成功的設備不會顯示在此名單。") :"尚無客戶資料。可載入示範資料或匯入 CSV。";
       const labeled=state.customers.filter(function(c){return c.outcome!==null&&c.outcome!==undefined;}),ranked=labeled.map(function(c){return {s:scoreCustomer(c),outcome:c.outcome};}).filter(function(x){return x.s.score!==null;}).sort(function(a,b){return b.s.score-a.s.score;});
       if(ranked.length){
         const top=ranked.slice(0,Math.max(1,Math.ceil(ranked.length/3))),rest=ranked.slice(top.length),topRate=top.length?top.filter(function(x){return x.outcome;}).length/top.length:0,restRate=rest.length?rest.filter(function(x){return x.outcome;}).length/rest.length:0;
