@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f7">
+  <title>冷氣換機需求預測系統｜全國電子</title>
+  <style>
+    :root{--ink:#3b3b3b;--muted:#787878;--line:#e5e5e5;--paper:#fff;--canvas:#f7f7f7;--brand:#ff3c74;--brand-dark:#e32f67;--brand-soft:#fff0f4;--green:#2b654d;--green2:#1e513b;--mint:#e9f3ed;--orange:#ef9c43;--red:#b9483e;--shadow:0 12px 30px rgba(59,59,59,.07);--radius:16px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--canvas);color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;font-size:14px;letter-spacing:.01em}button,input,select{font:inherit}button{cursor:pointer}
+    .wrap{width:min(1240px,calc(100% - 40px));margin:auto}.topbar{background:#fff;border-bottom:1px solid var(--line);box-shadow:0 3px 15px rgba(59,59,59,.035)}.store-topline{background:#f6f6f6;color:#787878;font-size:9px}.store-topline-inner{height:30px;display:flex;align-items:center;justify-content:space-between}.nav{height:68px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink);font-weight:850;font-size:16px}.brand-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:11px;background:var(--brand);color:#fff;font-size:17px}.brand-text{display:grid;gap:1px}.brand-text strong{font-size:15px;line-height:1.2}.brand-text small{color:#8a8a8a;font-size:9px;font-weight:700}.status-pill{padding:7px 11px;border-radius:99px;background:var(--brand-soft);color:#c82858;font-size:10px;font-weight:800}.tabbar{border-top:1px solid #f0f0f0}.nav-links{display:flex;gap:4px;align-items:center;overflow:auto}.nav-links a{display:block;position:relative;padding:13px 14px 12px;color:#696969;text-decoration:none;white-space:nowrap;font-size:11px;font-weight:750;border-bottom:2px solid transparent}.nav-links a:hover,.nav-links a:focus-visible{color:var(--brand);border-bottom-color:var(--brand)}
+    .hero{padding:27px 0 20px}.eyebrow{color:var(--brand);font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:25px;align-items:center;padding:28px 30px;border:1px solid #f5d7e0;border-radius:20px;background:linear-gradient(112deg,#fff 0%,#fff8fa 53%,#ffeaf0 100%);box-shadow:var(--shadow);overflow:hidden}.hero h1{font-size:clamp(30px,4vw,43px);line-height:1.18;letter-spacing:-.055em;margin:10px 0}.hero p{max-width:720px;margin:0;color:var(--muted);font-size:13px;line-height:1.8}.hero-cta{display:inline-flex;align-items:center;gap:12px;margin-top:17px;padding:10px 15px;border-radius:8px;background:var(--brand);color:#fff;text-decoration:none;font-size:10px;font-weight:850;box-shadow:0 6px 14px rgba(255,60,116,.2)}.hero-cta:hover{background:var(--brand-dark)}.hero-note{padding:16px 18px;border:1px solid #f5c6d4;border-radius:13px;background:#fff;color:#6f565c;font-size:11px;line-height:1.7;box-shadow:0 8px 20px rgba(93,48,62,.05)}.hero-note strong{display:block;margin-bottom:4px;color:#c82858;font-size:12px}
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:8px 0 22px}.kpi{background:#fff;border:1px solid var(--line);border-top:3px solid var(--brand);border-radius:11px;padding:15px 18px;box-shadow:0 8px 22px rgba(59,59,59,.035)}.kpi:nth-child(2){border-top-color:#ffb54a}.kpi:nth-child(3){border-top-color:#888}.kpi:nth-child(4){border-top-color:#ff9eba}.kpi-label{color:var(--muted);font-size:10px;font-weight:700}.kpi-value{font-size:27px;letter-spacing:-.05em;font-weight:850;margin:7px 0 2px}.kpi-hint{color:#929292;font-size:10px}.kpi-value.green{color:var(--brand-dark)}.kpi-value.orange{color:#b66d1f}
+    .section{scroll-margin-top:20px;margin:18px 0 24px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:0 0 13px}.section-head h2{font-size:19px;letter-spacing:-.035em;margin:0}.section-head p{font-size:11px;color:var(--muted);margin:5px 0 0;line-height:1.65}.label{color:var(--brand-dark);font-size:9px;font-weight:850;letter-spacing:.12em;text-transform:uppercase}.panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}.panel-pad{padding:20px}
+    .toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:9px}.btn{border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);padding:9px 12px;font-size:11px;font-weight:750}.btn:hover{border-color:#f2a5ba;color:var(--brand-dark)}.btn-primary{background:var(--brand);border-color:var(--brand);color:#fff}.btn-primary:hover{background:var(--brand-dark);border-color:var(--brand-dark)}.btn-soft{background:var(--brand-soft);border-color:#f5ccda;color:#c82858}.btn-small{padding:6px 9px;font-size:9px}.file-wrap{position:relative;overflow:hidden}.file-wrap input{position:absolute;inset:0;opacity:0;cursor:pointer}
+    .import-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.import-card{padding:18px;border:1px dashed #f1b9ca;border-radius:12px;background:#fffafb}.import-card h3{margin:0 0 6px;font-size:13px}.import-card p{margin:0 0 11px;color:var(--muted);font-size:10px;line-height:1.7}.fields{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f7f7f7;border-radius:7px;padding:8px 9px;color:#555;font-size:9px;line-height:1.6;word-break:break-word}.import-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.upload-status{margin-top:8px;color:#858585;font-size:9px;min-height:14px}
+    .table-wrap{overflow:auto;border:1px solid #ececec;border-radius:11px}.data-table{width:100%;border-collapse:collapse;min-width:860px}.data-table th,.data-table td{text-align:left;padding:11px 12px;border-bottom:1px solid #f0f0f0;white-space:nowrap;font-size:10px;vertical-align:middle}.data-table th{background:#fafafa;color:#696969;font-weight:850}.data-table tr:last-child td{border-bottom:0}.data-table tbody tr:hover td{background:#fff9fb}.data-table td{color:#424242}.id-cell{font-weight:800;color:#c82858}.muted{color:#8c9088!important}.risk-badge,.consent-badge,.review-badge,.confidence{display:inline-block;padding:5px 8px;border-radius:99px;font-size:9px;font-weight:800}.risk-high{color:#a13b32;background:#fff0ee}.risk-medium{color:#986014;background:#fff5e6}.risk-low{color:#477155;background:#ebf5ee}.risk-nodata{color:#6d716a;background:#f1f2ef}.consent-yes{color:#2b654d;background:#e9f3ed}.consent-no{color:#797d76;background:#f0f1ee}.review-pending{color:#7b5b1d;background:#fff5df}.review-done{color:#2b654d;background:#e9f3ed}.review-hold{color:#74516e;background:#f5eff6}.reason{max-width:280px;white-space:normal!important;line-height:1.55}.row-actions{display:flex;gap:5px}.row-actions .btn{white-space:nowrap}.table-empty{padding:30px 15px;text-align:center;color:#8a8f86;font-size:11px;line-height:1.8}
+    .filters{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.control{height:36px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:0 10px;font-size:10px;color:#4e544c}.control:focus{outline:2px solid #ffd5e0;border-color:var(--brand)}.search{min-width:190px}
+    .demand-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:13px}.forecast-summary{display:flex;align-items:center;gap:8px;color:#777d74;font-size:10px}.confidence-high{background:#e9f3ed;color:#2b654d}.confidence-mid{background:#fff5df;color:#8d651c}.confidence-low{background:#f1f2ef;color:#72776e}.bar-cell{min-width:135px}.bar-track{height:7px;background:#edf0ea;border-radius:99px;overflow:hidden;margin-top:5px}.bar-fill{height:100%;border-radius:99px;background:#4a8c69}.bar-fill.over{background:#db8353}.number{font-variant-numeric:tabular-nums}.gap-pos{color:#aa5235;font-weight:850}.gap-neg{color:#49805d;font-weight:850}
+    .insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.insight{padding:13px 14px;border-radius:12px;background:#f6f8f5;border:1px solid #e9ede7}.insight small{display:block;color:#83877f;font-size:9px;margin-bottom:5px}.insight strong{font-size:12px}.insight p{font-size:10px;color:#6e736b;line-height:1.65;margin:5px 0 0}
+    .success-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}.success-kpi{padding:14px;border:1px solid #ededed;border-radius:11px;background:#fff}.success-kpi span{display:block;color:#777;font-size:9px;font-weight:750}.success-kpi strong{display:block;margin:7px 0 3px;font-size:24px;letter-spacing:-.045em;color:var(--brand-dark)}.success-kpi small{color:#929292;font-size:9px}.success-kpi .positive{color:var(--green)}.success-kpi .negative{color:var(--red)}.success-compare{display:grid;grid-template-columns:1fr 1fr;gap:12px}.success-cohort{padding:16px;border:1px solid #ededed;border-radius:11px;background:#fff}.success-cohort-head{display:flex;justify-content:space-between;align-items:start;gap:10px}.success-cohort h3{margin:0;font-size:12px}.success-cohort p{margin:5px 0 12px;color:#858585;font-size:9px}.success-rate{font-size:22px;font-weight:850;letter-spacing:-.04em;color:var(--brand-dark)}.success-rate.muted-rate{color:#777}.success-bar-track{height:9px;border-radius:99px;background:#eee;overflow:hidden}.success-bar{height:100%;border-radius:99px;background:var(--brand);min-width:0}.success-bar.comparison{background:#bcbcbc}.success-count{margin-top:9px;color:#717171;font-size:10px}.success-count strong{color:#303030}.success-note{margin-top:12px;padding:11px 13px;border-radius:9px;background:#fafafa;color:#6e6e6e;font-size:9px;line-height:1.7}.success-empty{padding:22px;text-align:center;border:1px dashed #ddd;border-radius:11px;color:#818181;font-size:10px;line-height:1.8}
+    .method-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}.method{padding:15px;border-top:2px solid var(--brand);background:#fff;border-radius:0 0 11px 11px}.method h3{font-size:12px;margin:8px 0 5px}.method p{font-size:10px;color:#737373;line-height:1.7;margin:0}.method-no{color:#c82858;font-weight:900;font-size:10px}.source-row{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-top:13px;padding:12px 14px;border-radius:10px;background:#f8f8f8;color:#787878;font-size:9px;line-height:1.6}.source-row a{color:var(--brand-dark);font-weight:800;text-decoration:none}
+    .notice{margin:12px 0;padding:12px 14px;border:1px solid #e9dcc0;border-radius:11px;background:#fffaf1;color:#7b6747;font-size:10px;line-height:1.7}.footer{padding:24px 0 34px;color:#8a8e86;font-size:9px;line-height:1.8}.footer a{color:var(--green)}
+    .toast{position:fixed;z-index:5;left:50%;bottom:22px;transform:translate(-50%,15px);opacity:0;pointer-events:none;transition:.2s;background:#26352b;color:#fff;padding:11px 15px;border-radius:11px;font-size:11px;box-shadow:0 8px 25px #0002;max-width:calc(100% - 24px)}.toast.show{transform:translate(-50%,0);opacity:1}
+    @media(max-width:850px){.hero-grid{grid-template-columns:1fr}.kpis,.success-kpis{grid-template-columns:repeat(2,1fr)}.nav-links a{padding-left:11px;padding-right:11px;font-size:10px}.method-grid{grid-template-columns:1fr}.import-grid{grid-template-columns:1fr}}
+    @media(max-width:600px){.wrap{width:calc(100% - 26px)}.store-topline-inner{height:27px}.store-topline-inner span:last-child{display:none}.nav{height:auto;min-height:62px;padding:10px 0;gap:10px}.brand-mark{width:34px;height:34px}.brand-text strong{font-size:14px}.nav-links{width:100%;padding:0}.nav-links a{padding:12px 10px 10px}.hero{padding-top:19px}.hero-grid{padding:22px 19px;gap:16px}.hero h1{font-size:30px}.hero-note{font-size:10px}.hero-cta{margin-top:13px}.kpi{padding:13px}.kpi-value{font-size:23px}.section-head{align-items:start;flex-direction:column}.insight-grid,.success-compare{grid-template-columns:1fr}.source-row{align-items:start;flex-direction:column}.panel-pad{padding:14px}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="store-topline"><div class="wrap store-topline-inner"><span>全國電子 E-life</span><span>安心配送・安裝・服務</span></div></div>
+    <div class="wrap nav">
+      <a class="brand" href="#"><span class="brand-mark">全</span><span class="brand-text"><strong>全國電子</strong><small>服務營運｜冷氣換機專案</small></span></a>
+      <span class="status-pill">試辦原型・資料留在本機</span>
+    </div>
+    <div class="tabbar"><nav class="wrap nav-links" aria-label="服務導覽">
+        <a href="#overview">總覽</a><a href="#imports">資料匯入</a><a href="#leads">換機名單</a><a href="#success">成效儀表板</a><a href="#demand">區域需求</a><a href="#method">模型說明</a>
+      </nav></div>
+  </header>
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-grid">
+        <div><div class="eyebrow">E-life Service Insight</div><h1>冷氣換機需求預測系統</h1><p>用設備年限與維修紀錄整理換機關注名單，再以各區安裝紀錄估算旺季需求。系統提供建議與覆核流程，實際聯繫與排程由同仁決定。</p><a class="hero-cta" href="#success">查看換機預測成效 <span aria-hidden="true">→</span></a></div>
+        <div class="hero-note"><strong>目前是規則式試辦原型</strong>尚未用全國電子歷史資料訓練模型。上傳資料只在這個瀏覽器分頁處理，不會傳到伺服器；關閉頁面後，匯入資料與覆核狀態會清除。</div>
+      </div>
+    </section>
+    <section class="kpis" id="overview">
+      <article class="kpi"><div class="kpi-label">匯入客戶設備</div><div class="kpi-value green" id="kpiCustomers">0</div><div class="kpi-hint" id="kpiCustomerHint">尚未匯入客戶資料</div></article>
+      <article class="kpi"><div class="kpi-label">優先人工覆核</div><div class="kpi-value orange" id="kpiHigh">0</div><div class="kpi-hint">高關注且可聯繫的名單</div></article>
+      <article class="kpi"><div class="kpi-label">區域人口參考</div><div class="kpi-value green" id="kpiDistricts">37</div><div class="kpi-hint">臺南市各行政區人口與戶數</div></article>
+      <article class="kpi"><div class="kpi-label">具安裝紀錄區域</div><div class="kpi-value" id="kpiHistoryDistricts">0</div><div class="kpi-hint" id="kpiHistoryHint">匯入安裝歷史後產生需求預估</div></article>
+    </section>
+
+    <section class="section" id="imports">
+      <div class="section-head"><div><div class="label">01 / Data</div><h2>匯入資料</h2><p>先用示範資料查看操作流程，再匯入去識別化的內部資料。人口與戶數參考資料已預先載入。</p></div><div class="toolbar"><button class="btn btn-soft" id="loadDemo">載入示範資料</button><button class="btn" id="clearData">清除匯入資料</button></div></div>
+      <div class="panel panel-pad">
+        <div class="import-grid">
+          <article class="import-card">
+            <h3>客戶設備／維修資料 CSV</h3><p>每列一台設備。會員代碼請使用去識別化代碼。缺少行銷同意欄位時，系統會將名單標記為不可主動聯繫。</p>
+            <div class="fields">customer_id,district,install_year,repair_count_24m,last_repair_date,warranty_expired,marketing_consent,replaced_within_6m</div>
+            <div class="import-actions"><label class="btn btn-primary file-wrap">選擇客戶 CSV<input type="file" id="customerFile" accept=".csv,text/csv"></label><button class="btn" id="downloadCustomerSample">下載示範資料 CSV</button></div><div class="upload-status" id="customerStatus">尚未匯入</div>
+          </article>
+          <article class="import-card">
+            <h3>每月安裝與產能 CSV</h3><p>每列一區一個月份。未來月份可只填預計可安裝量，供需求預測與產能差額比對。</p>
+            <div class="fields">month,district,installations,planned_slots<br>月份格式：YYYY-MM；未來預計量可留白</div>
+            <div class="import-actions"><label class="btn btn-primary file-wrap">選擇安裝 CSV<input type="file" id="historyFile" accept=".csv,text/csv"></label><button class="btn" id="downloadHistorySample">下載示範資料 CSV</button></div><div class="upload-status" id="historyStatus">尚未匯入</div>
+          </article>
+        </div>
+        <div class="notice"><strong>資料使用界線：</strong>人口與戶數只作區域規模參考，不能單獨推斷特定顧客的設備狀況或換機意願。正式匯入前請移除姓名、電話、地址等識別資料。</div>
+      </div>
+    </section>
+
+    <section class="section" id="leads">
+      <div class="section-head"><div><div class="label">02 / Customer Review</div><h2>換機關注名單</h2><p>分數代表規則式關注程度，不是 AI 機率或設備診斷。請先人工確認，再決定是否邀約健檢。</p></div><div class="toolbar"><button class="btn" id="exportLeads">匯出名單 CSV</button></div></div>
+      <div class="panel panel-pad">
+        <div class="filters">
+          <input class="control search" id="leadSearch" type="search" placeholder="搜尋代碼或行政區">
+          <select class="control" id="riskFilter"><option value="all">全部關注程度</option><option value="高">高關注</option><option value="中">中關注</option><option value="低">低關注</option><option value="缺">資料不足</option></select>
+          <select class="control" id="consentFilter"><option value="all">聯繫狀態</option><option value="yes">可聯繫</option><option value="no">不可主動聯繫</option></select>
+          <select class="control" id="districtFilter"><option value="all">全部行政區</option></select>
+        </div>
+        <div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>機齡</th><th>近 24 月維修</th><th>關注分數</th><th>參考原因</th><th>行銷同意</th><th>人工覆核</th><th>更新覆核</th></tr></thead><tbody id="leadRows"></tbody></table><div class="table-empty" id="leadEmpty">尚無客戶資料。可載入示範資料或匯入 CSV。</div></div>
+        <div class="source-row" id="evaluationSummary" style="display:none"></div>
+      </div>
+    </section>
+
+    <section class="section" id="success">
+      <div class="section-head"><div><div class="label">03 / Forecast Results</div><h2>換機預測成效儀表板</h2><p>將關注分數前 1/3 的設備視為預測名單，檢視六個月內是否實際換機，並與其餘名單比較。</p></div></div>
+      <div class="panel panel-pad">
+        <div class="success-kpis">
+          <article class="success-kpi"><span>可評估設備</span><strong id="successLabeled">—</strong><small>有分數與六個月換機結果</small></article>
+          <article class="success-kpi"><span>預測名單（前 1/3）</span><strong id="successForecastCount">—</strong><small>依關注分數排序選出</small></article>
+          <article class="success-kpi"><span>預測名單實際換機率</span><strong id="successForecastRate">—</strong><small id="successForecastHits">尚無結果</small></article>
+          <article class="success-kpi"><span>與其餘名單差距</span><strong id="successLift">—</strong><small>實際換機率差距（百分點）</small></article>
+        </div>
+        <div class="success-empty" id="successEmpty" style="display:none">目前沒有同時具備分數與結果標籤的資料。匯入客戶設備資料時，請提供 <code>replaced_within_6m</code>（六個月內是否已換機）。</div>
+        <div class="success-compare" id="successCompare"></div>
+        <div class="success-note" id="successNote">預測成功的定義：預測名單中的設備，在觀察期六個月內的換機結果標記為「是」。示範資料為虛構資料；此比較只呈現名單排序與結果的關聯，不能視為促銷活動造成換機的證據。</div>
+      </div>
+    </section>
+
+    <section class="section" id="demand">
+      <div class="section-head"><div><div class="label">04 / District Forecast</div><h2>區域需求與產能</h2><p>需求預估依內部過往安裝量推算；人口與戶數用來理解各區市場規模，不會替代實際安裝紀錄。</p></div><button class="btn" id="exportForecast">匯出區域預估 CSV</button></div>
+      <div class="panel panel-pad">
+        <div class="demand-head">
+          <div class="toolbar"><label class="label" for="seasonSelect">預測期間</label><select class="control" id="seasonSelect"><option value="summer">夏季旺季（5–8 月）</option><option value="cool">秋冬春淡季（11–4 月）</option></select><select class="control" id="yearSelect" aria-label="預測起始年"></select></div>
+          <div class="forecast-summary" id="forecastSummary">尚未匯入安裝歷史</div>
+        </div>
+        <div class="table-wrap"><table class="data-table"><thead><tr><th>行政區</th><th>戶數</th><th>現住人口</th><th>歷史推估安裝量</th><th>規劃產能</th><th>需求缺口</th><th>資料可信度</th><th>需求參考</th></tr></thead><tbody id="forecastRows"></tbody></table><div class="table-empty" id="forecastEmpty">目前只有官方人口與戶數參考值。匯入內部安裝紀錄後，才會顯示需求預估。</div></div>
+        <div class="insight-grid"><div class="insight"><small>人口資料用途</small><strong id="marketInsight">區域規模比較</strong><p id="marketInsightText">各區人口與戶數已載入，可用來觀察市場規模。人口較多不代表冷氣需求必然較高。</p></div><div class="insight"><small>排程建議</small><strong id="capacityInsight">等待產能資料</strong><p id="capacityInsightText">匯入預計可安裝量後，系統會標示需求高於產能的區域，供主管安排人工調度。</p></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="method">
+      <div class="section-head"><div><div class="label">05 / Method & Guardrails</div><h2>模型方式與覆核原則</h2><p>先以可解釋的規則建立流程基準，收集足夠歷史結果後，再評估是否訓練正式預測模型。</p></div></div>
+      <div class="panel panel-pad">
+        <div class="method-grid">
+          <article class="method"><div class="method-no">01 / 個人名單</div><h3>設備關注分數</h3><p>依機齡、近 24 個月維修次數、最近維修日期與保固狀態加權。分數只協助排序，不能當成故障診斷或換機機率。</p></article>
+          <article class="method"><div class="method-no">02 / 區域需求</div><h3>季節安裝量推估</h3><p>以過去相同月份的安裝量推估下個夏季或淡季，並與匯入的未來規劃產能比較。歷史月份不完整時會降低可信度。</p></article>
+          <article class="method"><div class="method-no">03 / 人工把關</div><h3>同仁確認後再行動</h3><p>技師確認設備狀況，門市確認聯繫方式與優惠，安裝主管確認產能。顧客可拒絕健檢或換機建議。</p></article>
+        </div>
+        <div class="source-row"><span>人口與戶數來源：臺南市政府民政局「人口資料」，115 年 10 月各區統計，頁面更新日 115 年 11 月 11 日。</span><a href="https://bca.tainan.gov.tw/News_Population.aspx?n=1131&sms=13853" target="_blank" rel="noreferrer">開啟官方資料 ↗</a></div>
+        <div class="source-row"><span>進入正式 AI 階段前，需整理歷史購買、設備、維修、預約、完成安裝、取消與產能資料，並用試辦組與比較組驗證是否真的把需求移到淡季。</span><span>原型不會自動發送訊息或派工</span></div>
+      </div>
+    </section>
+    <footer class="footer">本頁為本機端試辦原型。示範資料為虛構資料；正式使用前請匯入去識別化的公司資料，並確認欄位定義與資料更新責任。</footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    "use strict";
+    const population = [
+      ["新營",32128,73991],["鹽水",10383,23247],["白河",10734,24627],["柳營",8372,19617],["後壁",9021,20552],["東山",8136,18160],["麻豆",17943,42529],["下營",9472,21460],["六甲",8616,20610],["官田",8736,20470],["大內",3662,8322],["佳里",23680,58014],["學甲",10365,24227],["西港",9770,24707],["七股",8106,20181],["將軍",7091,17345],["北門",3906,9297],["新化",16280,41731],["善化",23697,53992],["新市",15969,38171],["安定",12046,29630],["山上",2786,6692],["玉井",5446,12509],["楠西",3536,8222],["南化",2830,7464],["左鎮",1770,4034],["仁德",32840,77807],["歸仁",28379,71219],["關廟",12645,32912],["龍崎",1412,3148],["永康",99973,235949],["東區",79581,179347],["南區",50601,118186],["北區",56175,125005],["安南",79569,204591],["安平",33292,71957],["中西",34496,74387]
+    ].map(function(r){return {district:r[0],households:r[1],population:r[2]};});
+    const currentYear = new Date().getFullYear();
+    const state = {customers:[], history:[], demoCustomers:false, demoHistory:false, reviews:{}};
+    const $ = function(id){return document.getElementById(id);};
+    const esc = function(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});};
+    const number = function(v){const n=Number(v);return Number.isFinite(n)?n:0;};
+    const districtName = function(s){return String(s||"").trim().replace(/區$/,"");};
+    const popMap = new Map(population.map(function(d){return [d.district,d];}));
+    let toastTimer;
+    function toast(message){$("toast").textContent=message;$("toast").classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(function(){$("toast").classList.remove("show");},2600);}
+    function boolValue(v){return /^(1|true|yes|y|是|已同意|同意)$/i.test(String(v||"").trim());}
+    function parseCSV(text){
+      const rows=[];let row=[],field="",quoted=false;
+      for(let i=0;i<text.length;i++){const c=text[i];if(quoted){if(c==='"'&&text[i+1]==='"'){field+='"';i++;}else if(c==='"'){quoted=false;}else{field+=c;}}else if(c==='"'){quoted=true;}else if(c===","){row.push(field);field="";}else if(c==="\n"){row.push(field.replace(/\r$/,""));rows.push(row);row=[];field="";}else{field+=c;}}
+      if(field.length||row.length){row.push(field.replace(/\r$/,""));rows.push(row);}
+      if(!rows.length)return [];
+      const headers=rows.shift().map(function(h){return h.replace(/^\uFEFF/,"").trim();});
+      return rows.filter(function(r){return r.some(function(v){return String(v).trim()!=="";});}).map(function(r){const o={};headers.forEach(function(h,i){o[h]=String(r[i]||"").trim();});return o;});
+    }
+    function get(row,names){for(const n of names){if(Object.prototype.hasOwnProperty.call(row,n))return row[n];}return "";}
+    function parseCustomers(rows){
+      if(!rows.length)throw new Error("CSV 沒有資料列");
+      const required=[["customer_id","會員代碼"],["district","行政區"],["install_year","安裝年份"],["repair_count_24m","近24月維修次數"]];
+      const keys=Object.keys(rows[0]);required.forEach(function(pair){if(!keys.includes(pair[0])&&!keys.includes(pair[1]))throw new Error("缺少欄位："+pair[0]);});
+      return rows.map(function(r,i){
+        const id=get(r,["customer_id","會員代碼"])||("匿名設備-"+(i+1));
+        const yearRaw=get(r,["install_year","安裝年份"]),repairsRaw=get(r,["repair_count_24m","近24月維修次數"]),outcomeRaw=get(r,["replaced_within_6m","六個月內已換機"]);
+        return {id:id,district:districtName(get(r,["district","行政區"])),year:yearRaw===""?null:number(yearRaw),repairs:repairsRaw===""?null:number(repairsRaw),lastRepair:get(r,["last_repair_date","最近維修日期"]),warranty:boolValue(get(r,["warranty_expired","保固到期"])),consent:boolValue(get(r,["marketing_consent","行銷同意"])),outcome:outcomeRaw===""?null:boolValue(outcomeRaw)};
+      });
+    }
+    function parseHistory(rows){
+      if(!rows.length)throw new Error("CSV 沒有資料列");
+      const keys=Object.keys(rows[0]);["month","district"].forEach(function(k){if(!keys.includes(k))throw new Error("缺少欄位："+k);});
+      return rows.map(function(r){const month=get(r,["month"]),district=districtName(get(r,["district"])),inst=get(r,["installations"]),slots=get(r,["planned_slots"]);if(!/^\d{4}-\d{1,2}$/.test(month))throw new Error("月份格式需為 YYYY-MM");const parts=month.split("-");return {month:parts[0]+"-"+parts[1].padStart(2,"0"),district:district,installations:inst===""?null:number(inst),plannedSlots:slots===""?null:number(slots)};});
+    }
+    function scoreCustomer(c){
+      if(!c.year||c.repairs==null||c.repairs<0)return {score:null,risk:"缺",age:null,reasons:["安裝年份或維修次數資料不足"]};
+      const age=Math.max(0,currentYear-c.year);let score=0;const reasons=[];
+      if(age>=12){score+=40;reasons.push("機齡 12 年以上");}else if(age>=10){score+=32;reasons.push("機齡 10–11 年");}else if(age>=7){score+=20;reasons.push("機齡 7–9 年");}else if(age>=5){score+=10;reasons.push("機齡 5–6 年");}
+      if(c.repairs>=4){score+=35;reasons.push("近 24 月維修 4 次以上");}else if(c.repairs>=3){score+=29;reasons.push("近 24 月維修 3 次");}else if(c.repairs>=2){score+=21;reasons.push("近 24 月維修 2 次");}else if(c.repairs===1){score+=10;reasons.push("近 24 月有維修紀錄");}
+      if(c.lastRepair){const d=new Date(c.lastRepair);if(!Number.isNaN(d.getTime())&&(Date.now()-d.getTime())<=365*86400000&&(Date.now()-d.getTime())>=0){score+=15;reasons.push("近一年有維修");}}
+      if(c.warranty){score+=10;reasons.push("保固已到期");}
+      score=Math.min(100,score);return {score:score,risk:score>=65?"高":score>=40?"中":"低",age:age,reasons:reasons.length?reasons:["目前資料未觸發較高關注條件"]};
+    }
+    function reviewFor(id){return state.reviews[id]||"待覆核";}
+    function renderKpis(){
+      const scored=state.customers.map(function(c){return {c:c,s:scoreCustomer(c)};});
+      $("kpiCustomers").textContent=state.customers.length.toLocaleString("zh-TW");
+      $("kpiCustomerHint").textContent=state.demoCustomers?"目前顯示虛構示範設備":"客戶資料在本機記憶體處理";
+      $("kpiHigh").textContent=scored.filter(function(x){return x.s.risk==="高"&&x.c.consent;}).length.toLocaleString("zh-TW");
+      $("kpiHistoryDistricts").textContent=new Set(state.history.map(function(h){return h.district;})).size.toLocaleString("zh-TW");
+      $("kpiHistoryHint").textContent=state.demoHistory?"目前顯示虛構安裝示範資料":"匯入安裝歷史後產生需求預估";
+    }
+    function renderDistrictFilter(){
+      const select=$("districtFilter"),old=select.value;const names=Array.from(new Set(state.customers.map(function(c){return c.district;}))).sort();
+      select.innerHTML='<option value="all">全部行政區</option>'+names.map(function(n){return '<option value="'+esc(n)+'">'+esc(n)+'區</option>';}).join("");
+      if(names.includes(old))select.value=old;
+    }
+    function renderLeads(){
+      const query=$("leadSearch").value.trim().toLowerCase(),risk=$("riskFilter").value,consent=$("consentFilter").value,district=$("districtFilter").value;
+      const rows=state.customers.map(function(c){return {c:c,s:scoreCustomer(c)};}).filter(function(x){
+        return (!query||(x.c.id+" "+x.c.district).toLowerCase().includes(query))&&(risk==="all"||x.s.risk===risk)&&(consent==="all"||(consent==="yes"?x.c.consent:!x.c.consent))&&(district==="all"||x.c.district===district);
+      }).sort(function(a,b){return (b.s.score||-1)-(a.s.score||-1);});
+      $("leadRows").innerHTML=rows.map(function(x){
+        const c=x.c,s=x.s,cls=s.risk==="高"?"risk-high":s.risk==="中"?"risk-medium":s.risk==="低"?"risk-low":"risk-nodata",review=reviewFor(c.id),rcls=review==="已確認可邀約"?"review-done":review==="暫緩"?"review-hold":"review-pending";
+        return '<tr><td class="id-cell">'+esc(c.id)+'</td><td>'+esc(c.district||"未提供")+'區</td><td class="number">'+(s.age==null?"—":s.age+" 年")+'</td><td class="number">'+(Number.isFinite(c.repairs)?c.repairs:"—")+' 次</td><td><span class="risk-badge '+cls+'">'+(s.score==null?"資料不足":s.risk+"關注 · "+s.score)+'</span></td><td class="reason">'+esc(s.reasons.join("、"))+'</td><td><span class="consent-badge '+(c.consent?"consent-yes":"consent-no")+'">'+(c.consent?"已同意":"不可主動聯繫")+'</span></td><td><span class="review-badge '+rcls+'">'+esc(review)+'</span></td><td><div class="row-actions"><button class="btn btn-small review-action" data-id="'+esc(c.id)+'" data-value="已確認可邀約">確認</button><button class="btn btn-small review-action" data-id="'+esc(c.id)+'" data-value="暫緩">暫緩</button></div></td></tr>';
+      }).join("");
+      $("leadEmpty").style.display=rows.length?"none":"block";
+      $("leadEmpty").textContent=state.customers.length?"沒有符合目前篩選的資料。":"尚無客戶資料。可載入示範資料或匯入 CSV。";
+      const labeled=state.customers.filter(function(c){return c.outcome!==null&&c.outcome!==undefined;}),ranked=labeled.map(function(c){return {s:scoreCustomer(c),outcome:c.outcome};}).filter(function(x){return x.s.score!==null;}).sort(function(a,b){return b.s.score-a.s.score;});
+      if(ranked.length){
+        const top=ranked.slice(0,Math.max(1,Math.ceil(ranked.length/3))),rest=ranked.slice(top.length),topRate=top.length?top.filter(function(x){return x.outcome;}).length/top.length:0,restRate=rest.length?rest.filter(function(x){return x.outcome;}).length/rest.length:0;
+        $("evaluationSummary").style.display="flex";
+        $("evaluationSummary").innerHTML="<span><strong>結果檢視（"+ranked.length+" 筆有分數與標籤）</strong>｜預測名單實際換機率 "+Math.round(topRate*100)+"%｜其餘名單 "+(rest.length?Math.round(restRate*100)+"%":"—")+"</span><span>關聯檢視，不代表模型已訓練</span>";
+      }else{$("evaluationSummary").style.display="none";}
+      document.querySelectorAll(".review-action").forEach(function(btn){btn.addEventListener("click",function(){const id=btn.getAttribute("data-id"),value=btn.getAttribute("data-value"),c=state.customers.find(function(x){return x.id===id;});if(value==="已確認可邀約"&&c&&!c.consent){toast("此名單沒有行銷同意，不能標記為可邀約。");return;}state.reviews[id]=value;renderLeads();toast("已更新人工覆核狀態");});});
+    }
+    function renderSuccessDashboard(){
+      const ranked=state.customers.map(function(c){return {c:c,s:scoreCustomer(c)};}).filter(function(x){return x.c.outcome!==null&&x.c.outcome!==undefined&&x.s.score!==null;}).sort(function(a,b){return b.s.score-a.s.score;});
+      const total=ranked.length,topCount=total?Math.max(1,Math.ceil(total/3)):0,top=ranked.slice(0,topCount),rest=ranked.slice(topCount),topHits=top.filter(function(x){return x.c.outcome;}).length,restHits=rest.filter(function(x){return x.c.outcome;}).length,topRate=top.length?topHits/top.length:null,restRate=rest.length?restHits/rest.length:null,lift=topRate!=null&&restRate!=null?topRate-restRate:null;
+      $("successLabeled").textContent=total?total.toLocaleString("zh-TW"):"—";
+      $("successForecastCount").textContent=topCount?topCount.toLocaleString("zh-TW"):"—";
+      $("successForecastRate").textContent=topRate==null?"—":Math.round(topRate*100)+"%";
+      $("successForecastHits").textContent=top.length?"實際換機 "+topHits.toLocaleString("zh-TW")+" / "+top.length.toLocaleString("zh-TW")+" 台":"尚無結果";
+      const liftEl=$("successLift");liftEl.className=lift==null?"":lift>=0?"positive":"negative";liftEl.textContent=lift==null?"—":(lift>0?"+":"")+Math.round(lift*100)+" pp";
+      $("successEmpty").style.display=total?"none":"block";
+      if(total){
+        function cohortCard(title,subtitle,items,hits,comparison){
+          const rate=items.length?hits/items.length:null,pct=rate==null?0:Math.round(rate*100);
+          return '<article class="success-cohort"><div class="success-cohort-head"><div><h3>'+title+'</h3><p>'+subtitle+'</p></div><strong class="success-rate '+(comparison?"muted-rate":"")+'">'+(rate==null?"—":pct+"%")+'</strong></div><div class="success-bar-track" aria-label="六個月內實際換機率"><div class="success-bar '+(comparison?"comparison":"")+'" style="width:'+pct+'%"></div></div><div class="success-count">六個月內實際換機 <strong>'+hits.toLocaleString("zh-TW")+' / '+items.length.toLocaleString("zh-TW")+'</strong> 台</div></article>';
+        }
+        $("successCompare").innerHTML=cohortCard("預測名單｜分數前 1/3","依關注分數排序，作為本次模擬預測名單",top,topHits,false)+cohortCard("其餘名單｜對照組","分數排序後的其餘設備",rest,restHits,true);
+      }else{$("successCompare").innerHTML="";}
+      $("successNote").textContent="預測成功的定義：預測名單中的設備，在觀察期六個月內的換機結果標記為「是」。此比較呈現名單排序與結果的關聯，不能視為促銷活動造成換機的證據。"+(state.demoCustomers?"目前顯示的客戶與結果均為虛構示範資料。":"");
+    }
+    function datesFor(startYear,season){
+      if(season==="summer")return [5,6,7,8].map(function(m){return startYear+"-"+String(m).padStart(2,"0");});
+      return [11,12,1,2,3,4].map(function(m){const y=m>=11?startYear:startYear+1;return y+"-"+String(m).padStart(2,"0");});
+    }
+    function seasonStart(month,season){
+      const m=Number(month.slice(5,7)),y=Number(month.slice(0,4));
+      if(season==="summer")return m>=5&&m<=8?y:null;
+      return m>=11?y:(m<=4?y-1:null);
+    }
+    function forecastDistrict(district,targetYear,season){
+      const targetMonths=datesFor(targetYear,season),n=targetMonths.length;
+      const seasons=[];
+      for(let sy=targetYear-1;sy>=targetYear-4;sy--){
+        const dates=datesFor(sy,season);
+        const found=dates.map(function(m){return state.history.find(function(h){return h.district===district&&h.month===m&&h.installations!=null;});}).filter(Boolean);
+        if(found.length>=Math.ceil(n*.65)){const sum=found.reduce(function(a,h){return a+h.installations;},0);seasons.push({year:sy,total:Math.round(sum*n/found.length),coverage:found.length/n});}
+      }
+      const recent=seasons.slice(0,2),forecast=recent.length?Math.round(recent.reduce(function(a,s){return a+s.total;},0)/recent.length):null;
+      const targetRows=state.history.filter(function(h){return h.district===district&&targetMonths.includes(h.month)&&h.plannedSlots!=null;});
+      const planned=targetRows.length?targetRows.reduce(function(a,h){return a+h.plannedSlots;},0):null;
+      const confidence=recent.length>=2&&recent.every(function(s){return s.coverage>=.85;})?"高":recent.length>=1?"中":"低";
+      return {forecast:forecast,planned:planned,gap:forecast!=null&&planned!=null?forecast-planned:null,confidence:confidence,seasons:recent.length};
+    }
+    function renderForecast(){
+      const season=$("seasonSelect").value,year=number($("yearSelect").value)||currentYear+1,hasHistory=state.history.some(function(h){return h.installations!=null;});
+      const seasonName=season==="summer"?"夏季旺季（5–8 月）":"秋冬春淡季（11–4 月）";
+      const data=population.map(function(d){return {d:d,f:forecastDistrict(d.district,year,season)};});
+      const available=data.filter(function(x){return x.f.forecast!=null;});
+      const max=Math.max(1,...available.map(function(x){return x.f.forecast||0;}));
+      const sorted=data.slice().sort(function(a,b){if(a.f.gap!=null||b.f.gap!=null)return (b.f.gap||0)-(a.f.gap||0);return (b.f.forecast||0)-(a.f.forecast||0);});
+      $("forecastRows").innerHTML=sorted.map(function(x){
+        const f=x.f,dem=f.forecast==null?"—":f.forecast.toLocaleString("zh-TW"),slot=f.planned==null?"待匯入":f.planned.toLocaleString("zh-TW"),gap=f.gap==null?"—":(f.gap>0?"+":"")+f.gap.toLocaleString("zh-TW"),gcls=f.gap>0?"gap-pos":f.gap<0?"gap-neg":"",pct=f.forecast==null?0:Math.max(4,Math.round(100*f.forecast/max)),ccls=f.confidence==="高"?"confidence-high":f.confidence==="中"?"confidence-mid":"confidence-low";
+        return '<tr><td class="id-cell">'+esc(x.d.district)+'區</td><td class="number">'+x.d.households.toLocaleString("zh-TW")+'</td><td class="number">'+x.d.population.toLocaleString("zh-TW")+'</td><td><div class="bar-cell number">'+dem+(f.forecast==null?"":'<div class="bar-track"><div class="bar-fill '+(f.gap>0?"over":"")+'" style="width:'+pct+'%"></div></div>')+'</div></td><td class="number">'+slot+'</td><td class="number '+gcls+'">'+gap+'</td><td><span class="confidence '+ccls+'">'+(f.forecast==null?"無歷史資料":f.confidence+"可信")+'</span></td><td class="muted">'+(f.forecast==null?"需匯入安裝紀錄":f.seasons+" 個歷史季")+'</td></tr>';
+      }).join("");
+      $("forecastEmpty").style.display=hasHistory?"none":"block";
+      $("forecastEmpty").textContent=state.history.length?"目前檔案沒有可用安裝量。請確認 installations 欄位及月份。":"目前只有官方人口與戶數參考值。匯入內部安裝紀錄後，才會顯示需求預估。";
+      $("forecastSummary").textContent=hasHistory?year+" 年 "+seasonName+"｜"+available.length+" 個區域有歷史可推估":"尚未匯入安裝歷史";
+      $("kpiHistoryDistricts").textContent=new Set(state.history.filter(function(h){return h.installations!=null;}).map(function(h){return h.district;})).size.toLocaleString("zh-TW");
+      const best=population.slice().sort(function(a,b){return b.population-a.population;}).slice(0,3);
+      $("marketInsight").textContent="區域規模參考："+best.map(function(d){return d.district+"區";}).join("、");
+      $("marketInsightText").textContent="人口較多的區域可列為試辦候選；仍須用內部訂單量、服務覆蓋與產能選定試點。人口規模不等於冷氣換機需求。";
+      if(available.some(function(x){return x.f.gap!=null&&x.f.gap>0;})){
+        const top=available.filter(function(x){return x.f.gap!=null;}).sort(function(a,b){return b.f.gap-a.f.gap;})[0];
+        $("capacityInsight").textContent=top.d.district+"區預估缺口較大";
+        $("capacityInsightText").textContent="預估需求比規劃產能多 "+top.f.gap.toLocaleString("zh-TW")+" 台，請確認師傅人力、跨區支援與顧客等待時間。";
+      }else if(available.some(function(x){return x.f.planned!=null;})){
+        $("capacityInsight").textContent="目前資料未顯示正向缺口";
+        $("capacityInsightText").textContent="請持續監控預約變化，並確認匯入的是預計可用安裝量。";
+      }else{
+        $("capacityInsight").textContent="等待產能資料";
+        $("capacityInsightText").textContent=hasHistory?"已可推估需求；匯入未來 planned_slots 後才能比較產能缺口。":"匯入安裝歷史與未來規劃量後，系統會標示需求高於產能的區域。";
+      }
+    }
+    function refresh(){renderKpis();renderDistrictFilter();renderLeads();renderSuccessDashboard();renderForecast();}
+    function downloadFile(filename,content,type){
+      const blob=new Blob(["\uFEFF",content],{type:type||"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    }
+    function quoteCSV(v){const s=String(v==null?"":v);return '"'+s.replace(/"/g,'""')+'"';}
+    function exportLeads(){
+      const rows=[["customer_id","district","install_year","repair_count_24m","attention_score","attention_level","reasons","marketing_consent","human_review"]];
+      state.customers.forEach(function(c){const s=scoreCustomer(c);rows.push([c.id,c.district,c.year,c.repairs,s.score==null?"":s.score,s.risk,s.reasons.join("、"),c.consent?"yes":"no",reviewFor(c.id)]);});
+      downloadFile("冷氣換機關注名單.csv",rows.map(function(r){return r.map(quoteCSV).join(",");}).join("\r\n"));
+    }
+    function exportForecast(){
+      const season=$("seasonSelect").value,year=number($("yearSelect").value)||currentYear+1,rows=[["year","season","district","households","population","forecast_installations","planned_slots","capacity_gap","confidence"]];
+      population.forEach(function(d){const f=forecastDistrict(d.district,year,season);rows.push([year,season==="summer"?"summer_peak":"off_peak",d.district,d.households,d.population,f.forecast==null?"":f.forecast,f.planned==null?"":f.planned,f.gap==null?"":f.gap,f.confidence]);});
+      downloadFile("臺南區域安裝需求預估.csv",rows.map(function(r){return r.map(quoteCSV).join(",");}).join("\r\n"));
+    }
+    function seededRandom(seed){let x=seed>>>0;return function(){x=(1664525*x+1013904223)>>>0;return x/4294967296;};}
+    function customerSampleCSV(){
+      const rand=seededRandom(260612),rows=[["customer_id","district","install_year","repair_count_24m","last_repair_date","warranty_expired","marketing_consent","replaced_within_6m"]];
+      for(let i=0;i<148;i++){
+        const d=population[i%population.length],age=2+Math.floor(rand()*15),year=currentYear-age,repairs=Math.max(0,Math.min(5,Math.floor((age-4)/3)+Math.floor(rand()*3)-1)),hasRecent=repairs>0&&rand()<.62;
+        let last="";if(repairs>0){const date=new Date();date.setDate(date.getDate()-Math.floor(rand()*(hasRecent?330:780)+20));last=date.toISOString().slice(0,10);}
+        const warranty=age>=7?rand()<.84:rand()<.06,consent=rand()<.78;
+        const score=(age>=12?40:age>=10?32:age>=7?20:age>=5?10:0)+(repairs>=4?35:repairs>=3?29:repairs>=2?21:repairs===1?10:0)+(hasRecent?15:0)+(warranty?10:0);
+        const probability=Math.min(.88,.04+score*.0068),outcome=rand()<probability;
+        rows.push(["SIM-"+String(i+1).padStart(3,"0"),d.district,year,repairs,last,warranty?"yes":"no",consent?"yes":"no",outcome?"yes":"no"]);
+      }
+      return rows.map(function(r){return r.map(quoteCSV).join(",");}).join("\r\n");
+    }
+    function historySampleCSV(){
+      const rows=[["month","district","installations","planned_slots"]];
+      population.forEach(function(d,i){
+        const base=d.households*.00042,areaFactor=1+(i%9)*.012;
+        for(let y=2024;y<=2026;y++){for(let m=1;m<=12;m++){if(y===2026&&m>10)continue;const season=[5,6,7,8].includes(m)?1.55:[11,12,1,2,3,4].includes(m)?0.83:.58;const value=Math.round(base*season*(1+.025*(y-2024))*areaFactor);rows.push([y+"-"+String(m).padStart(2,"0"),d.district,value,""]);}}
+        [[2026,11],[2026,12],[2027,1],[2027,2],[2027,3],[2027,4],[2027,5],[2027,6],[2027,7],[2027,8]].forEach(function(pair){const y=pair[0],m=pair[1],season=[5,6,7,8].includes(m)?1.55:.83;const plan=Math.round(base*season*(1+.025*(y-2024))*areaFactor*.92);rows.push([y+"-"+String(m).padStart(2,"0"),d.district,"",plan]);});
+      });
+      return rows.map(function(r){return r.map(quoteCSV).join(",");}).join("\r\n");
+    }
+    function buildDemo(showMessage){
+      state.customers=parseCustomers(parseCSV(customerSampleCSV()));
+      state.history=parseCSV(historySampleCSV()).map(function(r){return {month:r.month,district:r.district,installations:r.installations===""?null:number(r.installations),plannedSlots:r.planned_slots===""?null:number(r.planned_slots)};});
+      state.demoCustomers=true;state.demoHistory=true;state.reviews={};$("customerStatus").textContent="已載入 148 筆虛構設備與結果標籤";$("historyStatus").textContent="已載入 37 區、歷史安裝與規劃產能模擬資料";refresh();if(showMessage!==false)toast("已載入模擬資料，所有客戶與安裝數字均為虛構");
+    }
+    $("customerFile").addEventListener("change",async function(e){const f=e.target.files[0];if(!f)return;try{state.customers=parseCustomers(parseCSV(await f.text()));state.demoCustomers=f.name.includes("模擬");state.reviews={};$("customerStatus").textContent=(state.demoCustomers?"已匯入模擬資料 ":"已匯入 ")+f.name+"（"+state.customers.length+" 筆）";refresh();toast("客戶設備資料已在本機載入");}catch(err){$("customerStatus").textContent="匯入失敗："+err.message;toast(err.message);}e.target.value="";});
+    $("historyFile").addEventListener("change",async function(e){const f=e.target.files[0];if(!f)return;try{state.history=parseHistory(parseCSV(await f.text()));state.demoHistory=f.name.includes("模擬");$("historyStatus").textContent=(state.demoHistory?"已匯入模擬資料 ":"已匯入 ")+f.name+"（"+state.history.length+" 列）";refresh();toast("安裝紀錄已在本機載入");}catch(err){$("historyStatus").textContent="匯入失敗："+err.message;toast(err.message);}e.target.value="";});
+    $("loadDemo").addEventListener("click",function(){buildDemo(true);});
+    $("clearData").addEventListener("click",function(){state.customers=[];state.history=[];state.reviews={};state.demoCustomers=false;state.demoHistory=false;$("customerStatus").textContent="尚未匯入";$("historyStatus").textContent="尚未匯入";refresh();toast("已清除本機資料");});
+    $("downloadCustomerSample").addEventListener("click",function(){downloadFile("客戶設備資料欄位範例.csv",customerSampleCSV());});
+    $("downloadHistorySample").addEventListener("click",function(){downloadFile("安裝與產能資料欄位範例.csv",historySampleCSV());});
+    $("exportLeads").addEventListener("click",exportLeads);$("exportForecast").addEventListener("click",exportForecast);
+    ["leadSearch","riskFilter","consentFilter","districtFilter"].forEach(function(id){$(id).addEventListener("input",renderLeads);$(id).addEventListener("change",renderLeads);});
+    $("seasonSelect").addEventListener("change",renderForecast);$("yearSelect").addEventListener("change",renderForecast);
+    for(let y=currentYear+1;y>=currentYear-1;y--){const o=document.createElement("option");o.value=String(y);o.textContent=y+" 年";if(y===currentYear+1)o.selected=true;$("yearSelect").appendChild(o);}
+    buildDemo(false);
+  </script>
+</body>
+</html>
