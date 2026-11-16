@@ -86,6 +86,7 @@
         <button class="nav-item" type="button" data-view="leads"><span class="nav-dot"></span>換機關注名單</button>
         <button class="nav-item" type="button" data-view="confirmed"><span class="nav-dot"></span>已確認換機意願</button>
         <button class="nav-item" type="button" data-view="outcomes"><span class="nav-dot"></span>換機名單分類</button>
+        <button class="nav-item" type="button" data-view="followup"><span class="nav-dot"></span>暫緩後續關注名單</button>
         <button class="nav-item" type="button" data-view="success"><span class="nav-dot"></span>成效儀表板</button>
         <div class="nav-caption">需求與說明</div>
         <button class="nav-item" type="button" data-view="demand"><span class="nav-dot"></span>區域需求與產能</button>
@@ -153,7 +154,7 @@
     </section>
 
     <section class="section view-screen" id="outcomes" data-screen="outcomes">
-      <div class="section-head"><div><div class="label">04 / Replacement Lists</div><h2>換機名單分類</h2><p>三種名單用途不同：成功名單依實際結果標記；預測名單依分數排序；暫緩名單留待日後再關注。</p></div></div>
+      <div class="section-head"><div><div class="label">04 / Replacement Lists</div><h2>換機名單分類</h2><p>此頁整理實際換機成功與分數預測候選；「暫緩後續關注名單」可從左側目錄直接開啟。</p></div></div>
       <div class="panel panel-pad roster-panel">
         <div class="section-head"><div><div class="label">01 / Actual Result</div><h3>換機成功名單</h3><p>只列入客戶 CSV 的 <code>replaced_within_6m=yes</code> 設備，代表觀察後六個月內已實際換機。</p></div><div class="toolbar"><span class="review-badge review-done" id="successRosterCount">0 筆成功</span><button class="btn" id="exportSuccessRoster">匯出成功名單 CSV</button></div></div>
         <div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>安裝年份</th><th>關注分數</th><th>結果</th></tr></thead><tbody id="successRosterRows"></tbody></table><div class="table-empty" id="successRosterEmpty">目前沒有標記為實際換機成功的資料。匯入客戶 CSV 並在 replaced_within_6m 填 yes 後會列在此處。</div></div>
@@ -162,15 +163,18 @@
         <div class="section-head"><div><div class="label">02 / Predicted Candidates</div><h3>預測可以換機名單</h3><p>排除已標記成功與暫緩的設備後，依關注分數由高到低取前 1/3 作為本次候選；這是排序建議，不代表一定會換機。</p></div><div class="toolbar"><span class="review-badge review-pending" id="predictedRosterCount">0 筆候選</span><button class="btn" id="exportPredictedRoster">匯出預測名單 CSV</button></div></div>
         <div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>安裝年份</th><th>關注分數</th><th>覆核狀態</th><th>操作</th></tr></thead><tbody id="predictedRosterRows"></tbody></table><div class="table-empty" id="predictedRosterEmpty">目前沒有可供排序的候選資料。請載入或匯入客戶 CSV。</div></div>
       </div>
-      <div class="panel panel-pad roster-panel">
-        <div class="section-head"><div><div class="label">03 / Follow-up</div><h3>不換機但可後續再關注名單</h3><p>同仁在覆核時按「暫緩」的設備會列在此處，代表目前不安排換機，日後可再確認需求；不等同永久拒絕。</p></div><div class="toolbar"><span class="review-badge review-hold" id="followupCount">0 筆待後續關注</span><button class="btn" id="exportFollowup">匯出後續關注名單 CSV</button></div></div>
-        <div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>安裝年份</th><th>關注分數</th><th>暫緩日期</th><th>操作</th></tr></thead><tbody id="followupRows"></tbody></table><div class="table-empty" id="followupEmpty">目前沒有暫緩名單。請在「換機關注名單」按下「暫緩」。</div></div>
+      <div class="notice"><strong>名單定義：</strong>「換機成功」看實際結果標籤；「預測可以換機」是依關注分數篩出的候選；按「暫緩」的設備會收在左側目錄的「暫緩後續關注名單」。</div>
+    </section>
+
+    <section class="section view-screen" id="followup" data-screen="followup">
+      <div class="section-head"><div><div class="label">05 / Follow-up</div><h2>暫緩後續關注名單</h2><p>在「換機關注名單」按下「暫緩」的設備會列於此處，代表目前不安排換機，之後可再確認需求；不等同永久拒絕。</p></div><div class="toolbar"><span class="review-badge review-hold" id="followupCount">0 筆待後續關注</span><button class="btn" id="exportFollowup">匯出後續關注名單 CSV</button></div></div>
+      <div class="panel panel-pad">
+        <div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>安裝年份</th><th>關注分數</th><th>暫緩日期</th><th>操作</th></tr></thead><tbody id="followupRows"></tbody></table><div class="table-empty" id="followupEmpty">目前沒有暫緩名單。請到「換機關注名單」按下「暫緩」。</div></div>
       </div>
-      <div class="notice"><strong>名單定義：</strong>「換機成功」看實際結果標籤；「預測可以換機」是依關注分數篩出的候選；「不換機但可後續再關注」是人工暫緩紀錄。三者不是同一個狀態。</div>
     </section>
 
     <section class="section view-screen" id="success" data-screen="success">
-      <div class="section-head"><div><div class="label">05 / Forecast Results</div><h2>換機預測成效儀表板</h2><p>將關注分數前 1/3 的設備視為預測名單，檢視六個月內是否實際換機，並與其餘名單比較。</p></div></div>
+      <div class="section-head"><div><div class="label">06 / Forecast Results</div><h2>換機預測成效儀表板</h2><p>將關注分數前 1/3 的設備視為預測名單，檢視六個月內是否實際換機，並與其餘名單比較。</p></div></div>
       <div class="panel panel-pad">
         <div class="success-kpis">
           <article class="success-kpi"><span>可評估設備</span><strong id="successLabeled">—</strong><small>有分數與六個月換機結果</small></article>
@@ -185,7 +189,7 @@
     </section>
 
     <section class="section view-screen" id="demand" data-screen="demand">
-      <div class="section-head"><div><div class="label">06 / District Forecast</div><h2>區域需求與產能</h2><p>需求預估依內部過往安裝量推算；人口與戶數用來理解各區市場規模，不會替代實際安裝紀錄。</p></div><button class="btn" id="exportForecast">匯出區域預估 CSV</button></div>
+      <div class="section-head"><div><div class="label">07 / District Forecast</div><h2>區域需求與產能</h2><p>需求預估依內部過往安裝量推算；人口與戶數用來理解各區市場規模，不會替代實際安裝紀錄。</p></div><button class="btn" id="exportForecast">匯出區域預估 CSV</button></div>
       <div class="panel panel-pad">
         <div class="demand-head">
           <div class="toolbar"><label class="label" for="seasonSelect">預測期間</label><select class="control" id="seasonSelect"><option value="summer">夏季旺季（5–8 月）</option><option value="cool">秋冬春淡季（11–4 月）</option></select><select class="control" id="yearSelect" aria-label="預測起始年"></select></div>
@@ -198,7 +202,7 @@
     </section>
 
     <section class="section view-screen" id="method" data-screen="method">
-      <div class="section-head"><div><div class="label">07 / Method & Guardrails</div><h2>模型方式與覆核原則</h2><p>先以可解釋的規則建立流程基準，收集足夠歷史結果後，再評估是否訓練正式預測模型。</p></div></div>
+      <div class="section-head"><div><div class="label">08 / Method & Guardrails</div><h2>模型方式與覆核原則</h2><p>先以可解釋的規則建立流程基準，收集足夠歷史結果後，再評估是否訓練正式預測模型。</p></div></div>
       <div class="panel panel-pad">
         <div class="method-grid">
           <article class="method"><div class="method-no">01 / 個人名單</div><h3>設備關注分數</h3><p>依機齡、近 24 個月維修次數、最近維修日期與保固狀態加權。分數只協助排序，不能當成故障診斷或換機機率。</p></article>
@@ -223,7 +227,7 @@
     function readLocalObject(key){try{const raw=localStorage.getItem(key);if(!raw)return {};const parsed=JSON.parse(raw);return parsed&&typeof parsed==="object"&&!Array.isArray(parsed)?parsed:{};}catch(e){return {};}}
     const state = {customers:[], history:[], demoCustomers:false, demoHistory:false, reviews:readLocalObject("airconReplacementReviews"), confirmed:readLocalObject("airconConfirmedReplacementList"), deferred:readLocalObject("airconDeferredFollowupList")};
     const $ = function(id){return document.getElementById(id);};
-    const viewTitles={overview:"總覽",imports:"資料匯入",leads:"換機關注名單",confirmed:"已確認換機意願名單",outcomes:"換機名單分類",success:"換機預測成效儀表板",demand:"區域需求與產能",method:"模型方式與覆核原則"};
+    const viewTitles={overview:"總覽",imports:"資料匯入",leads:"換機關注名單",confirmed:"已確認換機意願名單",outcomes:"換機名單分類",followup:"暫緩後續關注名單",success:"換機預測成效儀表板",demand:"區域需求與產能",method:"模型方式與覆核原則"};
     function navigateToView(name){
       const active=document.querySelector('.view-screen[data-screen="'+name+'"]');if(!active)return;
       document.querySelectorAll(".view-screen").forEach(function(view){view.classList.toggle("is-active",view===active);});
