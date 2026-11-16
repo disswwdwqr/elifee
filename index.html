@@ -39,6 +39,7 @@
     .nav-item.is-active{background:var(--brand-soft);border-color:#f5d5df;color:var(--brand-dark)}
     .nav-dot{width:8px;height:8px;border-radius:50%;background:#d7d9d4;flex:0 0 auto}
     .nav-item.is-active .nav-dot{background:var(--brand)}
+    .nav-submenu{display:grid;gap:3px;margin:0 0 5px 12px;padding-left:8px;border-left:1px solid #eee}.nav-subitem{font-size:10px;padding:9px 10px}.nav-subitem .nav-dot{width:6px;height:6px}
     .sidebar-bottom{margin-top:auto;padding:13px 17px;border-top:1px solid #f0f0f0;color:#92948e;font-size:9px;line-height:1.6}
     .workspace{display:flex;flex-direction:column;min-width:0;min-height:0;height:100vh;height:100dvh}
     .workspace-topbar{height:62px;flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 clamp(16px,2.4vw,32px);background:#fff;border-bottom:1px solid var(--line)}
@@ -47,6 +48,7 @@
     .view-screen{display:none}.view-screen.is-active{display:block}.section.view-screen{margin:0;scroll-margin-top:0}
     .hero{padding:0 0 18px}.kpis{margin:0 0 8px}.hero-cta{border:0;font-family:inherit;cursor:pointer}
     .view-screen > .section-head{margin-top:0}
+    .directory-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.directory-card{padding:18px;border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:var(--shadow)}.directory-card small{display:block;color:var(--brand-dark);font-size:9px;font-weight:850;letter-spacing:.1em}.directory-card h3{margin:8px 0 6px;font-size:14px}.directory-card p{min-height:48px;margin:0 0 14px;color:var(--muted);font-size:10px;line-height:1.7}
     .brand-home{cursor:pointer}
     @media(max-width:760px){
       .app-shell{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
@@ -56,7 +58,7 @@
       .sidebar-brand .brand-text strong{font-size:12px}.sidebar-brand .brand-text small{font-size:8px}
       .sidebar-status{margin:0;font-size:8px;padding:5px 8px}
       .nav-caption,.sidebar-bottom{display:none}
-      .nav-links{display:flex;flex-direction:row;overflow-x:auto;overflow-y:hidden;padding:4px 10px 10px;gap:5px}
+      .nav-links{display:flex;flex-direction:row;overflow-x:auto;overflow-y:hidden;padding:4px 10px 10px;gap:5px}.nav-submenu{display:flex;flex:0 0 auto;gap:5px;margin:0;padding:0;border:0}.nav-subitem{min-width:150px}
       .nav-item{flex:0 0 auto;width:auto;min-width:112px;justify-content:center;padding:9px 10px;font-size:10px}
       .nav-dot{width:6px;height:6px}
       .workspace{height:auto;min-height:0}
@@ -64,7 +66,7 @@
       .content-stage{padding:14px 13px 24px}
     }
     @media(max-width:600px){
-      .hero-grid{padding:18px 16px;gap:12px}.hero h1{font-size:25px}.hero-note{font-size:9px}
+      .hero-grid{padding:18px 16px;gap:12px}.hero h1{font-size:25px}.hero-note{font-size:9px}.directory-card-grid{grid-template-columns:1fr}
       .kpis,.success-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
       .section-head{align-items:start;flex-direction:column}.insight-grid,.success-compare{grid-template-columns:1fr}
       .source-row{align-items:start;flex-direction:column}.panel-pad{padding:13px}
@@ -85,8 +87,12 @@
         <div class="nav-caption">名單與結果</div>
         <button class="nav-item" type="button" data-view="leads"><span class="nav-dot"></span>換機關注名單</button>
         <button class="nav-item" type="button" data-view="confirmed"><span class="nav-dot"></span>已確認換機意願</button>
-        <button class="nav-item" type="button" data-view="outcomes"><span class="nav-dot"></span>換機名單分類</button>
-        <button class="nav-item" type="button" data-view="followup"><span class="nav-dot"></span>暫緩後續關注名單</button>
+        <button class="nav-item nav-parent" type="button" data-view="outcomes"><span class="nav-dot"></span>換機名單分類</button>
+        <div class="nav-submenu" aria-label="換機名單分類子目錄">
+          <button class="nav-item nav-subitem" type="button" data-view="completed"><span class="nav-dot"></span>換機成功名單</button>
+          <button class="nav-item nav-subitem" type="button" data-view="predicted"><span class="nav-dot"></span>預測可以換機名單</button>
+          <button class="nav-item nav-subitem" type="button" data-view="followup"><span class="nav-dot"></span>不換機但可後續再關注名單</button>
+        </div>
         <button class="nav-item" type="button" data-view="success"><span class="nav-dot"></span>成效儀表板</button>
         <div class="nav-caption">需求與說明</div>
         <button class="nav-item" type="button" data-view="demand"><span class="nav-dot"></span>區域需求與產能</button>
@@ -154,23 +160,28 @@
     </section>
 
     <section class="section view-screen" id="outcomes" data-screen="outcomes">
-      <div class="section-head"><div><div class="label">04 / Replacement Lists</div><h2>換機名單分類</h2><p>此頁整理實際換機成功與分數預測候選；「暫緩後續關注名單」可從左側目錄直接開啟。</p></div></div>
-      <div class="panel panel-pad roster-panel">
-        <div class="section-head"><div><div class="label">01 / Actual Result</div><h3>換機成功名單</h3><p>只列入客戶 CSV 的 <code>replaced_within_6m=yes</code> 設備，代表觀察後六個月內已實際換機。</p></div><div class="toolbar"><span class="review-badge review-done" id="successRosterCount">0 筆成功</span><button class="btn" id="exportSuccessRoster">匯出成功名單 CSV</button></div></div>
-        <div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>安裝年份</th><th>關注分數</th><th>結果</th></tr></thead><tbody id="successRosterRows"></tbody></table><div class="table-empty" id="successRosterEmpty">目前沒有標記為實際換機成功的資料。匯入客戶 CSV 並在 replaced_within_6m 填 yes 後會列在此處。</div></div>
+      <div class="section-head"><div><div class="label">04 / Replacement Lists</div><h2>換機名單分類</h2><p>選擇要查看的名單。三種名單各自獨立，按左側子目錄或下方按鈕即可直接切換。</p></div></div>
+      <div class="directory-card-grid">
+        <article class="directory-card"><small>01 / ACTUAL RESULT</small><h3>換機成功名單</h3><p>列出客戶 CSV 中標記為六個月內已實際換機的設備。</p><button class="btn btn-primary" type="button" data-view="completed">開啟成功名單</button></article>
+        <article class="directory-card"><small>02 / PREDICTED CANDIDATES</small><h3>預測可以換機名單</h3><p>依關注分數篩出候選設備，供同仁進一步覆核。</p><button class="btn btn-primary" type="button" data-view="predicted">開啟預測名單</button></article>
+        <article class="directory-card"><small>03 / FOLLOW-UP</small><h3>不換機但可後續再關注名單</h3><p>在覆核時按「暫緩」的設備會放在這裡，方便後續追蹤。</p><button class="btn btn-primary" type="button" data-view="followup">開啟暫緩名單</button></article>
       </div>
-      <div class="panel panel-pad roster-panel">
-        <div class="section-head"><div><div class="label">02 / Predicted Candidates</div><h3>預測可以換機名單</h3><p>排除已標記成功與暫緩的設備後，依關注分數由高到低取前 1/3 作為本次候選；這是排序建議，不代表一定會換機。</p></div><div class="toolbar"><span class="review-badge review-pending" id="predictedRosterCount">0 筆候選</span><button class="btn" id="exportPredictedRoster">匯出預測名單 CSV</button></div></div>
-        <div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>安裝年份</th><th>關注分數</th><th>覆核狀態</th><th>操作</th></tr></thead><tbody id="predictedRosterRows"></tbody></table><div class="table-empty" id="predictedRosterEmpty">目前沒有可供排序的候選資料。請載入或匯入客戶 CSV。</div></div>
-      </div>
-      <div class="notice"><strong>名單定義：</strong>「換機成功」看實際結果標籤；「預測可以換機」是依關注分數篩出的候選；按「暫緩」的設備會收在左側目錄的「暫緩後續關注名單」。</div>
+      <div class="notice"><strong>名單定義：</strong>成功名單依實際結果標籤；預測名單依分數排序；後續關注名單依人工「暫緩」紀錄。</div>
+    </section>
+
+    <section class="section view-screen" id="completed" data-screen="completed">
+      <div class="section-head"><div><div class="label">LIST 01 / ACTUAL RESULT</div><h2>換機成功名單</h2><p>只列入客戶 CSV 的 <code>replaced_within_6m=yes</code> 設備，代表觀察後六個月內已實際換機。</p></div><div class="toolbar"><span class="review-badge review-done" id="successRosterCount">0 筆成功</span><button class="btn" id="exportSuccessRoster">匯出成功名單 CSV</button></div></div>
+      <div class="panel panel-pad"><div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>安裝年份</th><th>關注分數</th><th>結果</th></tr></thead><tbody id="successRosterRows"></tbody></table><div class="table-empty" id="successRosterEmpty">目前沒有標記為實際換機成功的資料。匯入客戶 CSV 並在 replaced_within_6m 填 yes 後會列在此處。</div></div></div>
+    </section>
+
+    <section class="section view-screen" id="predicted" data-screen="predicted">
+      <div class="section-head"><div><div class="label">LIST 02 / PREDICTED CANDIDATES</div><h2>預測可以換機名單</h2><p>排除已標記成功與暫緩的設備後，依關注分數由高到低取前 1/3 作為本次候選；這是排序建議，不代表一定會換機。</p></div><div class="toolbar"><span class="review-badge review-pending" id="predictedRosterCount">0 筆候選</span><button class="btn" id="exportPredictedRoster">匯出預測名單 CSV</button></div></div>
+      <div class="panel panel-pad"><div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>安裝年份</th><th>關注分數</th><th>覆核狀態</th><th>操作</th></tr></thead><tbody id="predictedRosterRows"></tbody></table><div class="table-empty" id="predictedRosterEmpty">目前沒有可供排序的候選資料。請載入或匯入客戶 CSV。</div></div></div>
     </section>
 
     <section class="section view-screen" id="followup" data-screen="followup">
-      <div class="section-head"><div><div class="label">05 / Follow-up</div><h2>暫緩後續關注名單</h2><p>在「換機關注名單」按下「暫緩」的設備會列於此處，代表目前不安排換機，之後可再確認需求；不等同永久拒絕。</p></div><div class="toolbar"><span class="review-badge review-hold" id="followupCount">0 筆待後續關注</span><button class="btn" id="exportFollowup">匯出後續關注名單 CSV</button></div></div>
-      <div class="panel panel-pad">
-        <div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>安裝年份</th><th>關注分數</th><th>暫緩日期</th><th>操作</th></tr></thead><tbody id="followupRows"></tbody></table><div class="table-empty" id="followupEmpty">目前沒有暫緩名單。請到「換機關注名單」按下「暫緩」。</div></div>
-      </div>
+      <div class="section-head"><div><div class="label">LIST 03 / FOLLOW-UP</div><h2>不換機但可後續再關注名單</h2><p>在「換機關注名單」按下「暫緩」的設備會列於此處，代表目前不安排換機，之後可再確認需求；不等同永久拒絕。</p></div><div class="toolbar"><span class="review-badge review-hold" id="followupCount">0 筆待後續關注</span><button class="btn" id="exportFollowup">匯出後續關注名單 CSV</button></div></div>
+      <div class="panel panel-pad"><div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>安裝年份</th><th>關注分數</th><th>暫緩日期</th><th>操作</th></tr></thead><tbody id="followupRows"></tbody></table><div class="table-empty" id="followupEmpty">目前沒有暫緩名單。請到「換機關注名單」按下「暫緩」。</div></div></div>
     </section>
 
     <section class="section view-screen" id="success" data-screen="success">
@@ -227,7 +238,7 @@
     function readLocalObject(key){try{const raw=localStorage.getItem(key);if(!raw)return {};const parsed=JSON.parse(raw);return parsed&&typeof parsed==="object"&&!Array.isArray(parsed)?parsed:{};}catch(e){return {};}}
     const state = {customers:[], history:[], demoCustomers:false, demoHistory:false, reviews:readLocalObject("airconReplacementReviews"), confirmed:readLocalObject("airconConfirmedReplacementList"), deferred:readLocalObject("airconDeferredFollowupList")};
     const $ = function(id){return document.getElementById(id);};
-    const viewTitles={overview:"總覽",imports:"資料匯入",leads:"換機關注名單",confirmed:"已確認換機意願名單",outcomes:"換機名單分類",followup:"暫緩後續關注名單",success:"換機預測成效儀表板",demand:"區域需求與產能",method:"模型方式與覆核原則"};
+    const viewTitles={overview:"總覽",imports:"資料匯入",leads:"換機關注名單",confirmed:"已確認換機意願名單",outcomes:"換機名單分類",completed:"換機成功名單",predicted:"預測可以換機名單",followup:"不換機但可後續再關注名單",success:"換機預測成效儀表板",demand:"區域需求與產能",method:"模型方式與覆核原則"};
     function navigateToView(name){
       const active=document.querySelector('.view-screen[data-screen="'+name+'"]');if(!active)return;
       document.querySelectorAll(".view-screen").forEach(function(view){view.classList.toggle("is-active",view===active);});
