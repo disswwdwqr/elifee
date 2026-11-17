@@ -99,7 +99,7 @@
         <button class="nav-item" type="button" data-view="imports"><span class="nav-dot"></span>資料匯入</button>
         <div class="nav-caption">名單與結果</div>
         <button class="nav-item" type="button" data-view="leads"><span class="nav-dot"></span>換機關注名單</button>
-        <button class="nav-item" type="button" data-view="confirmed"><span class="nav-dot"></span>已確認換機意願</button>
+        <button class="nav-item" type="button" data-view="confirmed"><span class="nav-dot"></span>已確認換機</button>
         <button class="nav-item nav-parent" type="button" data-view="outcomes"><span class="nav-dot"></span>換機名單分類</button>
         <div class="nav-submenu" aria-label="換機名單分類子目錄">
           <button class="nav-item nav-subitem" type="button" data-view="completed"><span class="nav-dot"></span>換機成功名單</button>
@@ -121,17 +121,17 @@
     <section class="view-screen is-active" data-screen="overview">
     <section class="hero">
       <div class="hero-grid">
-        <div><div class="eyebrow">E-life Service Insight</div><h1>冷氣換機需求預測系統</h1><p>用設備年限與維修紀錄整理換機關注名單，再以各區安裝紀錄估算旺季需求。系統提供建議與覆核流程，實際聯繫與排程由同仁決定。</p><button class="hero-cta" type="button" data-view="success">查看換機預測成效 <span aria-hidden="true">→</span></button></div>
+        <div><div class="eyebrow">E-life Service Insight</div><h1>冷氣換機需求預測系統</h1><p>用設備年限與維修紀錄整理換機關注名單，並依此戶綁定的 LINE 預約自動建立換機案件，持續同步預約與安裝進度。</p><button class="hero-cta" type="button" data-view="success">查看換機預測成效 <span aria-hidden="true">→</span></button></div>
         <div class="hero-note"><strong>目前是規則式試辦原型</strong>人口與戶數採臺南市政府 115 年 10 月官方統計；區域需求、缺口與調配數量預設顯示公開補助實績推估情境，匯入內部資料後可依區更新。客戶與安裝示範資料會在開啟頁面時載入，均為虛構資料；匯入的原始資料只在此瀏覽器處理，關閉頁面後會清除。</div>
       </div>
     </section>
     <div class="notice demo-data-notice" id="demoDataNotice"><strong id="demoDataMessage">臺南市 37 區官方人口戶數與公開補助實績推估情境已載入。缺口、師傅及冷氣數量屬規劃估算；匯入內部資料後可依區更新。</strong><div class="toolbar"><button class="btn btn-primary btn-small" type="button" data-view="demand">查看區域需求與產能</button><button class="btn btn-small" type="button" data-view="imports">資料匯入</button></div></div>
     <section class="kpis" id="overview">
       <article class="kpi"><div class="kpi-label">匯入客戶設備</div><div class="kpi-value green" id="kpiCustomers">0</div><div class="kpi-hint" id="kpiCustomerHint">尚未匯入客戶資料</div></article>
-      <article class="kpi"><div class="kpi-label">優先人工覆核</div><div class="kpi-value orange" id="kpiHigh">0</div><div class="kpi-hint">高關注且可聯繫的名單</div></article>
+      <article class="kpi"><div class="kpi-label">LINE 綁定高關注戶</div><div class="kpi-value orange" id="kpiHigh">0</div><div class="kpi-hint">已綁定 LINE 的高關注戶</div></article>
       <article class="kpi"><div class="kpi-label">區域人口參考</div><div class="kpi-value green" id="kpiDistricts">37</div><div class="kpi-hint">臺南市各行政區人口與戶數</div></article>
       <article class="kpi"><div class="kpi-label">具安裝紀錄區域</div><div class="kpi-value" id="kpiHistoryDistricts">0</div><div class="kpi-hint" id="kpiHistoryHint">匯入安裝歷史後產生需求預估</div></article>
-      <article class="kpi"><div class="kpi-label">規劃可用師傅</div><div class="kpi-value" id="kpiPlannedTechnicians">15</div><div class="kpi-hint">使用者設定；非公開統計</div></article>
+      <article class="kpi"><div class="kpi-label">規劃可用師傅</div><div class="kpi-value" id="kpiPlannedTechnicians">30</div><div class="kpi-hint">使用者設定；非公開統計</div></article>
     </section>
     </section>
 
@@ -140,8 +140,8 @@
       <div class="panel panel-pad">
         <div class="import-grid">
           <article class="import-card">
-            <h3>客戶設備／維修資料 CSV</h3><p>每列一台設備。會員代碼請使用去識別化代碼。缺少行銷同意欄位時，系統會將名單標記為不可主動聯繫。</p>
-            <div class="fields">customer_id,district,install_year,repair_count_24m,last_repair_date,warranty_expired,marketing_consent,replaced_within_6m,route_lat,route_lng</div><p>route_lat／route_lng 為排程用座標，可填約略服務地點座標；正式資料請依公司個資規範處理。</p>
+            <h3>客戶設備／維修與 LINE 綁定資料 CSV</h3><p>每列一台設備。用官網會員代碼連結此戶綁定的 LINE；LINE 預約狀態為 confirmed 時會自動加入已確認換機名單。</p>
+            <div class="fields">customer_id,district,install_year,repair_count_24m,last_repair_date,warranty_expired,marketing_consent,replaced_within_6m,route_lat,route_lng,line_user_id,line_display_name,line_booking_id,line_booking_at,line_booking_status,line_progress</div><p>LINE 欄位可選填；正式串接時由 LINE 綁定流程與預約 webhook 更新，不需人工覆核。路線與會員資料請依公司個資規範處理。</p>
             <div class="import-actions"><label class="btn btn-primary file-wrap">選擇客戶 CSV<input type="file" id="customerFile" accept=".csv,text/csv"></label><button class="btn" id="downloadCustomerSample">下載示範資料 CSV</button></div><div class="upload-status" id="customerStatus">尚未匯入</div>
           </article>
           <article class="import-card">
@@ -155,31 +155,31 @@
     </section>
 
     <section class="section view-screen" id="leads" data-screen="leads">
-      <div class="section-head"><div><div class="label">02 / Customer Review</div><h2>換機關注名單</h2><p>分數代表規則式關注程度，不是 AI 機率或設備診斷。覆核時按「確認換機」會加入確認名單；按「暫緩」會記錄暫緩狀態。</p></div><div class="toolbar"><button class="btn" id="exportLeads">匯出名單 CSV</button></div></div>
+      <div class="section-head"><div><div class="label">02 / LINE Linked Households</div><h2>換機關注名單</h2><p>顯示此戶綁定的 LINE。顧客從 LINE 預約冷氣換機後，系統會自動加入「已確認換機名單」；後續安裝進度會同步更新。</p></div><div class="toolbar"><button class="btn" id="exportLeads">匯出名單 CSV</button></div></div>
       <div class="panel panel-pad">
         <div class="filters">
           <input class="control search" id="leadSearch" type="search" placeholder="搜尋代碼或行政區">
           <select class="control" id="riskFilter"><option value="all">全部關注程度</option><option value="高">高關注</option><option value="中">中關注</option><option value="低">低關注</option><option value="缺">資料不足</option></select>
-          <select class="control" id="consentFilter"><option value="all">聯繫狀態</option><option value="yes">可聯繫</option><option value="no">不可主動聯繫</option></select>
+          <select class="control" id="consentFilter"><option value="all">行銷聯繫同意</option><option value="yes">已同意</option><option value="no">未同意</option></select>
           <select class="control" id="districtFilter"><option value="all">全部行政區</option></select>
         </div>
         <div class="heatmap-panel"><div class="heatmap-head"><div><h3>各區高關注戶數熱力圖</h3><p>只計尚未標記換機成功的高關注設備；點選區塊會同步切到該區高關注名單並清除其他篩選，方便逐筆核對。</p></div><div class="heatmap-legend"><span>較少</span><i class="heatmap-swatch"></i><i class="heatmap-swatch mid"></i><i class="heatmap-swatch hot"></i><span>較多</span></div></div><div class="heatmap-totals"><span><span id="heatmapTotalLabel">全區高關注戶數</span> <strong id="heatmapHighTotal">0</strong></span><span><span id="heatmapDistrictLabel">有高關注名單行政區</span> <strong id="heatmapDistrictTotal">0</strong></span></div><div class="heatmap-tiles" id="districtHeatmap"></div></div>
-        <div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>機齡</th><th>近 24 月維修</th><th>關注分數</th><th>參考原因</th><th>行銷同意</th><th>人工覆核</th><th>更新覆核</th></tr></thead><tbody id="leadRows"></tbody></table><div class="table-empty" id="leadEmpty">尚無客戶資料。可載入示範資料或匯入 CSV。</div></div>
+        <div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>機齡</th><th>近 24 月維修</th><th>關注分數</th><th>參考原因</th><th>此戶綁定 LINE</th><th>LINE 預約／換機進度</th></tr></thead><tbody id="leadRows"></tbody></table><div class="table-empty" id="leadEmpty">尚無客戶資料。可載入示範資料或匯入 CSV。</div></div>
         <div class="source-row" id="evaluationSummary" style="display:none"></div>
       </div>
     </section>
 
     <section class="section view-screen" id="confirmed" data-screen="confirmed">
-      <div class="section-head"><div><div class="label">03 / Confirmed Replacements</div><h2>已確認換機意願名單</h2><p>同仁在「換機關注名單」按下「確認換機」後會列在此處。確認意願不等於已完成安裝；實際換機成功請看下方「換機成功名單」。</p></div><div class="toolbar"><span class="review-badge review-done" id="confirmedCount">0 筆確認意願</span><span class="review-badge review-pending" id="cloudStatus">未連接跨店同步</span><button class="btn" id="cloudSettings" type="button">跨店同步設定</button><button class="btn" id="exportConfirmed">匯出確認名單 CSV</button></div></div>
+      <div class="section-head"><div><div class="label">03 / Confirmed Replacements</div><h2>已確認換機名單</h2><p>LINE 預約成功會自動進入此名單。安裝進度變更會即時保存；連接分店雲端後同步至其他分店視窗。</p></div><div class="toolbar"><span class="review-badge review-done" id="confirmedCount">0 筆確認換機</span><span class="review-badge review-pending" id="cloudStatus">未連接跨店同步</span><button class="btn" id="cloudSettings" type="button">跨店同步設定</button><button class="btn" id="exportConfirmed">匯出確認名單 CSV</button></div></div>
       <div class="panel panel-pad">
-        <div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>安裝年份</th><th>近 24 月維修</th><th>關注分數</th><th>確認日期</th><th>更新狀態</th></tr></thead><tbody id="confirmedRows"></tbody></table><div class="table-empty" id="confirmedEmpty">尚無確認換機名單。請到「換機關注名單」按下「確認換機」。</div></div>
+        <div class="table-wrap"><table class="data-table"><thead><tr><th>戶號</th><th>行政區</th><th>安裝年份</th><th>近 24 月維修</th><th>LINE 綁定帳號</th><th>LINE 預約單號</th><th>冷氣換機需求／地址</th><th>預約／安裝進度</th><th>確認日期</th></tr></thead><tbody id="confirmedRows"></tbody></table><div class="table-empty" id="confirmedEmpty">LINE 尚無預約換機資料。</div></div>
         <div class="section-head" style="margin-top:20px"><div><div class="label">FIELD SERVICE DISPATCH</div><h2>師傅派工與動線安排</h2><p>依日期與師傅查看拜訪順序；可調整預約時段、安裝項目和台數，工時會先估算並可人工修正。</p></div><div class="dispatch-tools"><button class="btn btn-primary" type="button" id="optimizeRoutes">重新規劃動線</button><button class="btn" type="button" id="exportDispatch">匯出派工表 CSV</button></div></div>
         <div class="notice"><strong>排程估算說明：</strong>離線建議會依服務座標、預約時段與施工工時排序並預估到達時間；以設定的服務站起點為準，未設定時使用臺南市中心示範點。離線行車時間按直線距離加路程係數估算，未含即時交通；示範座標以行政區代表位置附近的小幅偏移產生，不是實際地址，也不保證落在區界內。時段衝突會標示，正式派工請確認座標、工時與交通。</div>
         <div class="dispatch-summary"><div class="dispatch-stat"><small>目前篩選案件</small><strong id="dispatchJobs">0</strong></div><div class="dispatch-stat"><small>預計移動距離</small><strong id="dispatchDistance">0 km</strong></div><div class="dispatch-stat"><small>預計行車時間</small><strong id="dispatchTravel">0 分</strong></div><div class="dispatch-stat"><small>預估安裝工時</small><strong id="dispatchWork">0 小時</strong></div></div>
         <div class="panel panel-pad" style="margin-bottom:12px"><div class="route-panel-head"><div><h3>建議拜訪順序</h3><p>預設顯示全部日期；可選單日查看，全部師傅時會按日期及師傅分開顯示。</p></div><div class="route-filters"><label class="route-filter-label" for="dispatchDate">日期<select class="control" id="dispatchDate"><option value="all">全部日期</option></select></label><label class="route-filter-label" for="dispatchTechFilter">師傅<select class="control" id="dispatchTechFilter"><option value="all">全部師傅</option></select></label></div></div><div class="route-visual" id="routeVisual"><div class="route-empty">載入示範資料後，可選日期和師傅查看拜訪順序。</div></div><div class="source-row" id="routeDetail"><span>全部日期會依日期和師傅分開顯示路線。</span></div></div>
         <div class="table-wrap"><table class="data-table dispatch-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>服務座標（緯度／經度）</th><th>預約日期</th><th>時段</th><th>指派師傅</th><th>安裝項目</th><th>台數</th><th>預估工時</th><th>舊機回收</th><th>備註</th><th>順序／預估到達</th></tr></thead><tbody id="dispatchRows"></tbody></table><div class="table-empty" id="dispatchEmpty">尚無確認換機名單可安排派工。可先載入示範資料。</div></div>
         <div class="source-row"><span>派工資料只保存在目前瀏覽器。正式導入時，建議以系統帳號權限及公司核准的定位資料管理。</span></div>
-        <div class="source-row"><span>名單與覆核狀態會保存在目前瀏覽器，可關閉後再開啟；不會上傳到伺服器。匯入的原始客戶資料不會保存。</span><button class="btn btn-small" id="clearReviews">清除確認與覆核紀錄</button></div>
+        <div class="source-row"><span>離線時，名單與進度保存在目前瀏覽器；連接分店雲端後會同步。匯入的客戶資料不會保存於瀏覽器資料庫。</span><button class="btn btn-small" id="clearReviews">清除確認與進度資料</button></div>
       </div>
     </section>
 
@@ -188,7 +188,7 @@
       <div class="directory-card-grid">
         <article class="directory-card"><small>01 / ACTUAL RESULT</small><h3>換機成功名單</h3><p>列出客戶 CSV 中標記為六個月內已實際換機的設備。</p><button class="btn btn-primary" type="button" data-view="completed">開啟成功名單</button></article>
         <article class="directory-card"><small>02 / PREDICTED CANDIDATES</small><h3>預測可以換機名單</h3><p>依關注分數篩出候選設備，供同仁進一步覆核。</p><button class="btn btn-primary" type="button" data-view="predicted">開啟預測名單</button></article>
-        <article class="directory-card"><small>03 / FOLLOW-UP</small><h3>不換機但可後續再關注名單</h3><p>在覆核時按「暫緩」的設備會放在這裡，方便後續追蹤。</p><button class="btn btn-primary" type="button" data-view="followup">開啟暫緩名單</button></article>
+        <article class="directory-card"><small>03 / FOLLOW-UP</small><h3>不換機但可後續再關注名單</h3><p>保留既有後續追蹤紀錄，可查看之前暫緩聯繫的設備。</p><button class="btn btn-primary" type="button" data-view="followup">開啟暫緩名單</button></article>
       </div>
       <div class="notice"><strong>名單定義：</strong>成功名單依實際結果標籤；預測名單依分數排序；後續關注名單依人工「暫緩」紀錄。</div>
     </section>
@@ -200,7 +200,7 @@
 
     <section class="section view-screen" id="predicted" data-screen="predicted">
       <div class="section-head"><div><div class="label">LIST 02 / PREDICTED CANDIDATES</div><h2>預測可以換機名單</h2><p>排除已標記成功與暫緩的設備後，依關注分數由高到低取前 1/3 作為本次候選；這是排序建議，不代表一定會換機。</p></div><div class="toolbar"><span class="review-badge review-pending" id="predictedRosterCount">0 筆候選</span><button class="btn" id="exportPredictedRoster">匯出預測名單 CSV</button></div></div>
-      <div class="panel panel-pad"><div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>安裝年份</th><th>關注分數</th><th>覆核狀態</th><th>操作</th></tr></thead><tbody id="predictedRosterRows"></tbody></table><div class="table-empty" id="predictedRosterEmpty">目前沒有可供排序的候選資料。請載入或匯入客戶 CSV。</div></div></div>
+      <div class="panel panel-pad"><div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>安裝年份</th><th>關注分數</th><th>LINE 狀態</th><th>操作</th></tr></thead><tbody id="predictedRosterRows"></tbody></table><div class="table-empty" id="predictedRosterEmpty">目前沒有可供排序的候選資料。請載入或匯入客戶 CSV。</div></div></div>
     </section>
 
     <section class="section view-screen" id="followup" data-screen="followup">
@@ -237,7 +237,7 @@
             <div class="district-chart-kpi"><small>規劃產能</small><strong id="chartTotalCapacity">—</strong></div>
             <div class="district-chart-kpi"><small>正向缺口</small><strong id="chartTotalGap">—</strong></div>
             <div class="district-chart-kpi"><small>需調配師傅</small><strong id="chartTotalTechs">—</strong></div>
-            <div class="district-chart-kpi"><small>規劃可用師傅</small><strong id="plannedTechnicianCount">15 位</strong><small>使用者設定；非公開統計</small></div>
+            <div class="district-chart-kpi"><small>規劃可用師傅</small><strong id="plannedTechnicianCount">30 位</strong><small>使用者設定；非公開統計</small></div>
           </div>
           <div class="cross-district-note" id="crossDistrictNote" aria-live="polite"><strong>跨區共用估算載入中</strong><span>實際調度需核對可用師傅、服務範圍與班表。</span></div>
           <div class="district-chart-legend"><span><i class="legend-capacity"></i>規劃產能</span><span><i class="legend-gap"></i>需求缺口</span><span><i class="legend-missing"></i>產能資料待補</span><span class="district-chart-hint" id="districtChartHint">—</span></div>
@@ -248,7 +248,7 @@
         <div class="notice" id="forecastMethodNote"><strong>估算口徑：</strong>能源署 114 年補助汰換 165.6 萬台家電，其中冷氣占 74%；按臺南各區 114 年 12 月實際戶數占全國戶數比例分配，並按月份平均估算。排程與冷氣庫存假設覆蓋需求 90%；每位師傅假設每月安裝 20 台。此為公開補助實績推估的規劃情境，不是臺南實際訂單，也不代表公司產能或庫存。<a href="https://www.moeaea.gov.tw/ECW/populace/content/wHandMenuFile.ashx?file_id=17032" target="_blank" rel="noreferrer">能源署成果來源 ↗</a>　<a href="https://www.moi.gov.tw/News_Content.aspx?n=2&amp;s=335870" target="_blank" rel="noreferrer">全國戶數來源 ↗</a>　<a href="https://data.tainan.gov.tw/Resource/e51c63c7-08fc-4bcf-b8b0-6aeae6678144" target="_blank" rel="noreferrer">臺南各區戶數來源 ↗</a></div>
         <div class="table-wrap"><table class="data-table"><thead><tr><th>行政區</th><th>戶數</th><th>現住人口</th><th>需求估算</th><th>規劃產能（情境）</th><th>需求缺口（情境）</th><th>需調配師傅（情境）</th><th>需調配冷氣（情境）</th><th>需求參考</th></tr></thead><tbody id="forecastRows"></tbody></table><div class="table-empty" id="forecastEmpty">公開區域基準尚未載入。</div></div>
         <div class="source-row"><span>官方區域規模資料：臺南市 115 年 10 月各區戶數與人口數；更新日 2026-11-04。</span><a href="https://data.tainan.gov.tw/Resource/444f4813-cff5-452b-8306-d40a5a8af0a1" target="_blank" rel="noreferrer">開啟官方原始資料 ↗</a></div>
-        <div class="source-row"><span>計算方式：公開情境按各區戶數占比分配補助參考量，再依月份平均估算；規劃安裝量與冷氣庫存各假設覆蓋需求 90%。師傅按每人每月 20 台計算，夏季 4 個月每人可裝 80 台；各區需求師傅數＝ceil(該區缺口 ÷ 80)，逐區向上取整後合計 61 位。例：永康區缺口 409 台，需 ceil(409 ÷ 80)＝6 位。若師傅可全市跨區共用，按全市缺口 3,220 ÷ 80 向上取整則約 41 位。頁面另列的 15 位是使用者指定的規劃可用人數，並非全國電子公開的實際師傅總數。這些都是規劃情境；實際調度須核對訂單、排程、區域服務範圍及既有產能。匯入內部資料後，有歷史需求的區域優先採內部紀錄。</span></div>
+        <div class="source-row"><span>計算方式：公開情境按各區戶數占比分配補助參考量，再依月份平均估算；規劃安裝量與冷氣庫存各假設覆蓋需求 90%。師傅按每人每月 20 台計算，夏季 4 個月每人可裝 80 台；各區需求師傅數＝ceil(該區缺口 ÷ 80)，逐區向上取整後合計 61 位。例：永康區缺口 409 台，需 ceil(409 ÷ 80)＝6 位。若師傅可全市跨區共用，按全市缺口 3,220 ÷ 80 向上取整則約 41 位。頁面預設 30 位規劃可用人力（15 位固定駐點＋15 位機動支援），並非全國電子公開的實際師傅總數；公開情境下全市共用推估仍短缺約 11 位。這些都是規劃情境；實際調度須核對訂單、排程、區域服務範圍及既有產能。匯入內部資料後，有歷史需求的區域優先採內部紀錄。</span></div>
         <div class="insight-grid"><div class="insight"><small>人口資料用途</small><strong id="marketInsight">區域規模比較</strong><p id="marketInsightText">各區人口與戶數已載入，可用來觀察市場規模。人口較多不代表冷氣需求必然較高。</p></div><div class="insight"><small>排程建議</small><strong id="capacityInsight">等待產能資料</strong><p id="capacityInsightText">匯入預計可安裝量後，系統會標示需求高於產能的區域，供主管安排人工調度。</p></div></div>
       </div>
     </section>
@@ -259,28 +259,34 @@
       <div class="panel panel-pad">
         <div class="source-row" id="transferDataPeriod">尚未完成統計分析。</div>
         <section class="transfer-planner" aria-labelledby="transferPlannerTitle">
-          <div class="transfer-planner-head"><div><h3 id="transferPlannerTitle">師傅跨區調撥規劃</h3><p>輸入各區目前配置後，系統會保留各區基本需求，將可調出的人力配對到缺口區域。</p></div><button class="btn" id="exportTransferPlan" type="button">匯出調撥建議 CSV</button></div>
-          <div class="transfer-controls"><label for="availableTechniciansInput">全市規劃可用師傅數<input class="control" id="availableTechniciansInput" type="number" min="0" step="1" value="15"></label><span>此為使用者設定，可自行修改；分區人力填報完整時，合計應等於此數。</span></div>
+          <div class="transfer-planner-head"><div><h3 id="transferPlannerTitle">固定駐點與機動支援配置</h3><p>固定師傅留守需求較高的駐點；其餘人力保留為機動池，按統計缺口支援各區。</p></div><button class="btn" id="exportTransferPlan" type="button">匯出調撥建議 CSV</button></div>
+          <div class="transfer-controls"><label for="availableTechniciansInput">全市規劃可用師傅<input class="control" id="availableTechniciansInput" type="number" min="0" step="1" value="30"></label><label for="fixedTechnicianTargetInput">固定駐點人數目標<input class="control" id="fixedTechnicianTargetInput" type="number" min="0" step="1" value="15"></label><button class="btn btn-primary" id="generateStaffingConfig" type="button">直接生成配置</button><span>預設 30 位＝15 位固定駐點＋15 位機動支援；人數與比例可調整。</span></div>
           <div class="transfer-summary" id="transferSummary" aria-live="polite">正在整理調撥建議…</div>
           <div class="transfer-results" id="transferResults"></div>
-          <details class="staffing-config"><summary>輸入各區目前師傅配置 <span id="staffingEntryCount">0 / 37 區</span></summary><div class="toolbar" style="margin-top:10px"><button class="btn btn-small" id="downloadStaffingTemplate" type="button">下載分區配置範本</button><label class="btn btn-small file-wrap">匯入分區配置 CSV<input id="staffingFile" type="file" accept=".csv,text/csv"></label><button class="btn btn-small" id="clearDistrictStaffing" type="button">清除分區配置</button></div><div class="staffing-grid" id="staffingGrid"></div><p class="staffing-footnote">CSV 欄位：district、available_technicians。留空代表尚未提供資料；填入 0 才表示該區目前沒有師傅。輸入配置只保存在這台裝置的瀏覽器。</p></details>
+          <details class="staffing-config"><summary>檢視或修改各區固定駐點人數 <span id="staffingEntryCount">0 / 37 區</span></summary><div class="toolbar" style="margin-top:10px"><button class="btn btn-small" id="downloadStaffingTemplate" type="button">下載固定配置範本</button><label class="btn btn-small file-wrap">匯入固定配置 CSV<input id="staffingFile" type="file" accept=".csv,text/csv"></label><button class="btn btn-small" id="clearDistrictStaffing" type="button">清除固定配置</button></div><div class="staffing-grid" id="staffingGrid"></div><p class="staffing-footnote">CSV 欄位：district、fixed_technicians。留空代表尚未提供；填入 0 表示該區不設固定駐點。未列入固定駐點的人力保留給機動池。設定只保存在此瀏覽器。</p></details>
+        </section>
+        <section class="method-grid" aria-label="師傅調撥執行方法">
+          <article class="method"><div class="method-no">01 / 固定駐點</div><h3>先保留各區基本人力</h3><p>預設 30 位中先設 15 位固定駐點；按「直接生成配置」後，依已確認的需求缺口由高到低，每個優先區先配置 1 位，剩餘人力留在機動池。37 區不會都有固定師傅，配置是可修改的規劃草案，須按實際服務站點調整。</p></article>
+          <article class="method"><div class="method-no">02 / 機動支援</div><h3>機動池補足未滿足需求</h3><p>固定駐點不列為可調出人力。系統將各區需求師傅數扣除固定人數，再依需求缺口排序，把機動池逐區排入；每筆建議會標示「全市機動池 → 需求區」。如果機動池不夠，會顯示尚未滿足的人數。</p></article>
+          <article class="method"><div class="method-no">03 / 實際執行</div><h3>確認班表後再派工</h3><p>主管先核對服務範圍、技能、工時、休假、交通與既有訂單，再確認支援日期與回程安排；需求、產能或排班變更後重新分析並生成。CSV 可供排班討論，系統建議不會自行改動真實人事或派工。</p></article>
+          <article class="method"><div class="method-no">04 / 人力不足時</div><h3>用可執行方式補缺口</h3><p>優先調整固定駐點與機動池比例，安排跨區支援及錯峰預約；仍不足時，評估旺季短期增援、合格外包或臨時人力，並依實際工單回看固定駐點。公開推估情境全市缺口約需 41 位，30 位約差 11 位；此差額是規劃估算，需用內部訂單及工時校正。</p></article>
         </section>
       </div>
     </section>
 
     <section class="section view-screen" id="method" data-screen="method">
-      <div class="section-head"><div><div class="label">09 / Method & Guardrails</div><h2>模型方式與覆核原則</h2><p>先以可解釋的規則建立流程基準，收集足夠歷史結果後，再評估是否訓練正式預測模型。</p></div></div>
+      <div class="section-head"><div><div class="label">09 / Method & Workflow</div><h2>模型方式與串接流程</h2><p>先以可解釋的規則建立流程基準，收集足夠歷史結果後，再評估是否訓練正式預測模型。</p></div></div>
       <div class="panel panel-pad">
         <div class="method-grid">
           <article class="method"><div class="method-no">01 / 個人名單</div><h3>設備關注分數</h3><p>依機齡、近 24 個月維修次數、最近維修日期與保固狀態加權。分數只協助排序，不能當成故障診斷或換機機率。</p></article>
           <article class="method"><div class="method-no">02 / 區域需求</div><h3>季節安裝量推估</h3><p>以過去相同月份的安裝量推估下個夏季或淡季，並與匯入的未來規劃產能比較；歷史月份不足時會依可用資料估算。</p></article>
-          <article class="method"><div class="method-no">03 / 人工把關</div><h3>同仁確認後再行動</h3><p>技師確認設備狀況，門市確認聯繫方式與優惠，安裝主管確認產能。顧客可拒絕健檢或換機建議。</p></article>
+          <article class="method"><div class="method-no">03 / LINE 自動串接</div><h3>綁定戶預約即建立案件</h3><p>LIFF 驗證預約者 LINE 身分並查此戶綁定資料；預約成功直接寫入已確認換機名單，後續安裝進度同步到分店畫面。</p></article>
         </div>
         <div class="source-row"><span>人口與戶數來源：臺南市政府民政局「115 年 10 月現住人口統計表」，資料更新日 2026-11-04。</span><a href="https://data.tainan.gov.tw/Resource/444f4813-cff5-452b-8306-d40a5a8af0a1" target="_blank" rel="noreferrer">開啟官方原始資料 ↗</a></div>
         <div class="source-row"><span>虛構設備樣本、安裝量、排程和換機結果只供操作示範，不代表臺南或全國電子實績；請在按下「載入虛構示範資料」後才查看。正式需求與產能分析需匯入內部實際紀錄。</span><a href="https://data.tainan.gov.tw/Resource/d99f51ff-a110-4da3-8208-d349eaba7de1" target="_blank" rel="noreferrer">住宅屋齡參考資料 ↗</a></div>
-        <div class="source-row"><span>進入正式 AI 階段前，需整理歷史購買、設備、維修、預約、完成安裝、取消與產能資料，並用試辦組與比較組驗證是否真的把需求移到淡季。</span><span>原型不會自動發送訊息或派工</span></div>
+        <div class="source-row"><span>進入正式 AI 階段前，需整理歷史購買、設備、維修、預約、完成安裝、取消與產能資料，並用試辦組與比較組驗證是否真的把需求移到淡季。</span><span>LINE 預約可自動入列；LINE 推播通知與自動派工需另行串接</span></div>
       </div>
-      <div class="footer">本頁為本機端試辦原型。匯入客戶 CSV 僅在目前瀏覽器記憶體處理；覆核與確認名單保存在目前瀏覽器。示範資料為虛構資料，正式使用前請匯入去識別化資料。</div>
+      <div class="footer">本頁為試辦原型。離線時換機名單與進度保存在目前瀏覽器；連接分店雲端後同步。LINE 預約需部署 LIFF 送單函式並完成官網會員與 LINE 綁定。示範資料為虛構資料，正式使用前請匯入去識別化資料。</div>
     </section>
       </main>
     </div>
@@ -297,11 +303,11 @@
       ["新營",32128,73991],["鹽水",10383,23247],["白河",10734,24627],["柳營",8372,19617],["後壁",9021,20552],["東山",8136,18160],["麻豆",17943,42529],["下營",9472,21460],["六甲",8616,20610],["官田",8736,20470],["大內",3662,8322],["佳里",23680,58014],["學甲",10365,24227],["西港",9770,24707],["七股",8106,20181],["將軍",7091,17345],["北門",3906,9297],["新化",16280,41731],["善化",23697,53992],["新市",15969,38171],["安定",12046,29630],["山上",2786,6692],["玉井",5446,12509],["楠西",3536,8222],["南化",2830,7464],["左鎮",1770,4034],["仁德",32840,77807],["歸仁",28379,71219],["關廟",12645,32912],["龍崎",1412,3148],["永康",99973,235949],["東區",79581,179347],["南區",50601,118186],["北區",56175,125005],["安南",79569,204591],["安平",33292,71957],["中西",34496,74387]
     ].map(function(r){return {district:r[0],households:r[1],population:r[2]};});
     const official2025DistrictHouseholds={"新營":31916,"鹽水":10450,"白河":10779,"柳營":8398,"後壁":9027,"東山":8204,"麻豆":17861,"下營":9496,"六甲":8609,"官田":8705,"大內":3669,"佳里":23523,"學甲":10287,"西港":9657,"七股":8130,"將軍":7130,"北門":3931,"新化":16171,"善化":23318,"新市":15811,"安定":11877,"山上":2776,"玉井":5417,"楠西":3556,"南化":2832,"左鎮":1788,"仁德":32309,"歸仁":27508,"關廟":12646,"龍崎":1436,"永康":98589,"東":79241,"南":50466,"北":55722,"安南":78462,"安平":32368,"中西":34628};
-    const PUBLIC_2025_NATIONAL_HOUSEHOLDS=9851532, PUBLIC_2025_AC_SUBSIDY_UNITS=1225440, SCENARIO_CAPACITY_COVERAGE=.9, SCENARIO_INSTALLS_PER_TECH_MONTH=20, PLANNED_TECHNICIAN_COUNT=15;
+    const PUBLIC_2025_NATIONAL_HOUSEHOLDS=9851532, PUBLIC_2025_AC_SUBSIDY_UNITS=1225440, SCENARIO_CAPACITY_COVERAGE=.9, SCENARIO_INSTALLS_PER_TECH_MONTH=20, PLANNED_TECHNICIAN_COUNT=30, DEFAULT_FIXED_TECHNICIAN_COUNT=15;
     const averageHousingAgeByDistrict={"東":34.79,"南":37.71,"北":34.48,"安南":28.94,"安平":25.58,"中西":42.96,"新營":36.64,"鹽水":44.07,"白河":48.83,"柳營":41.33,"後壁":49.23,"東山":48.98,"麻豆":39.22,"下營":45.47,"六甲":41.34,"官田":39.5,"大內":51.5,"佳里":36.97,"西港":36.56,"七股":48.57,"將軍":51.45,"北門":53.91,"學甲":44.68,"新化":39.14,"善化":27.66,"新市":27.09,"安定":33.52,"山上":45.34,"玉井":42.93,"楠西":45.77,"南化":50.99,"左鎮":54.14,"仁德":31.26,"歸仁":30.42,"關廟":41.17,"龍崎":65.96,"永康":30.19};
     const demoDistrictCoordinates={"新營":[23.306,120.310],"鹽水":[23.320,120.267],"白河":[23.351,120.414],"柳營":[23.278,120.314],"後壁":[23.365,120.362],"東山":[23.326,120.403],"麻豆":[23.181,120.249],"下營":[23.234,120.264],"六甲":[23.231,120.348],"官田":[23.194,120.320],"大內":[23.119,120.349],"佳里":[23.164,120.177],"學甲":[23.233,120.181],"西港":[23.123,120.203],"七股":[23.145,120.138],"將軍":[23.204,120.160],"北門":[23.267,120.124],"新化":[23.039,120.310],"善化":[23.131,120.291],"新市":[23.078,120.294],"安定":[23.122,120.236],"山上":[23.103,120.356],"玉井":[23.123,120.461],"楠西":[23.174,120.485],"南化":[23.043,120.477],"左鎮":[23.057,120.407],"仁德":[22.973,120.252],"歸仁":[22.963,120.294],"關廟":[22.963,120.327],"龍崎":[22.963,120.361],"永康":[23.026,120.254],"東區":[22.982,120.224],"南區":[22.961,120.190],"北區":[23.001,120.211],"安南":[23.056,120.180],"安平":[22.997,120.164],"中西":[22.995,120.203]};
     const DEMO_SAMPLE_SIZE=740;
-    const DEMO_PLAN_VERSION="2";
+    const DEMO_PLAN_VERSION="3";
     function allocateDemoSampleCounts(sampleSize){
       const base=sampleSize>=population.length?1:0,counts=population.map(function(){return base;}),remaining=sampleSize-base*population.length,totalHouseholds=population.reduce(function(sum,d){return sum+d.households;},0),shares=population.map(function(d,i){const exact=remaining*d.households/totalHouseholds,whole=Math.floor(exact);counts[i]+=whole;return {index:i,fraction:exact-whole};});
       let unassigned=sampleSize-counts.reduce(function(sum,n){return sum+n;},0);shares.sort(function(a,b){return b.fraction-a.fraction||a.index-b.index;});for(let i=0;i<unassigned;i++)counts[shares[i].index]++;
@@ -309,12 +315,12 @@
     }
     const currentYear = new Date().getFullYear();
     function readLocalObject(key){try{const raw=localStorage.getItem(key);if(!raw)return {};const parsed=JSON.parse(raw);return parsed&&typeof parsed==="object"&&!Array.isArray(parsed)?parsed:{};}catch(e){return {};}}
-    const savedTechCount=localStorage.getItem("airconAvailableTechnicians");
-    const state = {customers:[], history:[], demoCustomers:false, demoHistory:false, availableTechnicians:savedTechCount===null?PLANNED_TECHNICIAN_COUNT:Math.max(0,parseInt(savedTechCount,10)||0), districtStaffing:readLocalObject("airconDistrictStaffing"), transferPlan:[], demandAnalyzedSignature:localStorage.getItem("airconDemandAnalyzedSignature")||"", dispatch:readLocalObject("airconDispatchPlan"), liveRoutes:readLocalObject("airconLiveRoutes"), reviews:readLocalObject("airconReplacementReviews"), confirmed:readLocalObject("airconConfirmedReplacementList"), deferred:readLocalObject("airconDeferredFollowupList")};
+    const savedTechCount=localStorage.getItem("airconAvailableTechniciansV2"),savedFixedTarget=localStorage.getItem("airconFixedTechnicianTarget");
+    const state = {customers:[], history:[], demoCustomers:false, demoHistory:false, availableTechnicians:savedTechCount===null?PLANNED_TECHNICIAN_COUNT:Math.max(0,parseInt(savedTechCount,10)||0), fixedTechnicianTarget:savedFixedTarget===null?DEFAULT_FIXED_TECHNICIAN_COUNT:Math.max(0,parseInt(savedFixedTarget,10)||0), districtStaffing:readLocalObject("airconDistrictStaffing"), transferPlan:[], demandAnalyzedSignature:localStorage.getItem("airconDemandAnalyzedSignature")||"", dispatch:readLocalObject("airconDispatchPlan"), liveRoutes:readLocalObject("airconLiveRoutes"), reviews:readLocalObject("airconReplacementReviews"), confirmed:readLocalObject("airconConfirmedReplacementList"), deferred:readLocalObject("airconDeferredFollowupList")};
     const $ = function(id){return document.getElementById(id);};
     let cloudClient=null,cloudConfig=readLocalObject("airconCloudConfig"),cloudApplyingRemote=false,cloudSignedIn=false,activeBranchId=cloudConfig.branchId||"",cloudSyncTimer=null,cloudChannel=null;
     let currentDemandAnalysisSignature="",demandAnalysisReady=false;
-    const viewTitles={overview:"總覽",imports:"資料匯入",leads:"換機關注名單",confirmed:"已確認換機意願名單",outcomes:"換機名單分類",completed:"換機成功名單",predicted:"預測可以換機名單",followup:"不換機但可後續再關注名單",success:"換機預測成效儀表板",demand:"區域需求與產能",transfer:"師傅調撥規劃",method:"模型方式與覆核原則"};
+    const viewTitles={overview:"總覽",imports:"資料匯入",leads:"換機關注名單",confirmed:"已確認換機名單",outcomes:"換機名單分類",completed:"換機成功名單",predicted:"預測可以換機名單",followup:"不換機但可後續再關注名單",success:"換機預測成效儀表板",demand:"區域需求與產能",transfer:"師傅調撥規劃",method:"模型方式與說明"};
     function navigateToView(name){
       if(name==="transfer"&&(!demandAnalysisReady||state.demandAnalyzedSignature!==currentDemandAnalysisSignature)){toast("請先完成區域統計分析並確認結果，再進入師傅調撥。");name="demand";}
       const active=document.querySelector('.view-screen[data-screen="'+name+'"]');if(!active)return;
@@ -346,8 +352,8 @@
       const keys=Object.keys(rows[0]);required.forEach(function(pair){if(!keys.includes(pair[0])&&!keys.includes(pair[1]))throw new Error("缺少欄位："+pair[0]);});
       return rows.map(function(r,i){
         const id=get(r,["customer_id","會員代碼"])||("匿名設備-"+(i+1));
-        const yearRaw=get(r,["install_year","安裝年份"]),repairsRaw=get(r,["repair_count_24m","近24月維修次數"]),outcomeRaw=get(r,["replaced_within_6m","六個月內已換機"]),latRaw=get(r,["route_lat"]),lngRaw=get(r,["route_lng"]);
-        return {id:id,district:districtName(get(r,["district","行政區"])),year:yearRaw===""?null:number(yearRaw),repairs:repairsRaw===""?null:number(repairsRaw),lastRepair:get(r,["last_repair_date","最近維修日期"]),warranty:boolValue(get(r,["warranty_expired","保固到期"])),consent:boolValue(get(r,["marketing_consent","行銷同意"])),outcome:outcomeRaw===""?null:boolValue(outcomeRaw),lat:latRaw===""?null:number(latRaw),lng:lngRaw===""?null:number(lngRaw)};
+        const yearRaw=get(r,["install_year","安裝年份"]),repairsRaw=get(r,["repair_count_24m","近24月維修次數"]),outcomeRaw=get(r,["replaced_within_6m","六個月內已換機"]),latRaw=get(r,["route_lat"]),lngRaw=get(r,["route_lng"]),bookingStatus=get(r,["line_booking_status","LINE預約狀態"]);
+        return {id:id,district:districtName(get(r,["district","行政區"])),year:yearRaw===""?null:number(yearRaw),repairs:repairsRaw===""?null:number(repairsRaw),lastRepair:get(r,["last_repair_date","最近維修日期"]),warranty:boolValue(get(r,["warranty_expired","保固到期"])),consent:boolValue(get(r,["marketing_consent","行銷同意"])),outcome:outcomeRaw===""?null:boolValue(outcomeRaw),lat:latRaw===""?null:number(latRaw),lng:lngRaw===""?null:number(lngRaw),lineUserId:get(r,["line_user_id","LINE使用者ID"]),lineDisplayName:get(r,["line_display_name","LINE顯示名稱"]),lineBookingId:get(r,["line_booking_id","LINE預約單號"]),lineBookingAt:get(r,["line_booking_at","LINE預約時間"]),lineBookingStatus:bookingStatus,lineProgress:get(r,["line_progress","換機進度"]),lineOldTonnage:get(r,["line_old_tonnage"]),lineDesiredTonnage:get(r,["line_desired_tonnage"]),lineInstallationAddress:get(r,["line_installation_address"]),lineOutdoorUnitLocation:get(r,["line_outdoor_unit_location"]),linePreferredDate:get(r,["line_preferred_date"]),lineContactPhone:get(r,["line_contact_phone"]),lineDemo:boolValue(get(r,["line_demo"]))};
       });
     }
     function parseHistory(rows){
@@ -366,6 +372,14 @@
     }
     function reviewFor(id){return state.reviews[id]||"待覆核";}
     function saveReviewState(){try{localStorage.setItem("airconReplacementReviews",JSON.stringify(state.reviews));localStorage.setItem("airconConfirmedReplacementList",JSON.stringify(state.confirmed));localStorage.setItem("airconDeferredFollowupList",JSON.stringify(state.deferred));localStorage.setItem("airconDispatchPlan",JSON.stringify(state.dispatch));if(activeBranchId){localStorage.setItem("airconConfirmedReplacementList::"+activeBranchId,JSON.stringify(state.confirmed));localStorage.setItem("airconDispatchPlan::"+activeBranchId,JSON.stringify(state.dispatch));}if(!cloudApplyingRemote)queueCloudSync();return true;}catch(e){toast("瀏覽器無法保存紀錄，請匯出 CSV 備份。");return false;}}
+    function lineBookingConfirmed(value){return /^(1|true|yes|y|是|已預約(?:換機)?|已確認(?:換機|預約)?|預約成功|confirmed|booked|reserved)$/i.test(String(value||"").trim());}
+    function addLineBooking(c,booking){
+      const s=scoreCustomer(c),previous=state.confirmed[c.id]||{},confirmedAt=previous.confirmedAt||booking.at||new Date().toISOString(),record=Object.assign({},previous,{id:c.id,district:c.district||"",year:c.year||"",repairs:Number.isFinite(c.repairs)?c.repairs:"",score:s.score==null?"":s.score,risk:s.risk,confirmedAt:confirmedAt,lat:c.lat,lng:c.lng,source:"LINE",lineUserId:c.lineUserId||previous.lineUserId||"",lineDisplayName:c.lineDisplayName||previous.lineDisplayName||"已綁定 LINE",lineBookingId:booking.id||c.lineBookingId||previous.lineBookingId||("LINE-"+Date.now()),lineBookingAt:booking.at||c.lineBookingAt||previous.lineBookingAt||confirmedAt,progress:booking.progress||c.lineProgress||previous.progress||"LINE 預約成立",booking:booking.info||c.booking||previous.booking||{oldTonnage:c.lineOldTonnage||"",desiredTonnage:c.lineDesiredTonnage||"",installationAddress:c.lineInstallationAddress||"",outdoorUnitLocation:c.lineOutdoorUnitLocation||"",preferredDate:c.linePreferredDate||"",contactPhone:c.lineContactPhone||""}});
+      state.confirmed[c.id]=record;state.reviews[c.id]="LINE 已預約";delete state.deferred[c.id];if(!state.dispatch[c.id])state.dispatch[c.id]=defaultDispatchJob(record,Object.keys(state.confirmed).length-1);if(booking.date)state.dispatch[c.id].date=booking.date;return record;
+    }
+    function syncImportedLineReservations(){let count=0;state.customers.forEach(function(c){if(c.lineUserId&&lineBookingConfirmed(c.lineBookingStatus)){addLineBooking(c,{id:c.lineBookingId,at:c.lineBookingAt,progress:c.lineProgress});count++;}});if(count)saveReviewState();return count;}
+    function simulateLineReservation(id){const c=state.customers.find(function(x){return x.id===id;});if(!c||!c.lineUserId){toast("此戶尚未綁定 LINE。");return;}if(state.confirmed[id]){toast("此戶已在已確認換機名單。");return;}const now=new Date().toISOString(),bookingId="AC-LINE-"+new Date().toISOString().slice(0,10).replace(/-/g,"")+"-"+String(Object.keys(state.confirmed).length+1).padStart(3,"0");c.lineBookingId=bookingId;c.lineBookingAt=now;c.lineBookingStatus="confirmed";c.lineProgress="LINE 預約成立";addLineBooking(c,{id:bookingId,at:now,progress:c.lineProgress});saveReviewState();refresh();toast("LINE 預約已自動加入已確認換機名單");}
+    function updateReplacementProgress(id,value){const record=state.confirmed[id];if(!record)return;record.progress=value;record.progressUpdatedAt=new Date().toISOString();saveReviewState();refresh();toast("換機進度已更新並同步保存");}
     function setReview(id,value){
       const c=state.customers.find(function(x){return x.id===id;});
       if(value==="已確認換機"){
@@ -395,7 +409,7 @@
       const candidates=scored.filter(function(x){return x.c.outcome!==true&&reviewFor(x.c.id)!=="暫緩";}).sort(function(a,b){return b.s.score-a.s.score;});
       const predictionCount=candidates.length?Math.max(1,Math.ceil(candidates.length/3)):0,predicted=candidates.slice(0,predictionCount);
       $("predictedRosterCount").textContent=predicted.length.toLocaleString("zh-TW")+" 筆候選";
-      $("predictedRosterRows").innerHTML=predicted.map(function(x){return '<tr><td class="id-cell">'+esc(x.c.id)+'</td><td>'+esc(x.c.district||"未提供")+'區</td><td>'+esc(x.c.year||"—")+'</td><td><span class="risk-badge '+(x.s.risk==="高"?"risk-high":x.s.risk==="中"?"risk-medium":"risk-low")+'">'+esc(x.s.risk)+"關注 · "+esc(x.s.score)+'</span></td><td><span class="review-badge '+(reviewFor(x.c.id)==="已確認換機"?"review-done":"review-pending")+'">'+esc(reviewFor(x.c.id))+'</span></td><td><button class="btn btn-small" type="button" data-view="leads">前往覆核</button></td></tr>';}).join("");
+      $("predictedRosterRows").innerHTML=predicted.map(function(x){const lineStatus=state.confirmed[x.c.id]?"已預約換機":x.c.lineUserId?"已綁定，待 LINE 預約":"尚未綁定 LINE";return '<tr><td class="id-cell">'+esc(x.c.id)+'</td><td>'+esc(x.c.district||"未提供")+'區</td><td>'+esc(x.c.year||"—")+'</td><td><span class="risk-badge '+(x.s.risk==="高"?"risk-high":x.s.risk==="中"?"risk-medium":"risk-low")+'">'+esc(x.s.risk)+"關注 · "+esc(x.s.score)+'</span></td><td>'+esc(lineStatus)+'</td><td><button class="btn btn-small" type="button" data-view="leads">查看 LINE 名單</button></td></tr>';}).join("");
       $("predictedRosterEmpty").style.display=predicted.length?"none":"block";
       const customerMap=new Map(state.customers.map(function(c){return [c.id,c];}));
       const followups=Object.values(state.deferred).filter(function(saved){const c=customerMap.get(saved.id);return !c||c.outcome!==true;}).map(function(saved){const c=customerMap.get(saved.id);if(!c)return saved;const s=scoreCustomer(c);return Object.assign({},saved,{district:c.district||saved.district,year:c.year||saved.year,score:s.score==null?saved.score:s.score,risk:s.risk});}).sort(function(a,b){return String(b.deferredAt||"").localeCompare(String(a.deferredAt||""));});
@@ -410,14 +424,15 @@
         const c=current.get(saved.id);if(!c)return saved;
         const s=scoreCustomer(c);return Object.assign({},saved,{district:c.district||saved.district,year:c.year||saved.year,repairs:Number.isFinite(c.repairs)?c.repairs:saved.repairs,score:s.score==null?saved.score:s.score,risk:s.risk});
       }).sort(function(a,b){return String(b.confirmedAt||"").localeCompare(String(a.confirmedAt||""));});
-      $("confirmedCount").textContent=rows.length.toLocaleString("zh-TW")+" 筆確認意願";
+      $("confirmedCount").textContent=rows.length.toLocaleString("zh-TW")+" 筆確認換機";
       $("confirmedRows").innerHTML=rows.map(function(r){
         const date=r.confirmedAt?new Date(r.confirmedAt).toLocaleDateString("zh-TW"):"—";
-        return '<tr><td class="id-cell">'+esc(r.id)+'</td><td>'+esc(r.district||"未提供")+'區</td><td class="number">'+esc(r.year||"—")+'</td><td class="number">'+esc(r.repairs==null?"—":r.repairs)+' 次</td><td><span class="risk-badge '+(r.risk==="高"?"risk-high":r.risk==="中"?"risk-medium":"risk-low")+'">'+(r.score===""?"—":esc(r.risk||"")+"關注 · "+esc(r.score))+'</span></td><td>'+esc(date)+'</td><td><button class="btn btn-small remove-confirmed" data-id="'+esc(r.id)+'">移回待覆核</button></td></tr>';
+        const booking=r.booking||{},bookingSummary=[booking.oldTonnage&&booking.desiredTonnage?booking.oldTonnage+" → "+booking.desiredTonnage:booking.desiredTonnage,booking.installationAddress,booking.preferredDate].filter(Boolean).join("｜");
+        return '<tr><td class="id-cell">'+esc(r.id)+'</td><td>'+esc(r.district||"未提供")+'區</td><td class="number">'+esc(r.year||"—")+'</td><td class="number">'+esc(r.repairs==null?"—":r.repairs)+' 次</td><td>'+esc(r.lineDisplayName||"LINE 已綁定")+'</td><td>'+esc(r.lineBookingId||"—")+'</td><td class="reason">'+esc(bookingSummary||"預約資料未提供")+'</td><td><select class="control replacement-progress" data-id="'+esc(r.id)+'" aria-label="'+esc(r.id)+'換機進度">'+["LINE 預約成立","安裝排程確認","等待安裝","安裝進行中","安裝完成","已取消"].map(function(p){return '<option value="'+esc(p)+'"'+(r.progress===p?" selected":"")+'>'+esc(p)+'</option>';}).join("")+'</select></td><td>'+esc(date)+'</td></tr>';
       }).join("");
       $("confirmedEmpty").style.display=rows.length?"none":"block";
       renderDispatch();
-      document.querySelectorAll(".remove-confirmed").forEach(function(btn){btn.addEventListener("click",function(){setReview(btn.getAttribute("data-id"),"待覆核");});});
+      document.querySelectorAll(".replacement-progress").forEach(function(select){select.addEventListener("change",function(){updateReplacementProgress(select.getAttribute("data-id"),select.value);});});
     }
     const DEMO_TECHS=["林師傅","陳師傅","王師傅","張師傅"];
     function estimateInstallHours(item,units,oldUnit){const task=String(item||""),base=task.includes("移機")?2.5:task.includes("冷氣換新")?3:task.includes("舊機拆除")?2.5:2,quantity=Math.max(1,number(units)||1),removal=oldUnit==="是"&&!task.includes("拆除")&&!task.includes("換新")?0.5:0;return Math.ceil((base+(quantity-1)*.75+removal)*2)/2;}
@@ -458,10 +473,13 @@
       try{
         let cases=await cloudClient.from("confirmed_cases").select("customer_id,payload").eq("branch_id",cloudConfig.branchId);if(cases.error)throw cases.error;
         let jobs=await cloudClient.from("dispatch_jobs").select("customer_id,payload").eq("branch_id",cloudConfig.branchId);if(jobs.error)throw jobs.error;
+        let lineLinks=await cloudClient.from("household_line_links").select("household_id,line_user_id,line_display_name").eq("branch_id",cloudConfig.branchId);if(lineLinks.error)throw lineLinks.error;
         if(!(cases.data||[]).length&&Object.keys(state.confirmed).length){await syncToCloud();cases=await cloudClient.from("confirmed_cases").select("customer_id,payload").eq("branch_id",cloudConfig.branchId);if(cases.error)throw cases.error;jobs=await cloudClient.from("dispatch_jobs").select("customer_id,payload").eq("branch_id",cloudConfig.branchId);if(jobs.error)throw jobs.error;}
         state.confirmed={};state.dispatch={};state.liveRoutes={};
         (cases.data||[]).forEach(function(row){state.confirmed[row.customer_id]=row.payload;});
         (jobs.data||[]).forEach(function(row){state.dispatch[row.customer_id]=row.payload;});
+        state.customers.forEach(function(c){if(c.lineBindingSource==="cloud"){c.lineUserId="";c.lineDisplayName="";c.lineBindingSource="";}});
+        (lineLinks.data||[]).forEach(function(link){const c=state.customers.find(function(item){return item.id===link.household_id;});if(c){c.lineUserId=link.line_user_id;c.lineDisplayName=link.line_display_name||"此戶 LINE";c.lineBindingSource="cloud";}});
         localStorage.setItem("airconConfirmedReplacementList",JSON.stringify(state.confirmed));localStorage.setItem("airconDispatchPlan",JSON.stringify(state.dispatch));
         if(activeBranchId){localStorage.setItem("airconConfirmedReplacementList::"+activeBranchId,JSON.stringify(state.confirmed));localStorage.setItem("airconDispatchPlan::"+activeBranchId,JSON.stringify(state.dispatch));}
         refresh();setCloudMessage("同步完成：確認名單 "+(cases.data||[]).length+" 筆、派工 "+(jobs.data||[]).length+" 筆。");
@@ -471,7 +489,7 @@
     function queueCloudSync(){if(!cloudClient||cloudApplyingRemote)return;clearTimeout(cloudSyncTimer);cloudSyncTimer=setTimeout(syncToCloud,700);}
     async function removeCloudCase(id){if(!cloudClient||!cloudConfig.branchId)return;const a=await cloudClient.from("confirmed_cases").delete().eq("branch_id",cloudConfig.branchId).eq("customer_id",id);const b=await cloudClient.from("dispatch_jobs").delete().eq("branch_id",cloudConfig.branchId).eq("customer_id",id);if(a.error||b.error)setCloudMessage("雲端移除失敗，請按立即同步重試。",true);}
     async function clearCloudBranchData(){if(!cloudClient||!cloudConfig.branchId)return;const a=await cloudClient.from("confirmed_cases").delete().eq("branch_id",cloudConfig.branchId);const b=await cloudClient.from("dispatch_jobs").delete().eq("branch_id",cloudConfig.branchId);if(a.error||b.error)setCloudMessage("雲端清除失敗：請檢查分店權限。",true);}
-    function subscribeCloud(){if(!cloudClient||!cloudConfig.branchId)return;if(cloudChannel)cloudClient.removeChannel(cloudChannel);cloudChannel=cloudClient.channel("branch-sync-"+cloudConfig.branchId).on("postgres_changes",{event:"*",schema:"public",table:"confirmed_cases",filter:"branch_id=eq."+cloudConfig.branchId},function(){syncFromCloud();}).on("postgres_changes",{event:"*",schema:"public",table:"dispatch_jobs",filter:"branch_id=eq."+cloudConfig.branchId},function(){syncFromCloud();}).subscribe();}
+    function subscribeCloud(){if(!cloudClient||!cloudConfig.branchId)return;if(cloudChannel)cloudClient.removeChannel(cloudChannel);cloudChannel=cloudClient.channel("branch-sync-"+cloudConfig.branchId).on("postgres_changes",{event:"*",schema:"public",table:"confirmed_cases",filter:"branch_id=eq."+cloudConfig.branchId},function(){syncFromCloud();}).on("postgres_changes",{event:"*",schema:"public",table:"dispatch_jobs",filter:"branch_id=eq."+cloudConfig.branchId},function(){syncFromCloud();}).on("postgres_changes",{event:"*",schema:"public",table:"household_line_links",filter:"branch_id=eq."+cloudConfig.branchId},function(){syncFromCloud();}).subscribe();}
     async function optimizeRoutesWithTraffic(){const cfg=cloudConfig;if(!cfg.originLat||!cfg.originLng){$("cloudDialog").showModal();setCloudMessage("請先設定派工起點座標，再啟用道路路線。",true);return;}if(!cfg.branchId){$("cloudDialog").showModal();setCloudMessage("請先設定分店代碼。",true);return;}const date=$("dispatchDate").value,tech=$("dispatchTechFilter").value;const jobs=Object.values(state.dispatch).filter(function(j){return state.confirmed[j.id]&&(date==="all"||j.date===date)&&(tech==="all"||(tech==="未指派"?!j.tech:j.tech===tech))&&j.lat!==null&&j.lng!==null&&Number.isFinite(Number(j.lat))&&Number.isFinite(Number(j.lng));});const groups=new Map();jobs.forEach(function(j){const key=(j.tech||"未指派")+"｜"+j.date;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(j);});if(!groups.size){toast("目前篩選條件下沒有座標完整的派工案件");return;}setCloudMessage("正在請 Google Routes 規劃道路順序與交通時間…");for(const [key,group] of groups){if(group.length>25){setCloudMessage("每位師傅每次最多規劃 25 個停靠點，請分成多個時段。",true);return;}const result=await cloudClient.functions.invoke("route-optimize",{body:{branchId:cfg.branchId,origin:{lat:Number(cfg.originLat),lng:Number(cfg.originLng)},stops:group.map(function(j){return {id:j.id,lat:Number(j.lat),lng:Number(j.lng)};}),departureDate:group[0].date,timeWindow:"08:00–10:00"}});if(result.error||result.data&&result.data.error){setCloudMessage("道路規劃失敗："+((result.data&&result.data.error)||result.error.message),true);return;}const data=result.data,orderedIds=data.optimizedIds||group.map(function(j){return j.id;}),waypoints=orderedIds.map(function(id){const job=group.find(function(j){return j.id===id;});return encodeURIComponent(job.lat+","+job.lng);}).join("%7C"),origin=encodeURIComponent(cfg.originLat+","+cfg.originLng);state.liveRoutes[key]={orderedIds:orderedIds,distanceMeters:data.distanceMeters,durationSeconds:data.durationSeconds,staticDurationSeconds:data.staticDurationSeconds,googleMapsUrl:"https://www.google.com/maps/dir/?api=1&origin="+origin+"&destination="+origin+(waypoints?"&waypoints="+waypoints:"")+"&travelmode=driving",updatedAt:new Date().toISOString()};}localStorage.setItem("airconLiveRoutes",JSON.stringify(state.liveRoutes));renderDispatch();setCloudMessage("道路與目前交通路線已更新。實際出發前可再按 Google Maps 導航確認。");}
     function openCloudSettings(){if(cloudConfig.projectUrl)$("cloudUrl").value=cloudConfig.projectUrl||"";if(cloudConfig.publishableKey)$("cloudPublishableKey").value=cloudConfig.publishableKey||"";$("cloudBranch").value=cloudConfig.branchId||"";$("cloudOriginLat").value=cloudConfig.originLat||"";$("cloudOriginLng").value=cloudConfig.originLng||"";$("cloudDialog").showModal();}
     function exportSuccessRoster(){
@@ -481,8 +499,8 @@
     }
     function exportPredictedRoster(){
       const candidates=state.customers.map(function(c){return {c:c,s:scoreCustomer(c)};}).filter(function(x){return x.s.score!==null&&x.c.outcome!==true&&reviewFor(x.c.id)!=="暫緩";}).sort(function(a,b){return b.s.score-a.s.score;});
-      const count=candidates.length?Math.max(1,Math.ceil(candidates.length/3)):0,rows=[["customer_id","district","install_year","attention_score","attention_level","human_review"]];
-      candidates.slice(0,count).forEach(function(x){rows.push([x.c.id,x.c.district,x.c.year,x.s.score,x.s.risk,reviewFor(x.c.id)]);});
+      const count=candidates.length?Math.max(1,Math.ceil(candidates.length/3)):0,rows=[["customer_id","district","install_year","attention_score","attention_level","line_user_id","line_display_name","line_booking_status"]];
+      candidates.slice(0,count).forEach(function(x){rows.push([x.c.id,x.c.district,x.c.year,x.s.score,x.s.risk,x.c.lineUserId,x.c.lineDisplayName,x.c.lineBookingStatus]);});
       downloadFile("冷氣預測可以換機名單.csv",rows.map(function(r){return r.map(quoteCSV).join(",");}).join("\r\n"));
     }
     function exportFollowup(){
@@ -491,8 +509,8 @@
       downloadFile("冷氣後續關注名單.csv",rows.map(function(r){return r.map(quoteCSV).join(",");}).join("\r\n"));
     }
     function exportConfirmed(){
-      const rows=[["customer_id","district","install_year","repair_count_24m","attention_score","attention_level","confirmed_at","human_review"]];
-      Object.values(state.confirmed).sort(function(a,b){return String(b.confirmedAt||"").localeCompare(String(a.confirmedAt||""));}).forEach(function(r){rows.push([r.id,r.district,r.year,r.repairs,r.score,r.risk,r.confirmedAt,"已確認意願"]);});
+      const rows=[["customer_id","district","install_year","repair_count_24m","attention_score","attention_level","line_user_id","line_display_name","line_booking_id","line_booking_at","old_tonnage","desired_tonnage","installation_address","outdoor_unit_location","preferred_install_date","contact_phone","replacement_progress","confirmed_at","source"]];
+      Object.values(state.confirmed).sort(function(a,b){return String(b.confirmedAt||"").localeCompare(String(a.confirmedAt||""));}).forEach(function(r){const booking=r.booking||{};rows.push([r.id,r.district,r.year,r.repairs,r.score,r.risk,r.lineUserId,r.lineDisplayName,r.lineBookingId,r.lineBookingAt,booking.oldTonnage,booking.desiredTonnage,booking.installationAddress,booking.outdoorUnitLocation,booking.preferredDate,booking.contactPhone,r.progress,r.confirmedAt,r.source||"LINE"]);});
       downloadFile("冷氣確認換機名單.csv",rows.map(function(r){return r.map(quoteCSV).join(",");}).join("\r\n"));
     }
     function renderKpis(){
@@ -500,7 +518,7 @@
       $("demoDataMessage").textContent=state.customers.length?(state.demoCustomers?"目前已載入 "+state.customers.length.toLocaleString("zh-TW")+" 筆虛構示範設備資料；此資料不代表實績。":"目前有 "+state.customers.length.toLocaleString("zh-TW")+" 筆客戶設備資料；可查看名單，或匯入其他資料。") :"臺南市 37 區官方人口戶數及公開補助實績推估情境已載入。需求缺口、師傅與冷氣數量是規劃估算；匯入內部資料後可依區改用實際紀錄。";
       $("kpiCustomers").textContent=state.customers.length.toLocaleString("zh-TW");
       $("kpiCustomerHint").textContent=state.demoCustomers?"目前顯示虛構示範設備":"客戶資料在本機記憶體處理";
-      $("kpiHigh").textContent=scored.filter(function(x){return x.s.risk==="高"&&x.c.consent&&x.c.outcome!==true;}).length.toLocaleString("zh-TW");
+      $("kpiHigh").textContent=scored.filter(function(x){return x.s.risk==="高"&&x.c.lineUserId&&x.c.outcome!==true;}).length.toLocaleString("zh-TW");
       $("kpiHistoryDistricts").textContent=new Set(state.history.filter(function(h){return h.installations!=null;}).map(function(h){return h.district;})).size.toLocaleString("zh-TW");
       $("kpiHistoryHint").textContent=state.demoHistory?"目前顯示虛構安裝示範資料":"匯入安裝歷史後產生需求預估";
     }
@@ -525,8 +543,10 @@
         return (!query||(x.c.id+" "+x.c.district).toLowerCase().includes(query))&&(risk==="all"||x.s.risk===risk)&&(consent==="all"||(consent==="yes"?x.c.consent:!x.c.consent))&&(district==="all"||x.c.district===district);
       }).sort(function(a,b){return (b.s.score||-1)-(a.s.score||-1);});
       $("leadRows").innerHTML=rows.map(function(x){
-        const c=x.c,s=x.s,cls=s.risk==="高"?"risk-high":s.risk==="中"?"risk-medium":s.risk==="低"?"risk-low":"risk-nodata",review=reviewFor(c.id),reviewLabel=review==="已確認換機"?"已確認意願":review,rcls=review==="已確認換機"?"review-done":review==="暫緩"?"review-hold":"review-pending";
-        return '<tr><td class="id-cell">'+esc(c.id)+'</td><td>'+esc(c.district||"未提供")+'區</td><td class="number">'+(s.age==null?"—":s.age+" 年")+'</td><td class="number">'+(Number.isFinite(c.repairs)?c.repairs:"—")+' 次</td><td><span class="risk-badge '+cls+'">'+(s.score==null?"資料不足":s.risk+"關注 · "+s.score)+'</span></td><td class="reason">'+esc(s.reasons.join("、"))+'</td><td><span class="consent-badge '+(c.consent?"consent-yes":"consent-no")+'">'+(c.consent?"已同意":"不可主動聯繫")+'</span></td><td><span class="review-badge '+rcls+'">'+esc(reviewLabel)+'</span></td><td>'+(c.outcome===true?'<span class="review-badge review-done">已換機成功</span>':'<div class="row-actions"><button class="btn btn-small btn-primary review-action" data-id="'+esc(c.id)+'" data-value="已確認換機">確認換機</button><button class="btn btn-small review-action" data-id="'+esc(c.id)+'" data-value="暫緩">暫緩</button></div>')+'</td></tr>';
+        const c=x.c,s=x.s,cls=s.risk==="高"?"risk-high":s.risk==="中"?"risk-medium":s.risk==="低"?"risk-low":"risk-nodata",confirmed=state.confirmed[c.id],lineLabel=c.lineUserId?"已綁定｜"+(c.lineDisplayName||"此戶 LINE")+(c.lineDemo?"（示範）":""):"未綁定";
+        const bookingLabel=confirmed?"已轉入已確認名單｜"+(confirmed.progress||"LINE 預約成立"):c.lineBookingStatus&&lineBookingConfirmed(c.lineBookingStatus)?"LINE 預約同步中":"尚未預約";
+        const demoAction=c.lineDemo&&!confirmed?'<button class="btn btn-small btn-soft line-booking-demo" data-id="'+esc(c.id)+'">模擬 LINE 預約</button>':"";
+        return '<tr><td class="id-cell">'+esc(c.id)+'</td><td>'+esc(c.district||"未提供")+'區</td><td class="number">'+(s.age==null?"—":s.age+" 年")+'</td><td class="number">'+(Number.isFinite(c.repairs)?c.repairs:"—")+' 次</td><td><span class="risk-badge '+cls+'">'+(s.score==null?"資料不足":s.risk+"關注 · "+s.score)+'</span></td><td class="reason">'+esc(s.reasons.join("、"))+'</td><td><span class="consent-badge '+(c.lineUserId?"consent-yes":"consent-no")+'">'+esc(lineLabel)+'</span></td><td>'+esc(bookingLabel)+' '+demoAction+'</td></tr>';
       }).join("");
       $("leadEmpty").style.display=rows.length?"none":"block";
       $("leadEmpty").textContent=state.customers.length?(state.customers.every(function(c){return c.outcome===true;})?"目前匯入的設備都已標記為六個月內換機成功，已移至「換機成功名單」。":"沒有符合目前篩選的資料。已換機成功的設備不會顯示在此名單。") :"尚無客戶資料。可載入示範資料或匯入 CSV。";
@@ -536,7 +556,7 @@
         $("evaluationSummary").style.display="flex";
         $("evaluationSummary").innerHTML="<span><strong>結果檢視（"+ranked.length+" 筆有分數與標籤）</strong>｜預測名單實際換機率 "+Math.round(topRate*100)+"%｜其餘名單 "+(rest.length?Math.round(restRate*100)+"%":"—")+"</span><span>關聯檢視，不代表模型已訓練</span>";
       }else{$("evaluationSummary").style.display="none";}
-      document.querySelectorAll(".review-action").forEach(function(btn){btn.addEventListener("click",function(){setReview(btn.getAttribute("data-id"),btn.getAttribute("data-value"));});});
+      document.querySelectorAll(".line-booking-demo").forEach(function(btn){btn.addEventListener("click",function(){simulateLineReservation(btn.getAttribute("data-id"));});});
     }
     function renderSuccessDashboard(){
       const ranked=state.customers.map(function(c){return {c:c,s:scoreCustomer(c)};}).filter(function(x){return x.c.outcome!==null&&x.c.outcome!==undefined&&x.s.score!==null;}).sort(function(a,b){return b.s.score-a.s.score;});
@@ -604,6 +624,7 @@
       const staffed=population.filter(function(d){return getStaff(d.district)!==null;}),complete=staffed.length===population.length,totalStaffed=staffed.reduce(function(sum,d){return sum+getStaff(d.district);},0),needComplete=data.every(function(x){return x.f.needTechnicians!=null;});
       $("plannedTechnicianCount").textContent=state.availableTechnicians.toLocaleString("zh-TW")+" 位";
       $("availableTechniciansInput").value=state.availableTechnicians;
+      $("fixedTechnicianTargetInput").value=state.fixedTechnicianTarget;
       if(!demandAnalysisReady||state.demandAnalyzedSignature!==currentDemandAnalysisSignature){
         $("transferDataPeriod").textContent="尚未完成區域統計確認。";
         $("staffingEntryCount").textContent="統計確認後載入";
@@ -613,27 +634,20 @@
       }
       $("transferDataPeriod").textContent="統計期間："+year+" 年 "+(season==="summer"?"夏季旺季（5–8 月）":"秋冬春淡季（11–4 月）")+"｜已確認的區域需求與產能結果";
       $("staffingEntryCount").textContent=staffed.length+" / "+population.length+" 區";
-      $("staffingGrid").innerHTML=sorted.map(function(x){const need=x.f.needTechnicians==null?"需求待估":x.f.needTechnicians.toLocaleString("zh-TW")+" 位";const districtLabel=districtName(x.d.district)+"區",current=getStaff(x.d.district);return '<label class="staffing-item"><span>'+esc(districtLabel)+' <small>需 '+esc(need)+'</small></span><input type="number" min="0" step="1" inputmode="numeric" data-district-staff="'+esc(x.d.district)+'" aria-label="'+esc(districtLabel)+'目前師傅人數" placeholder="—" value="'+(current==null?"":current)+'"></label>';}).join("");
-      const moves=[];state.transferPlan=[];let summary="",poolMode=staffed.length===0;
+      $("staffingGrid").innerHTML=sorted.map(function(x){const need=x.f.needTechnicians==null?"需求待估":x.f.needTechnicians.toLocaleString("zh-TW")+" 位",districtLabel=districtName(x.d.district)+"區",current=getStaff(x.d.district);return '<label class="staffing-item"><span>'+esc(districtLabel)+' <small>需 '+esc(need)+'</small></span><input type="number" min="0" step="1" inputmode="numeric" data-district-staff="'+esc(x.d.district)+'" aria-label="'+esc(districtLabel)+'固定駐點人數" placeholder="—" value="'+(current==null?"":current)+'"></label>';}).join("");
+      const moves=[];state.transferPlan=[];let summary="";
       if(!needComplete){summary="目前需求師傅數不完整；請先匯入完整產能資料，再計算區域調撥。";}
-      else if(poolMode){
-        let remaining=state.availableTechnicians;
-        sorted.forEach(function(x){if(remaining<=0||x.f.needTechnicians<=0)return;const count=Math.min(remaining,x.f.needTechnicians);if(count>0){moves.push({from:"全市機動池",to:x.d.district,units:count,kind:"機動人力預排"});remaining-=count;}});
-        const assigned=state.availableTechnicians-remaining;
-        summary="尚未輸入分區人力（0 / "+population.length+" 區）。先將全市可用 "+state.availableTechnicians+" 位作為機動人力，按各區缺口排序預排至 "+moves.length+" 個需求區；此為目的區草案，尚未指定調出來源。請輸入各區現有人數以產生實際來源與目的區配對。"+(remaining>0?"仍有 "+remaining+" 位未分配。":"");
-        state.transferPlan=moves;
-      }else if(!complete){
-        summary="已填 "+staffed.length+" / "+population.length+" 區，尚無法確認哪些區有人力可調出。請補齊所有區的人數（沒有師傅請填 0），系統才會列出來源區與目的區。";
+      else if(!complete){
+        summary="尚未完成各區固定配置（"+staffed.length+" / "+population.length+" 區）。按「直接生成配置」建立完整草案，或逐區輸入人數；固定駐點以外的人力會自動留在機動池。";
         state.transferPlan=[];
-      }else if(totalStaffed!==state.availableTechnicians){
-        summary="分區配置合計 "+totalStaffed+" 位，與全市規劃可用 "+state.availableTechnicians+" 位不一致；請核對後再產生調撥配對。";
+      }else if(totalStaffed>state.availableTechnicians){
+        summary="固定駐點共 "+totalStaffed+" 位，超過全市規劃可用 "+state.availableTechnicians+" 位。請調低固定人數或增加可用人力。";
         state.transferPlan=[];
       }else{
-        const donors=sorted.map(function(x){return {district:x.d.district,remaining:Math.max(0,getStaff(x.d.district)-x.f.needTechnicians),excess:Math.max(0,getStaff(x.d.district)-x.f.needTechnicians)};}).filter(function(x){return x.excess>0;}).sort(function(a,b){return b.excess-a.excess;});
-        const receivers=sorted.map(function(x){return {district:x.d.district,remaining:Math.max(0,x.f.needTechnicians-getStaff(x.d.district))};}).filter(function(x){return x.remaining>0;});
-        receivers.forEach(function(receiver){donors.forEach(function(donor){if(receiver.remaining<=0||donor.remaining<=0)return;const count=Math.min(receiver.remaining,donor.remaining);moves.push({from:donor.district,to:receiver.district,units:count,kind:"跨區調撥"});donor.remaining-=count;receiver.remaining-=count;});});
+        const mobilePool=state.availableTechnicians-totalStaffed,receivers=sorted.map(function(x){return {district:x.d.district,remaining:Math.max(0,x.f.needTechnicians-getStaff(x.d.district))};}).filter(function(x){return x.remaining>0;});let remainingPool=mobilePool;
+        receivers.forEach(function(receiver){if(remainingPool<=0)return;const count=Math.min(receiver.remaining,remainingPool);if(count>0){moves.push({from:"全市機動池",to:receiver.district,units:count,kind:"機動支援建議"});receiver.remaining-=count;remainingPool-=count;}});
         const remainingNeeds=receivers.reduce(function(sum,x){return sum+x.remaining;},0),moved=moves.reduce(function(sum,x){return sum+x.units;},0);
-        summary=moved?"已核對 "+population.length+" 區配置（合計 "+totalStaffed+" 位）。建議由有餘裕的區調出 "+moved+" 位；調撥後仍有 "+remainingNeeds+" 位需求未滿足。請依實際班表、服務範圍與交通確認。":remainingNeeds?"已核對 "+population.length+" 區配置，但沒有高於本區需求的師傅可調出；目前仍有 "+remainingNeeds+" 位需求未滿足。":"已核對各區配置，目前各區人數可覆蓋估算需求，暫無調撥需要。";
+        summary="固定駐點 "+totalStaffed+" 位，機動池 "+mobilePool+" 位。"+(moved?"建議將機動池 "+moved+" 位依缺口順序支援 "+moves.length+" 個需求區。":"目前沒有超出固定駐點覆蓋範圍的缺口。")+(remainingNeeds?"機動池用完後仍有 "+remainingNeeds+" 位需求未滿足。":"各區需求已有配置覆蓋。")+" 固定駐點不會被列為調出來源；請依班表、服務範圍與交通確認。";
         state.transferPlan=moves;
       }
       $("transferSummary").textContent=summary;
@@ -715,14 +729,22 @@
         $("capacityInsightText").textContent=hasHistory?"已可推估需求；匯入未來 planned_slots 後才能比較產能缺口。":"目前使用公開實績情境估算；匯入內部安裝與產能資料可依區更新。";
       }
     }
+    function generateFixedStaffingConfig(){
+      if(!demandAnalysisReady||state.demandAnalyzedSignature!==currentDemandAnalysisSignature){toast("請先完成並確認區域需求統計，再生成固定配置。");return;}
+      const season=$("seasonSelect").value,year=number($("yearSelect").value)||currentYear+1,data=population.map(function(d){return {d:d,f:forecastForDisplay(d.district,year,season)};}),sorted=data.slice().sort(function(a,b){return (b.f.gap||0)-(a.f.gap||0);}),next={};population.forEach(function(d){next[d.district]=0;});
+      let remaining=Math.min(state.availableTechnicians,state.fixedTechnicianTarget),target=remaining;
+      sorted.filter(function(x){return x.f.needTechnicians>0;}).forEach(function(x){if(remaining>0){next[x.d.district]++;remaining--;}});
+      while(remaining>0){const candidate=sorted.find(function(x){return next[x.d.district]<Math.max(0,x.f.needTechnicians||0);});if(!candidate)break;next[candidate.d.district]++;remaining--;}
+      state.districtStaffing=next;localStorage.setItem("airconDistrictStaffing",JSON.stringify(next));const details=document.querySelector(".staffing-config");if(details)details.open=true;renderForecast();toast("已依需求缺口生成 "+(target-remaining)+" 位固定駐點配置；其餘人力保留在機動池。");
+    }
     function refresh(){renderKpis();renderDistrictFilter();renderLeads();renderConfirmed();renderRosters();renderSuccessDashboard();renderForecast();}
     function downloadFile(filename,content,type){
       const blob=new Blob(["\uFEFF",content],{type:type||"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},1000);
     }
     function quoteCSV(v){const s=String(v==null?"":v);return '"'+s.replace(/"/g,'""')+'"';}
     function exportLeads(){
-      const rows=[["customer_id","district","install_year","repair_count_24m","attention_score","attention_level","reasons","marketing_consent","human_review"]];
-      state.customers.forEach(function(c){const s=scoreCustomer(c);rows.push([c.id,c.district,c.year,c.repairs,s.score==null?"":s.score,s.risk,s.reasons.join("、"),c.consent?"yes":"no",reviewFor(c.id)]);});
+      const rows=[["customer_id","district","install_year","repair_count_24m","attention_score","attention_level","reasons","marketing_consent","line_user_id","line_display_name","line_booking_id","line_booking_status","replacement_progress"]];
+      state.customers.forEach(function(c){const s=scoreCustomer(c),confirmed=state.confirmed[c.id];rows.push([c.id,c.district,c.year,c.repairs,s.score==null?"":s.score,s.risk,s.reasons.join("、"),c.consent?"yes":"no",c.lineUserId,c.lineDisplayName,c.lineBookingId,c.lineBookingStatus,confirmed&&confirmed.progress]);});
       downloadFile("冷氣換機關注名單.csv",rows.map(function(r){return r.map(quoteCSV).join(",");}).join("\r\n"));
     }
     function exportForecast(){
@@ -736,12 +758,12 @@
       downloadFile("臺南師傅跨區調撥建議.csv",rows.map(function(r){return r.map(quoteCSV).join(",");}).join("\r\n"));
     }
     function downloadStaffingTemplate(){
-      const rows=[["district","available_technicians"]];population.forEach(function(d){rows.push([districtName(d.district),""]);});
+      const rows=[["district","fixed_technicians"]];population.forEach(function(d){rows.push([districtName(d.district),""]);});
       downloadFile("臺南各區師傅配置範本.csv",rows.map(function(r){return r.map(quoteCSV).join(",");}).join("\r\n"));
     }
     function seededRandom(seed){let x=seed>>>0;return function(){x=(1664525*x+1013904223)>>>0;return x/4294967296;};}
     function customerSampleCSV(){
-      const rand=seededRandom(260612),rows=[["customer_id","district","install_year","repair_count_24m","last_repair_date","warranty_expired","marketing_consent","replaced_within_6m","route_lat","route_lng"]],sampleCounts=allocateDemoSampleCounts(DEMO_SAMPLE_SIZE),maxPerDistrict=Math.max.apply(null,sampleCounts);let sampleIndex=0;
+      const rand=seededRandom(260612),rows=[["customer_id","district","install_year","repair_count_24m","last_repair_date","warranty_expired","marketing_consent","replaced_within_6m","route_lat","route_lng","line_user_id","line_display_name","line_booking_id","line_booking_at","line_booking_status","line_progress","line_old_tonnage","line_desired_tonnage","line_installation_address","line_outdoor_unit_location","line_preferred_date","line_contact_phone","line_demo"]],sampleCounts=allocateDemoSampleCounts(DEMO_SAMPLE_SIZE),maxPerDistrict=Math.max.apply(null,sampleCounts);let sampleIndex=0;
       for(let round=0;round<maxPerDistrict;round++){
         for(let districtIndex=0;districtIndex<population.length;districtIndex++){
           if(round>=sampleCounts[districtIndex])continue;
@@ -749,7 +771,7 @@
           let last="";if(repairs>0){const daysAgo=hasRecent?20+Math.floor(rand()*330):386+Math.floor(rand()*400),date=new Date();date.setDate(date.getDate()-daysAgo);last=date.toISOString().slice(0,10);}
           const warranty=age>=7?rand()<.84:rand()<.08,consent=rand()<.78;
           const score=(age>=12?40:age>=10?32:age>=7?20:age>=5?10:0)+(repairs>=4?35:repairs>=3?29:repairs>=2?21:repairs===1?10:0)+(hasRecent?15:0)+(warranty?10:0);
-          const probability=Math.min(.08,.005+score*.0008),outcome=rand()<probability,center=demoDistrictCoordinates[d.district]||demoDistrictCoordinates[districtName(d.district)+"區"]||[22.997,120.212],lat=center[0]+(rand()-.5)*.006,lng=center[1]+(rand()-.5)*.006;sampleIndex++;rows.push(["SIM-"+String(sampleIndex).padStart(3,"0"),d.district,year,repairs,last,warranty?"yes":"no",consent?"yes":"no",outcome?"yes":"no",lat.toFixed(6),lng.toFixed(6)]);
+          const probability=Math.min(.08,.005+score*.0008),outcome=rand()<probability,center=demoDistrictCoordinates[d.district]||demoDistrictCoordinates[districtName(d.district)+"區"]||[22.997,120.212],lat=center[0]+(rand()-.5)*.006,lng=center[1]+(rand()-.5)*.006;sampleIndex++;const linked=sampleIndex<=36,booking=[2,9,18].includes(sampleIndex),lineId=linked?"U-DEMO-"+String(sampleIndex).padStart(4,"0"):"",bookingId=booking?"AC-LINE-DEMO-"+String(sampleIndex).padStart(3,"0"):"",bookingAt=booking?new Date(Date.now()-(sampleIndex*3600000)).toISOString():"";rows.push(["SIM-"+String(sampleIndex).padStart(3,"0"),d.district,year,repairs,last,warranty?"yes":"no",consent?"yes":"no",outcome?"yes":"no",lat.toFixed(6),lng.toFixed(6),lineId,linked?"示範戶"+String(sampleIndex).padStart(3,"0"):"",bookingId,bookingAt,booking?"confirmed":"",booking?"LINE 預約成立":"",booking?"1.0 噸":"",booking?"1.5 噸":"",booking?d.district+"區示範地址":"",booking?"後陽台":"",booking?new Date(Date.now()+7*86400000).toISOString().slice(0,10):"",booking?"示範電話":"",linked?"yes":"no"]);
         }
       }
       return rows.map(function(r){return r.map(quoteCSV).join(",");}).join("\r\n");
@@ -765,26 +787,27 @@
     }
     function buildDemo(showMessage){
       state.customers=parseCustomers(parseCSV(customerSampleCSV()));
+      state.demoCustomers=true;
       if(localStorage.getItem("airconDemoPlanVersion")!==DEMO_PLAN_VERSION){const demoIds=new Set(Object.keys(state.confirmed).filter(function(id){return String(id).startsWith("SIM-");}));demoIds.forEach(function(id){delete state.confirmed[id];delete state.reviews[id];delete state.deferred[id];delete state.dispatch[id];});Object.keys(state.liveRoutes).forEach(function(key){const route=state.liveRoutes[key];if(route&&Array.isArray(route.orderedIds)&&route.orderedIds.some(function(id){return demoIds.has(id);}))delete state.liveRoutes[key];});localStorage.setItem("airconDemoPlanVersion",DEMO_PLAN_VERSION);saveReviewState();}
-      if(!Object.keys(state.confirmed).length){
-        state.customers.slice(0,18).forEach(function(c,i){if(i%5!==4&&c.outcome!==true){const score=scoreCustomer(c);state.confirmed[c.id]={id:c.id,district:c.district,year:c.year,repairs:c.repairs,score:score.score,risk:score.risk,confirmedAt:new Date(Date.now()-(i*86400000)).toISOString(),lat:c.lat,lng:c.lng};state.reviews[c.id]="已確認換機";state.dispatch[c.id]=defaultDispatchJob(state.confirmed[c.id],i);}});
-      }
+      syncImportedLineReservations();
       state.history=parseHistory(parseCSV(historySampleCSV()));
-      state.demoCustomers=true;state.demoHistory=true;$("customerStatus").textContent="已載入 "+state.customers.length.toLocaleString("zh-TW")+" 筆虛構設備與結果標籤";$("historyStatus").textContent="已載入 37 區、歷史安裝與規劃產能模擬資料";refresh();if(showMessage!==false)toast("已載入模擬資料，所有客戶與安裝數字均為虛構");
+      state.demoHistory=true;$("customerStatus").textContent="已載入 "+state.customers.length.toLocaleString("zh-TW")+" 筆虛構設備、36 筆 LINE 綁定與 3 筆 LINE 預約示範";$("historyStatus").textContent="已載入 37 區、歷史安裝與規劃產能模擬資料";refresh();if(showMessage!==false)toast("已載入模擬資料；LINE 預約會自動轉入確認名單");
     }
-    $("customerFile").addEventListener("change",async function(e){const f=e.target.files[0];if(!f)return;try{state.customers=parseCustomers(parseCSV(await f.text()));state.demoCustomers=f.name.includes("模擬");$("customerStatus").textContent=(state.demoCustomers?"已匯入模擬資料 ":"已匯入 ")+f.name+"（"+state.customers.length+" 筆）";refresh();toast("客戶設備資料已在本機載入");}catch(err){$("customerStatus").textContent="匯入失敗："+err.message;toast(err.message);}e.target.value="";});
+    $("customerFile").addEventListener("change",async function(e){const f=e.target.files[0];if(!f)return;try{state.customers=parseCustomers(parseCSV(await f.text()));state.demoCustomers=f.name.includes("模擬");const autoConfirmed=syncImportedLineReservations();$("customerStatus").textContent=(state.demoCustomers?"已匯入模擬資料 ":"已匯入 ")+f.name+"（"+state.customers.length+" 筆；LINE 預約自動轉入 "+autoConfirmed+" 筆）";refresh();toast(autoConfirmed?"客戶資料已載入，LINE 預約已自動加入確認名單":"客戶設備資料已在本機載入");}catch(err){$("customerStatus").textContent="匯入失敗："+err.message;toast(err.message);}e.target.value="";});
     $("historyFile").addEventListener("change",async function(e){const f=e.target.files[0];if(!f)return;try{state.history=parseHistory(parseCSV(await f.text()));state.demoHistory=/模擬|示範|虛構/.test(f.name);$("historyStatus").textContent=(state.demoHistory?"已匯入虛構示範資料 ":"已匯入 ")+f.name+"（"+state.history.length+" 列）";refresh();toast("安裝紀錄已在本機載入");}catch(err){$("historyStatus").textContent="匯入失敗："+err.message;toast(err.message);}e.target.value="";});
     $("loadDemo").addEventListener("click",function(){localStorage.removeItem("airconDemoDataDismissed");buildDemo(true);});
     $("clearData").addEventListener("click",function(){state.customers=[];state.history=[];state.reviews={};state.confirmed={};state.deferred={};state.dispatch={};localStorage.setItem("airconDemoDataDismissed","yes");saveReviewState();state.demoCustomers=false;state.demoHistory=false;$("customerStatus").textContent="尚未匯入";$("historyStatus").textContent="尚未匯入";refresh();toast("已清除本機資料");});
     $("downloadCustomerSample").addEventListener("click",function(){downloadFile("冷氣換機_客戶設備維修模擬資料.csv",customerSampleCSV());});
     $("downloadHistorySample").addEventListener("click",function(){downloadFile("冷氣換機_安裝與產能模擬_虛構示範資料.csv",historySampleCSV());});
-    $("cloudSettings").addEventListener("click",openCloudSettings);$("closeCloudDialog").addEventListener("click",function(){$("cloudDialog").close();});$("saveCloudConfig").addEventListener("click",function(){loadCloudConfig();renderDispatch();setCloudMessage("設定已保存在此瀏覽器。服務站座標也會用於離線路線起點；Publishable Key 受資料庫權限規則保護。Google Routes 需登入並完成後端設定。");});$("connectCloud").addEventListener("click",connectCloud);$("syncCloudNow").addEventListener("click",syncFromCloud);$("disconnectCloud").addEventListener("click",async function(){if(cloudClient)await cloudClient.auth.signOut();if(cloudChannel&&cloudClient)cloudClient.removeChannel(cloudChannel);cloudChannel=null;cloudClient=null;cloudSignedIn=false;setCloudMessage("已登出；本機資料保留。",false);});$("optimizeRoutes").addEventListener("click",async function(){if(cloudClient){await optimizeRoutesWithTraffic();}else{renderDispatch();toast("已依預約時段與施工工時重排；離線行車時間為估算");}});$("dispatchDate").addEventListener("change",renderDispatch);$("dispatchTechFilter").addEventListener("change",renderDispatch);$("exportDispatch").addEventListener("click",exportDispatch);$("exportLeads").addEventListener("click",exportLeads);$("exportConfirmed").addEventListener("click",exportConfirmed);$("exportSuccessRoster").addEventListener("click",exportSuccessRoster);$("exportPredictedRoster").addEventListener("click",exportPredictedRoster);$("exportFollowup").addEventListener("click",exportFollowup);$("exportForecast").addEventListener("click",exportForecast);$("clearReviews").addEventListener("click",function(){state.reviews={};state.confirmed={};state.deferred={};state.dispatch={};state.liveRoutes={};saveReviewState();clearCloudBranchData();refresh();toast("已清除確認與覆核紀錄");});
+    $("cloudSettings").addEventListener("click",openCloudSettings);$("closeCloudDialog").addEventListener("click",function(){$("cloudDialog").close();});$("saveCloudConfig").addEventListener("click",function(){loadCloudConfig();renderDispatch();setCloudMessage("設定已保存在此瀏覽器。服務站座標也會用於離線路線起點；Publishable Key 受資料庫權限規則保護。Google Routes 需登入並完成後端設定。");});$("connectCloud").addEventListener("click",connectCloud);$("syncCloudNow").addEventListener("click",syncFromCloud);$("disconnectCloud").addEventListener("click",async function(){if(cloudClient)await cloudClient.auth.signOut();if(cloudChannel&&cloudClient)cloudClient.removeChannel(cloudChannel);cloudChannel=null;cloudClient=null;cloudSignedIn=false;setCloudMessage("已登出；本機資料保留。",false);});$("optimizeRoutes").addEventListener("click",async function(){if(cloudClient){await optimizeRoutesWithTraffic();}else{renderDispatch();toast("已依預約時段與施工工時重排；離線行車時間為估算");}});$("dispatchDate").addEventListener("change",renderDispatch);$("dispatchTechFilter").addEventListener("change",renderDispatch);$("exportDispatch").addEventListener("click",exportDispatch);$("exportLeads").addEventListener("click",exportLeads);$("exportConfirmed").addEventListener("click",exportConfirmed);$("exportSuccessRoster").addEventListener("click",exportSuccessRoster);$("exportPredictedRoster").addEventListener("click",exportPredictedRoster);$("exportFollowup").addEventListener("click",exportFollowup);$("exportForecast").addEventListener("click",exportForecast);$("clearReviews").addEventListener("click",function(){state.reviews={};state.confirmed={};state.deferred={};state.dispatch={};state.liveRoutes={};saveReviewState();clearCloudBranchData();refresh();toast("已清除確認與進度資料");});
     ["leadSearch","riskFilter","consentFilter","districtFilter"].forEach(function(id){$(id).addEventListener("input",renderLeads);$(id).addEventListener("change",renderLeads);});
     $("seasonSelect").addEventListener("change",renderForecast);$("yearSelect").addEventListener("change",renderForecast);
     $("confirmDemandAnalysis").addEventListener("click",function(){if(!demandAnalysisReady){toast("需求、產能或師傅需求尚未完整，請先補齊統計資料。");return;}state.demandAnalyzedSignature=currentDemandAnalysisSignature;localStorage.setItem("airconDemandAnalyzedSignature",currentDemandAnalysisSignature);renderForecast();navigateToView("transfer");});
-    $("availableTechniciansInput").addEventListener("change",function(event){state.availableTechnicians=Math.max(0,Math.floor(number(event.target.value)));localStorage.setItem("airconAvailableTechnicians",String(state.availableTechnicians));renderForecast();});
+    $("availableTechniciansInput").addEventListener("change",function(event){state.availableTechnicians=Math.max(0,Math.floor(number(event.target.value)));localStorage.setItem("airconAvailableTechniciansV2",String(state.availableTechnicians));if(state.fixedTechnicianTarget>state.availableTechnicians){state.fixedTechnicianTarget=state.availableTechnicians;localStorage.setItem("airconFixedTechnicianTarget",String(state.fixedTechnicianTarget));}renderForecast();});
+    $("fixedTechnicianTargetInput").addEventListener("change",function(event){state.fixedTechnicianTarget=Math.min(state.availableTechnicians,Math.max(0,Math.floor(number(event.target.value))));localStorage.setItem("airconFixedTechnicianTarget",String(state.fixedTechnicianTarget));renderForecast();});
+    $("generateStaffingConfig").addEventListener("click",generateFixedStaffingConfig);
     $("staffingGrid").addEventListener("change",function(event){const input=event.target.closest("[data-district-staff]");if(!input)return;const district=input.getAttribute("data-district-staff");if(input.value===""){delete state.districtStaffing[district];}else{state.districtStaffing[district]=Math.max(0,Math.floor(number(input.value)));}localStorage.setItem("airconDistrictStaffing",JSON.stringify(state.districtStaffing));renderForecast();});
-    $("staffingFile").addEventListener("change",async function(event){const file=event.target.files[0];if(!file)return;try{const rows=parseCSV(await file.text()),byName=new Map(population.map(function(d){return [districtName(d.district),d.district];})),next={},seen=new Set();if(!rows.length)throw new Error("CSV 沒有資料列");rows.forEach(function(row){const name=districtName(get(row,["district","行政區"])),key=byName.get(name),raw=get(row,["available_technicians","technicians","目前師傅數"]);if(!key)throw new Error("未知行政區："+name);if(seen.has(key))throw new Error("行政區重複："+name);seen.add(key);if(raw!==""){const count=Number(raw);if(!Number.isInteger(count)||count<0)throw new Error(name+"區師傅數需為 0 或正整數");next[key]=count;}});state.districtStaffing=next;localStorage.setItem("airconDistrictStaffing",JSON.stringify(next));renderForecast();toast("已匯入 "+seen.size+" 區師傅配置");}catch(error){toast("匯入失敗："+error.message);}event.target.value="";});
+    $("staffingFile").addEventListener("change",async function(event){const file=event.target.files[0];if(!file)return;try{const rows=parseCSV(await file.text()),byName=new Map(population.map(function(d){return [districtName(d.district),d.district];})),next={},seen=new Set();if(!rows.length)throw new Error("CSV 沒有資料列");rows.forEach(function(row){const name=districtName(get(row,["district","行政區"])),key=byName.get(name),raw=get(row,["fixed_technicians","available_technicians","technicians","目前固定師傅數","目前師傅數"]);if(!key)throw new Error("未知行政區："+name);if(seen.has(key))throw new Error("行政區重複："+name);seen.add(key);if(raw!==""){const count=Number(raw);if(!Number.isInteger(count)||count<0)throw new Error(name+"區固定師傅數需為 0 或正整數");next[key]=count;}});state.districtStaffing=next;localStorage.setItem("airconDistrictStaffing",JSON.stringify(next));renderForecast();toast("已匯入 "+seen.size+" 區固定配置");}catch(error){toast("匯入失敗："+error.message);}event.target.value="";});
     $("clearDistrictStaffing").addEventListener("click",function(){state.districtStaffing={};localStorage.removeItem("airconDistrictStaffing");renderForecast();toast("已清除各區師傅配置");});
     $("downloadStaffingTemplate").addEventListener("click",downloadStaffingTemplate);
     $("exportTransferPlan").addEventListener("click",exportTransferPlan);
