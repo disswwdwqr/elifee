@@ -109,10 +109,10 @@
     <section class="hero">
       <div class="hero-grid">
         <div><div class="eyebrow">E-life Service Insight</div><h1>冷氣換機需求預測系統</h1><p>用設備年限與維修紀錄整理換機關注名單，再以各區安裝紀錄估算旺季需求。系統提供建議與覆核流程，實際聯繫與排程由同仁決定。</p><button class="hero-cta" type="button" data-view="success">查看換機預測成效 <span aria-hidden="true">→</span></button></div>
-        <div class="hero-note"><strong>目前是規則式試辦原型</strong>人口與戶數採臺南市政府 115 年 10 月官方統計。客戶設備、安裝需求、產能與調配量須匯入內部實際資料；虛構示範資料不會預設載入。匯入的原始資料只在此瀏覽器處理，關閉頁面後會清除。</div>
+        <div class="hero-note"><strong>目前是規則式試辦原型</strong>人口與戶數採臺南市政府 115 年 10 月官方統計；區域需求、缺口與調配數量預設顯示公開補助實績推估情境，匯入內部資料後可依區更新。虛構客戶示範資料不會預設載入。匯入的原始資料只在此瀏覽器處理，關閉頁面後會清除。</div>
       </div>
     </section>
-    <div class="notice demo-data-notice" id="demoDataNotice"><strong id="demoDataMessage">臺南市 37 區人口與戶數參考已載入（官方 115 年 10 月資料）。安裝需求、產能與調配數量須匯入內部實績後才會顯示。</strong><div class="toolbar"><button class="btn btn-primary btn-small" type="button" data-view="demand">查看區域需求與產能</button><button class="btn btn-small" type="button" data-view="imports">資料匯入</button></div></div>
+    <div class="notice demo-data-notice" id="demoDataNotice"><strong id="demoDataMessage">臺南市 37 區官方人口戶數與公開補助實績推估情境已載入。缺口、師傅及冷氣數量屬規劃估算；匯入內部資料後可依區更新。</strong><div class="toolbar"><button class="btn btn-primary btn-small" type="button" data-view="demand">查看區域需求與產能</button><button class="btn btn-small" type="button" data-view="imports">資料匯入</button></div></div>
     <section class="kpis" id="overview">
       <article class="kpi"><div class="kpi-label">匯入客戶設備</div><div class="kpi-value green" id="kpiCustomers">0</div><div class="kpi-hint" id="kpiCustomerHint">尚未匯入客戶資料</div></article>
       <article class="kpi"><div class="kpi-label">優先人工覆核</div><div class="kpi-value orange" id="kpiHigh">0</div><div class="kpi-hint">高關注且可聯繫的名單</div></article>
@@ -210,14 +210,15 @@
     </section>
 
     <section class="section view-screen" id="demand" data-screen="demand">
-      <div class="section-head"><div><div class="label">07 / District Forecast</div><h2>區域需求與產能</h2><p>人口與戶數為官方實際統計；需求缺口、師傅與冷氣調配量依匯入的內部安裝、排程和庫存紀錄計算。</p></div><div class="toolbar"><a class="btn" href="./臺南市115年10月區域人口戶數.csv" download>下載實際人口戶數 CSV</a><button class="btn" id="exportForecast">匯出區域預估 CSV</button></div></div>
+      <div class="section-head"><div><div class="label">07 / District Forecast</div><h2>區域需求與產能</h2><p>區域戶數採官方統計；下方先以實際補助成果和戶數建立規劃估算，匯入內部資料後則優先顯示內部紀錄。</p></div><div class="toolbar"><a class="btn" href="./臺南市115年10月區域人口戶數.csv" download>下載實際人口戶數 CSV</a><a class="btn" href="./臺南市2027夏季冷氣需求產能估算.csv" download>下載 2027 夏季估算 CSV</a><button class="btn" id="exportForecast">匯出區域預估 CSV</button></div></div>
       <div class="panel panel-pad">
         <div class="demand-head">
           <div class="toolbar"><label class="label" for="seasonSelect">預測期間</label><select class="control" id="seasonSelect"><option value="summer">夏季旺季（5–8 月）</option><option value="cool">秋冬春淡季（11–4 月）</option></select><select class="control" id="yearSelect" aria-label="預測起始年"></select></div>
-          <div class="forecast-summary" id="forecastSummary">尚未匯入安裝歷史</div>
+          <div class="forecast-summary" id="forecastSummary">載入公開實績推估情境</div>
         </div>
-        <div class="table-wrap"><table class="data-table"><thead><tr><th>行政區</th><th>戶數</th><th>現住人口</th><th>歷史推估安裝量</th><th>規劃產能</th><th>需求缺口</th><th>需調配師傅</th><th>需調配冷氣</th><th>需求參考</th></tr></thead><tbody id="forecastRows"></tbody></table><div class="table-empty" id="forecastEmpty">目前只有官方人口與戶數參考值。匯入內部安裝紀錄後，才會顯示需求預估。</div></div>
-        <div class="source-row"><span>官方區域規模資料：臺南市 115 年 10 月各區戶數與人口數；更新日 2026-11-04。</span><a href="https://data.tainan.gov.tw/Resource/444f4813-cff5-452b-8306-d40a5a8af0a1" target="_blank" rel="noreferrer">開啟官方原始資料 ↗</a></div><div class="source-row"><span>調配算法：需調配師傅＝正向需求缺口 ÷ 選定期間每位師傅可安裝總台數，向上取整；需調配冷氣＝預估需求減去該區已規劃可用台數，最低為 0。沒有內部安裝及產能實績時，這些欄位保持空白／待匯入；人口不會代替實際需求。</span></div>
+        <div class="notice" id="forecastMethodNote"><strong>估算口徑：</strong>能源署 114 年補助汰換 165.6 萬台家電，其中冷氣占 74%；按臺南各區 114 年 12 月實際戶數占全國戶數比例分配，並按月份平均估算。排程與冷氣庫存假設覆蓋需求 90%；每位師傅假設每月安裝 20 台。此為公開補助實績推估的規劃情境，不是臺南實際訂單，也不代表公司產能或庫存。<a href="https://www.moeaea.gov.tw/ECW/populace/content/wHandMenuFile.ashx?file_id=17032" target="_blank" rel="noreferrer">能源署成果來源 ↗</a>　<a href="https://www.moi.gov.tw/News_Content.aspx?n=2&amp;s=335870" target="_blank" rel="noreferrer">全國戶數來源 ↗</a>　<a href="https://data.tainan.gov.tw/Resource/e51c63c7-08fc-4bcf-b8b0-6aeae6678144" target="_blank" rel="noreferrer">臺南各區戶數來源 ↗</a></div>
+        <div class="table-wrap"><table class="data-table"><thead><tr><th>行政區</th><th>戶數</th><th>現住人口</th><th>需求估算</th><th>規劃產能（情境）</th><th>需求缺口（情境）</th><th>需調配師傅（情境）</th><th>需調配冷氣（情境）</th><th>需求參考</th></tr></thead><tbody id="forecastRows"></tbody></table><div class="table-empty" id="forecastEmpty">公開區域基準尚未載入。</div></div>
+        <div class="source-row"><span>官方區域規模資料：臺南市 115 年 10 月各區戶數與人口數；更新日 2026-11-04。</span><a href="https://data.tainan.gov.tw/Resource/444f4813-cff5-452b-8306-d40a5a8af0a1" target="_blank" rel="noreferrer">開啟官方原始資料 ↗</a></div><div class="source-row"><span>計算方式：無內部安裝歷史的區域以官方補助台數按戶數占比估算需求，並按月份平均分配；產能與庫存情境各設為需求的 90%，師傅以每人每月 20 台估算，缺口為需求減規劃量。匯入內部資料後，有歷史需求的區域改用內部安裝紀錄推估；調度前請以實際訂單、排程與庫存覆核。</span></div>
         <div class="insight-grid"><div class="insight"><small>人口資料用途</small><strong id="marketInsight">區域規模比較</strong><p id="marketInsightText">各區人口與戶數已載入，可用來觀察市場規模。人口較多不代表冷氣需求必然較高。</p></div><div class="insight"><small>排程建議</small><strong id="capacityInsight">等待產能資料</strong><p id="capacityInsightText">匯入預計可安裝量後，系統會標示需求高於產能的區域，供主管安排人工調度。</p></div></div>
       </div>
     </section>
@@ -250,6 +251,8 @@
     const population = [
       ["新營",32128,73991],["鹽水",10383,23247],["白河",10734,24627],["柳營",8372,19617],["後壁",9021,20552],["東山",8136,18160],["麻豆",17943,42529],["下營",9472,21460],["六甲",8616,20610],["官田",8736,20470],["大內",3662,8322],["佳里",23680,58014],["學甲",10365,24227],["西港",9770,24707],["七股",8106,20181],["將軍",7091,17345],["北門",3906,9297],["新化",16280,41731],["善化",23697,53992],["新市",15969,38171],["安定",12046,29630],["山上",2786,6692],["玉井",5446,12509],["楠西",3536,8222],["南化",2830,7464],["左鎮",1770,4034],["仁德",32840,77807],["歸仁",28379,71219],["關廟",12645,32912],["龍崎",1412,3148],["永康",99973,235949],["東區",79581,179347],["南區",50601,118186],["北區",56175,125005],["安南",79569,204591],["安平",33292,71957],["中西",34496,74387]
     ].map(function(r){return {district:r[0],households:r[1],population:r[2]};});
+    const official2025DistrictHouseholds={"新營":31916,"鹽水":10450,"白河":10779,"柳營":8398,"後壁":9027,"東山":8204,"麻豆":17861,"下營":9496,"六甲":8609,"官田":8705,"大內":3669,"佳里":23523,"學甲":10287,"西港":9657,"七股":8130,"將軍":7130,"北門":3931,"新化":16171,"善化":23318,"新市":15811,"安定":11877,"山上":2776,"玉井":5417,"楠西":3556,"南化":2832,"左鎮":1788,"仁德":32309,"歸仁":27508,"關廟":12646,"龍崎":1436,"永康":98589,"東":79241,"南":50466,"北":55722,"安南":78462,"安平":32368,"中西":34628};
+    const PUBLIC_2025_NATIONAL_HOUSEHOLDS=9851532, PUBLIC_2025_AC_SUBSIDY_UNITS=1225440, SCENARIO_CAPACITY_COVERAGE=.9, SCENARIO_INSTALLS_PER_TECH_MONTH=20;
     const averageHousingAgeByDistrict={"東":34.79,"南":37.71,"北":34.48,"安南":28.94,"安平":25.58,"中西":42.96,"新營":36.64,"鹽水":44.07,"白河":48.83,"柳營":41.33,"後壁":49.23,"東山":48.98,"麻豆":39.22,"下營":45.47,"六甲":41.34,"官田":39.5,"大內":51.5,"佳里":36.97,"西港":36.56,"七股":48.57,"將軍":51.45,"北門":53.91,"學甲":44.68,"新化":39.14,"善化":27.66,"新市":27.09,"安定":33.52,"山上":45.34,"玉井":42.93,"楠西":45.77,"南化":50.99,"左鎮":54.14,"仁德":31.26,"歸仁":30.42,"關廟":41.17,"龍崎":65.96,"永康":30.19};
     const demoDistrictCoordinates={"新營":[23.306,120.310],"鹽水":[23.320,120.267],"白河":[23.351,120.414],"柳營":[23.278,120.314],"後壁":[23.365,120.362],"東山":[23.326,120.403],"麻豆":[23.181,120.249],"下營":[23.234,120.264],"六甲":[23.231,120.348],"官田":[23.194,120.320],"大內":[23.119,120.349],"佳里":[23.164,120.177],"學甲":[23.233,120.181],"西港":[23.123,120.203],"七股":[23.145,120.138],"將軍":[23.204,120.160],"北門":[23.267,120.124],"新化":[23.039,120.310],"善化":[23.131,120.291],"新市":[23.078,120.294],"安定":[23.122,120.236],"山上":[23.103,120.356],"玉井":[23.123,120.461],"楠西":[23.174,120.485],"南化":[23.043,120.477],"左鎮":[23.057,120.407],"仁德":[22.973,120.252],"歸仁":[22.963,120.294],"關廟":[22.963,120.327],"龍崎":[22.963,120.361],"永康":[23.026,120.254],"東區":[22.982,120.224],"南區":[22.961,120.190],"北區":[23.001,120.211],"安南":[23.056,120.180],"安平":[22.997,120.164],"中西":[22.995,120.203]};
     const DEMO_SAMPLE_SIZE=740;
@@ -446,7 +449,7 @@
     }
     function renderKpis(){
       const scored=state.customers.map(function(c){return {c:c,s:scoreCustomer(c)};});
-      $("demoDataMessage").textContent=state.customers.length?(state.demoCustomers?"目前已載入 "+state.customers.length.toLocaleString("zh-TW")+" 筆虛構示範設備資料；此資料不代表實績。":"目前有 "+state.customers.length.toLocaleString("zh-TW")+" 筆客戶設備資料；可查看名單，或匯入其他資料。"):"臺南市 37 區人口與戶數參考已載入（官方 115 年 10 月資料）。需求缺口、師傅及冷氣調配數量須匯入內部實際安裝、產能與庫存資料後才會顯示。";
+      $("demoDataMessage").textContent=state.customers.length?(state.demoCustomers?"目前已載入 "+state.customers.length.toLocaleString("zh-TW")+" 筆虛構示範設備資料；此資料不代表實績。":"目前有 "+state.customers.length.toLocaleString("zh-TW")+" 筆客戶設備資料；可查看名單，或匯入其他資料。"):"臺南市 37 區官方人口戶數及公開補助實績推估情境已載入。需求缺口、師傅與冷氣數量是規劃估算；匯入內部資料後可依區改用實際紀錄。";
       $("kpiCustomers").textContent=state.customers.length.toLocaleString("zh-TW");
       $("kpiCustomerHint").textContent=state.demoCustomers?"目前顯示虛構示範設備":"客戶資料在本機記憶體處理";
       $("kpiHigh").textContent=scored.filter(function(x){return x.s.risk==="高"&&x.c.consent&&x.c.outcome!==true;}).length.toLocaleString("zh-TW");
@@ -533,35 +536,50 @@
       const needAcUnits=forecast==null||plannedAcUnits==null?null:Math.max(forecast-plannedAcUnits,0);
       return {forecast:forecast,planned:planned,gap:gap,needTechnicians:needTechnicians,needAcUnits:needAcUnits,seasons:recent.length};
     }
+    function publicProxyForecast(district,targetYear,season){
+      const districtKey=district.replace(/區$/,""),households=official2025DistrictHouseholds[districtKey],months=season==="summer"?4:6;
+      if(!households)return {forecast:null,planned:null,gap:null,needTechnicians:null,needAcUnits:null,seasons:0,proxy:true};
+      const forecast=Math.round(PUBLIC_2025_AC_SUBSIDY_UNITS*households/PUBLIC_2025_NATIONAL_HOUSEHOLDS*months/12);
+      const planned=Math.round(forecast*SCENARIO_CAPACITY_COVERAGE),gap=Math.max(forecast-planned,0);
+      return {forecast:forecast,planned:planned,gap:gap,needTechnicians:Math.ceil(gap/(SCENARIO_INSTALLS_PER_TECH_MONTH*months)),needAcUnits:gap,seasons:0,proxy:true};
+    }
+    function forecastForDisplay(district,targetYear,season){
+      const internal=forecastDistrict(district,targetYear,season);
+      return internal.forecast!=null?Object.assign({proxy:false},internal):publicProxyForecast(district,targetYear,season);
+    }
     function renderForecast(){
       const season=$("seasonSelect").value,year=number($("yearSelect").value)||currentYear+1,hasHistory=state.history.some(function(h){return h.installations!=null;});
       const seasonName=season==="summer"?"夏季旺季（5–8 月）":"秋冬春淡季（11–4 月）";
-      const data=population.map(function(d){return {d:d,f:forecastDistrict(d.district,year,season)};});
+      const data=population.map(function(d){return {d:d,f:forecastForDisplay(d.district,year,season)};});
       const available=data.filter(function(x){return x.f.forecast!=null;});
       const max=Math.max(1,...available.map(function(x){return x.f.forecast||0;}));
       const sorted=data.slice().sort(function(a,b){if(a.f.gap!=null||b.f.gap!=null)return (b.f.gap||0)-(a.f.gap||0);return (b.f.forecast||0)-(a.f.forecast||0);});
       $("forecastRows").innerHTML=sorted.map(function(x){
         const f=x.f,dem=f.forecast==null?"—":f.forecast.toLocaleString("zh-TW"),slot=f.planned==null?"待匯入":f.planned.toLocaleString("zh-TW"),gap=f.gap==null?"—":(f.gap>0?"+":"")+f.gap.toLocaleString("zh-TW"),gcls=f.gap>0?"gap-pos":f.gap<0?"gap-neg":"",pct=f.forecast==null?0:Math.max(4,Math.round(100*f.forecast/max));
         const techNeed=f.forecast==null?"待匯入歷史":f.gap==null?"待填規劃產能":f.needTechnicians==null?"待填師傅資料":f.needTechnicians.toLocaleString("zh-TW")+" 位",acNeed=f.forecast==null?"待匯入歷史":f.needAcUnits==null?"待填冷氣資料":f.needAcUnits.toLocaleString("zh-TW")+" 台";
-        return '<tr><td class="id-cell">'+esc(x.d.district)+'區</td><td class="number">'+x.d.households.toLocaleString("zh-TW")+'</td><td class="number">'+x.d.population.toLocaleString("zh-TW")+'</td><td><div class="bar-cell number">'+dem+(f.forecast==null?"":'<div class="bar-track"><div class="bar-fill '+(f.gap>0?"over":"")+'" style="width:'+pct+'%"></div></div>')+'</div></td><td class="number">'+slot+'</td><td class="number '+gcls+'">'+gap+'</td><td class="number">'+techNeed+'</td><td class="number">'+acNeed+'</td><td class="muted">'+(f.forecast==null?"需匯入安裝紀錄":f.seasons+" 個歷史季")+'</td></tr>';
+        const source=f.forecast==null?"待補區域戶數":f.proxy?"公開補助量按戶數推估":state.demoHistory?"虛構示範歷史 "+f.seasons+" 季":"內部 "+f.seasons+" 個歷史季";
+        return '<tr><td class="id-cell">'+esc(x.d.district)+'區</td><td class="number">'+x.d.households.toLocaleString("zh-TW")+'</td><td class="number">'+x.d.population.toLocaleString("zh-TW")+'</td><td><div class="bar-cell number">'+dem+(f.forecast==null?"":'<div class="bar-track"><div class="bar-fill '+(f.gap>0?"over":"")+'" style="width:'+pct+'%"></div></div>')+'</div></td><td class="number">'+slot+'</td><td class="number '+gcls+'">'+gap+'</td><td class="number">'+techNeed+'</td><td class="number">'+acNeed+'</td><td class="muted">'+source+'</td></tr>';
       }).join("");
-      $("forecastEmpty").style.display=hasHistory?"none":"block";
-      $("forecastEmpty").textContent=state.history.length?"目前檔案沒有可用安裝量。請確認 installations 欄位及月份。":"目前只有官方人口與戶數參考值。匯入內部安裝紀錄後，才會顯示需求預估。";
-      $("forecastSummary").textContent=hasHistory?year+" 年 "+seasonName+"｜"+available.length+" 個區域有歷史可推估":"尚未匯入安裝歷史";
+      $("forecastEmpty").style.display=available.length?"none":"block";
+      $("forecastEmpty").textContent=state.history.length?"目前檔案沒有可用安裝量或公開戶數基準。請確認行政區與月份。":"目前沒有可用區域基準資料。";
+      const total=function(key){return data.some(function(x){return x.f[key]==null;})?"部分待補":data.reduce(function(sum,x){return sum+x.f[key];},0).toLocaleString("zh-TW");};
+      const proxyCount=data.filter(function(x){return x.f.proxy&&x.f.forecast!=null;}).length,internalCount=data.filter(function(x){return !x.f.proxy&&x.f.forecast!=null;}).length;
+      const basis=state.demoHistory?"虛構示範資料":proxyCount&&internalCount?"公開情境"+proxyCount+"區／內部歷史"+internalCount+"區":proxyCount?"公開實績推估情境":"內部歷史估算";
+      $("forecastSummary").textContent=year+" 年 "+seasonName+"｜"+basis+"｜需求 "+total("forecast")+" 台｜產能 "+total("planned")+" 台｜缺口 "+total("gap")+" 台｜師傅 "+total("needTechnicians")+" 位｜冷氣 "+total("needAcUnits")+" 台";
       $("kpiHistoryDistricts").textContent=new Set(state.history.filter(function(h){return h.installations!=null;}).map(function(h){return h.district;})).size.toLocaleString("zh-TW");
       const best=population.slice().sort(function(a,b){return b.population-a.population;}).slice(0,3);
       $("marketInsight").textContent="區域規模參考："+best.map(function(d){return d.district+"區";}).join("、");
-      $("marketInsightText").textContent="人口較多的區域可列為試辦候選；仍須用內部訂單量、服務覆蓋與產能選定試點。人口規模不等於冷氣換機需求。";
+      $("marketInsightText").textContent="需求以公開補助實績和戶數占比推估；人口較多不代表冷氣需求必然較高。";
       if(available.some(function(x){return x.f.gap!=null&&x.f.gap>0;})){
         const top=available.filter(function(x){return x.f.gap!=null;}).sort(function(a,b){return b.f.gap-a.f.gap;})[0];
-        $("capacityInsight").textContent=top.d.district+"區預估缺口較大";
-        $("capacityInsightText").textContent="預估需求比規劃產能多 "+top.f.gap.toLocaleString("zh-TW")+" 台，請確認師傅人力、跨區支援與顧客等待時間。";
+        $("capacityInsight").textContent=top.d.district+"區估算缺口較大";
+        $("capacityInsightText").textContent="情境估算需求比規劃量多 "+top.f.gap.toLocaleString("zh-TW")+" 台；請以實際預約、師傅排程與庫存覆核後再調度。";
       }else if(available.some(function(x){return x.f.planned!=null;})){
         $("capacityInsight").textContent="目前資料未顯示正向缺口";
         $("capacityInsightText").textContent="請持續監控預約變化，並確認匯入的是預計可用安裝量。";
       }else{
         $("capacityInsight").textContent="等待產能資料";
-        $("capacityInsightText").textContent=hasHistory?"已可推估需求；匯入未來 planned_slots 後才能比較產能缺口。":"匯入安裝歷史與未來規劃量後，系統會標示需求高於產能的區域。";
+        $("capacityInsightText").textContent=hasHistory?"已可推估需求；匯入未來 planned_slots 後才能比較產能缺口。":"目前使用公開實績情境估算；匯入內部安裝與產能資料可依區更新。";
       }
     }
     function refresh(){renderKpis();renderDistrictFilter();renderLeads();renderConfirmed();renderRosters();renderSuccessDashboard();renderForecast();}
@@ -575,8 +593,8 @@
       downloadFile("冷氣換機關注名單.csv",rows.map(function(r){return r.map(quoteCSV).join(",");}).join("\r\n"));
     }
     function exportForecast(){
-      const season=$("seasonSelect").value,year=number($("yearSelect").value)||currentYear+1,rows=[["year","season","district","households","population","forecast_installations","planned_slots","capacity_gap","technicians_to_allocate","aircon_units_to_allocate"]];
-      population.forEach(function(d){const f=forecastDistrict(d.district,year,season);rows.push([year,season==="summer"?"summer_peak":"off_peak",d.district,d.households,d.population,f.forecast==null?"":f.forecast,f.planned==null?"":f.planned,f.gap==null?"":f.gap,f.needTechnicians==null?"":f.needTechnicians,f.needAcUnits==null?"":f.needAcUnits]);});
+      const season=$("seasonSelect").value,year=number($("yearSelect").value)||currentYear+1,rows=[["year","season","district","households_2026_10_actual","population_2026_10_actual","demand_estimate_units","planned_slots_scenario","estimated_gap_units","technicians_to_allocate_scenario","aircon_units_to_allocate_scenario","estimate_basis","technician_capacity_per_person_per_month"]];
+      population.forEach(function(d){const f=forecastForDisplay(d.district,year,season);rows.push([year,season==="summer"?"summer_peak":"off_peak",d.district,d.households,d.population,f.forecast==null?"":f.forecast,f.planned==null?"":f.planned,f.gap==null?"":f.gap,f.needTechnicians==null?"":f.needTechnicians,f.needAcUnits==null?"":f.needAcUnits,f.proxy?"公開補助量按戶數推估":"內部安裝歷史",f.proxy?SCENARIO_INSTALLS_PER_TECH_MONTH:""]);});
       downloadFile("臺南區域安裝需求預估.csv",rows.map(function(r){return r.map(quoteCSV).join(",");}).join("\r\n"));
     }
     function seededRandom(seed){let x=seed>>>0;return function(){x=(1664525*x+1013904223)>>>0;return x/4294967296;};}

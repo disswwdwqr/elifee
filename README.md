@@ -12,9 +12,9 @@
 
 另有獨立的換機需求與產能試辦原型：[冷氣換機需求預測系統.html](冷氣換機需求預測系統.html)。它提供客戶設備 CSV 匯入、換機關注排序與人工覆核、臺南各區安裝需求估算、規劃產能缺口比較，以及 CSV 匯出。臺南市各區人口與戶數參考資料已預先載入。
 
-開啟頁面會載入臺南市政府民政局 115 年 10 月各區實際戶數與人口統計，不會預設載入虛構客戶或安裝資料。可下載 [臺南市各區實際人口與戶數 CSV](臺南市115年10月區域人口戶數.csv)；檔內需求缺口、師傅與冷氣調配欄位刻意留白，因為這些營運實績不在公開人口資料中。按「載入虛構示範資料」才會看到模擬內容。要計算真實區域需求與產能，需匯入全國電子內部彙總資料。客戶資料欄位為 customer_id、district、install_year、repair_count_24m、last_repair_date、warranty_expired、marketing_consent、replaced_within_6m；安裝資料欄位為 month、district、installations、planned_slots、technician_capacity_per_month、planned_ac_units。
+開啟頁面會載入臺南市政府民政局 115 年 10 月各區實際戶數與人口統計，並預設顯示一份公開統計推估情境。可下載 [臺南市各區實際人口與戶數 CSV](臺南市115年10月區域人口戶數.csv) 和 [2027 夏季需求產能估算 CSV](臺南市2027夏季冷氣需求產能估算.csv)。推估基準使用能源署 114 年度補助成果：補助 165.6 萬台家電、冷氣占 74%（推算 1,225,440 台）；按臺南各區 114 年 12 月實際戶數占全國戶數分配，再按月份平均估算。規劃產能及冷氣庫存假設覆蓋需求 90%，每位師傅假設每月安裝 20 台。這是公開實績推算出的規劃情境，並非臺南實際訂單或公司產能、庫存；匯入內部資料後，對應區域會優先使用內部紀錄。客戶資料欄位為 customer_id、district、install_year、repair_count_24m、last_repair_date、warranty_expired、marketing_consent、replaced_within_6m；安裝資料欄位為 month、district、installations、planned_slots、technician_capacity_per_month、planned_ac_units。
 
-官方人口與戶數資料來源：[臺南市政府 115 年 10 月現住人口統計表](https://data.tainan.gov.tw/Resource/444f4813-cff5-452b-8306-d40a5a8af0a1)，更新日 2026-11-04。安裝需求、規劃產能、人力與庫存要以內部紀錄為準，不能由人口數推定。
+資料來源：[能源署 114 年度補助成果](https://www.moeaea.gov.tw/ECW/populace/content/wHandMenuFile.ashx?file_id=17032)、[內政部 114 年 12 月全國戶口統計](https://www.moi.gov.tw/News_Content.aspx?n=2&s=335870)、[臺南市 114 年 12 月現住人口統計表](https://data.tainan.gov.tw/Resource/e51c63c7-08fc-4bcf-b8b0-6aeae6678144)、[臺南市 115 年 10 月現住人口統計表](https://data.tainan.gov.tw/Resource/444f4813-cff5-452b-8306-d40a5a8af0a1)。
 
 客戶關注分數是可解釋的規則式排序，並非已訓練的 AI 機率；結果標籤僅供檢視排序與歷史結果的關聯。模擬換機標籤依虛構設備年限、維修與保固條件產生，模擬安裝量依虛構季節係數產生，數值不能代表實際需求或預測準確度。區域預估以過去相同季節的安裝量為基礎。人口與戶數僅用於區域規模參考。所有匯入資料只在瀏覽器分頁記憶體處理，關閉頁面後清除；系統不會自動發送訊息或派工。正式導入前需用全國電子歷史購買、維修、安裝與產能資料校準並驗證。
 
