@@ -41,7 +41,7 @@
     <section class="hero">
       <div class="hero-grid">
         <div><div class="eyebrow">E-life Service Insight</div><h1>冷氣換機需求預測系統</h1><p>用設備年限與維修紀錄整理換機關注名單，再以各區安裝紀錄估算旺季需求。系統提供建議與覆核流程，實際聯繫與排程由同仁決定。</p><a class="hero-cta" href="#success">查看換機預測成效 <span aria-hidden="true">→</span></a></div>
-        <div class="hero-note"><strong>目前是規則式試辦原型</strong>尚未用全國電子歷史資料訓練模型。上傳資料只在這個瀏覽器分頁處理，不會傳到伺服器；關閉頁面後，匯入資料與覆核狀態會清除。</div>
+        <div class="hero-note"><strong>目前是規則式試辦原型</strong>人口與戶數採臺南市政府 115 年 10 月官方統計。客戶設備、安裝需求和規劃產能須匯入內部實際資料；虛構示範資料不會預設載入。匯入資料只在此瀏覽器分頁處理，關閉頁面後會清除。</div>
       </div>
     </section>
     <section class="kpis" id="overview">
@@ -52,7 +52,7 @@
     </section>
 
     <section class="section" id="imports">
-      <div class="section-head"><div><div class="label">01 / Data</div><h2>匯入資料</h2><p>先用示範資料查看操作流程，再匯入去識別化的內部資料。人口與戶數參考資料已預先載入。</p></div><div class="toolbar"><button class="btn btn-soft" id="loadDemo">載入示範資料</button><button class="btn" id="clearData">清除匯入資料</button></div></div>
+      <div class="section-head"><div><div class="label">01 / Data</div><h2>匯入資料</h2><p>臺南市人口與戶數已載入官方統計。請匯入去識別化的內部安裝與排程資料，才會計算實際需求及產能缺口。</p></div><div class="toolbar"><button class="btn btn-soft" id="loadDemo">載入虛構示範資料</button><button class="btn" id="clearData">清除匯入資料</button></div></div>
       <div class="panel panel-pad">
         <div class="import-grid">
           <article class="import-card">
@@ -63,7 +63,7 @@
           <article class="import-card">
             <h3>每月安裝與產能 CSV</h3><p>每列一區一個月份。未來月份可只填預計可安裝量，供需求預測與產能差額比對。</p>
             <div class="fields">month,district,installations,planned_slots<br>月份格式：YYYY-MM；未來預計量可留白</div>
-            <div class="import-actions"><label class="btn btn-primary file-wrap">選擇安裝 CSV<input type="file" id="historyFile" accept=".csv,text/csv"></label><button class="btn" id="downloadHistorySample">下載示範資料 CSV</button></div><div class="upload-status" id="historyStatus">尚未匯入</div>
+            <div class="import-actions"><label class="btn btn-primary file-wrap">選擇安裝 CSV<input type="file" id="historyFile" accept=".csv,text/csv"></label><button class="btn" id="downloadHistorySample">下載虛構示範 CSV</button></div><div class="upload-status" id="historyStatus">尚未匯入</div>
           </article>
         </div>
         <div class="notice"><strong>資料使用界線：</strong>人口與戶數只作區域規模參考，不能單獨推斷特定顧客的設備狀況或換機意願。正式匯入前請移除姓名、電話、地址等識別資料。</div>
@@ -100,7 +100,7 @@
     </section>
 
     <section class="section" id="demand">
-      <div class="section-head"><div><div class="label">04 / District Forecast</div><h2>區域需求與產能</h2><p>需求預估依內部過往安裝量推算；人口與戶數用來理解各區市場規模，不會替代實際安裝紀錄。</p></div><button class="btn" id="exportForecast">匯出區域預估 CSV</button></div>
+      <div class="section-head"><div><div class="label">04 / District Forecast</div><h2>區域需求與產能</h2><p>人口與戶數為官方實際統計；需求缺口依匯入的內部安裝與排程紀錄計算。</p></div><div class="toolbar"><a class="btn" href="./臺南市115年10月區域人口戶數.csv" download>下載實際人口戶數 CSV</a><button class="btn" id="exportForecast">匯出區域預估 CSV</button></div></div>
       <div class="panel panel-pad">
         <div class="demand-head">
           <div class="toolbar"><label class="label" for="seasonSelect">預測期間</label><select class="control" id="seasonSelect"><option value="summer">夏季旺季（5–8 月）</option><option value="cool">秋冬春淡季（11–4 月）</option></select><select class="control" id="yearSelect" aria-label="預測起始年"></select></div>
@@ -119,11 +119,11 @@
           <article class="method"><div class="method-no">02 / 區域需求</div><h3>季節安裝量推估</h3><p>以過去相同月份的安裝量推估下個夏季或淡季，並與匯入的未來規劃產能比較。歷史月份不完整時會降低可信度。</p></article>
           <article class="method"><div class="method-no">03 / 人工把關</div><h3>同仁確認後再行動</h3><p>技師確認設備狀況，門市確認聯繫方式與優惠，安裝主管確認產能。顧客可拒絕健檢或換機建議。</p></article>
         </div>
-        <div class="source-row"><span>人口與戶數來源：臺南市政府民政局「人口資料」，115 年 10 月各區統計，頁面更新日 115 年 11 月 11 日。</span><a href="https://bca.tainan.gov.tw/News_Population.aspx?n=1131&sms=13853" target="_blank" rel="noreferrer">開啟官方資料 ↗</a></div>
+        <div class="source-row"><span>人口與戶數來源：臺南市政府民政局「115 年 10 月現住人口統計表」，更新日 2026-11-04。</span><a href="https://data.tainan.gov.tw/Resource/444f4813-cff5-452b-8306-d40a5a8af0a1" target="_blank" rel="noreferrer">開啟官方原始資料 ↗</a></div><div class="source-row"><span>需求缺口、師傅人力與冷氣庫存不在公開人口資料中；未匯入內部紀錄時保持待填，不以人口推估。</span></div>
         <div class="source-row"><span>進入正式 AI 階段前，需整理歷史購買、設備、維修、預約、完成安裝、取消與產能資料，並用試辦組與比較組驗證是否真的把需求移到淡季。</span><span>原型不會自動發送訊息或派工</span></div>
       </div>
     </section>
-    <footer class="footer">本頁為本機端試辦原型。示範資料為虛構資料；正式使用前請匯入去識別化的公司資料，並確認欄位定義與資料更新責任。</footer>
+    <footer class="footer">人口與戶數為官方實際資料。客戶、歷史安裝及規劃產能只有在匯入公司資料或手動載入虛構示範後才會顯示；正式分析需使用去識別化的內部實績。</footer>
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
@@ -180,7 +180,7 @@
       $("kpiCustomers").textContent=state.customers.length.toLocaleString("zh-TW");
       $("kpiCustomerHint").textContent=state.demoCustomers?"目前顯示虛構示範設備":"客戶資料在本機記憶體處理";
       $("kpiHigh").textContent=scored.filter(function(x){return x.s.risk==="高"&&x.c.consent;}).length.toLocaleString("zh-TW");
-      $("kpiHistoryDistricts").textContent=new Set(state.history.map(function(h){return h.district;})).size.toLocaleString("zh-TW");
+      $("kpiHistoryDistricts").textContent=new Set(state.history.filter(function(h){return h.installations!=null;}).map(function(h){return h.district;})).size.toLocaleString("zh-TW");
       $("kpiHistoryHint").textContent=state.demoHistory?"目前顯示虛構安裝示範資料":"匯入安裝歷史後產生需求預估";
     }
     function renderDistrictFilter(){
@@ -321,16 +321,16 @@
       state.demoCustomers=true;state.demoHistory=true;state.reviews={};$("customerStatus").textContent="已載入 148 筆虛構設備與結果標籤";$("historyStatus").textContent="已載入 37 區、歷史安裝與規劃產能模擬資料";refresh();if(showMessage!==false)toast("已載入模擬資料，所有客戶與安裝數字均為虛構");
     }
     $("customerFile").addEventListener("change",async function(e){const f=e.target.files[0];if(!f)return;try{state.customers=parseCustomers(parseCSV(await f.text()));state.demoCustomers=f.name.includes("模擬");state.reviews={};$("customerStatus").textContent=(state.demoCustomers?"已匯入模擬資料 ":"已匯入 ")+f.name+"（"+state.customers.length+" 筆）";refresh();toast("客戶設備資料已在本機載入");}catch(err){$("customerStatus").textContent="匯入失敗："+err.message;toast(err.message);}e.target.value="";});
-    $("historyFile").addEventListener("change",async function(e){const f=e.target.files[0];if(!f)return;try{state.history=parseHistory(parseCSV(await f.text()));state.demoHistory=f.name.includes("模擬");$("historyStatus").textContent=(state.demoHistory?"已匯入模擬資料 ":"已匯入 ")+f.name+"（"+state.history.length+" 列）";refresh();toast("安裝紀錄已在本機載入");}catch(err){$("historyStatus").textContent="匯入失敗："+err.message;toast(err.message);}e.target.value="";});
+    $("historyFile").addEventListener("change",async function(e){const f=e.target.files[0];if(!f)return;try{state.history=parseHistory(parseCSV(await f.text()));state.demoHistory=/模擬|示範|虛構/.test(f.name);$("historyStatus").textContent=(state.demoHistory?"已匯入虛構示範資料 ":"已匯入 ")+f.name+"（"+state.history.length+" 列）";refresh();toast("安裝紀錄已在本機載入");}catch(err){$("historyStatus").textContent="匯入失敗："+err.message;toast(err.message);}e.target.value="";});
     $("loadDemo").addEventListener("click",function(){buildDemo(true);});
     $("clearData").addEventListener("click",function(){state.customers=[];state.history=[];state.reviews={};state.demoCustomers=false;state.demoHistory=false;$("customerStatus").textContent="尚未匯入";$("historyStatus").textContent="尚未匯入";refresh();toast("已清除本機資料");});
     $("downloadCustomerSample").addEventListener("click",function(){downloadFile("客戶設備資料欄位範例.csv",customerSampleCSV());});
-    $("downloadHistorySample").addEventListener("click",function(){downloadFile("安裝與產能資料欄位範例.csv",historySampleCSV());});
+    $("downloadHistorySample").addEventListener("click",function(){downloadFile("冷氣換機_安裝與產能模擬_虛構示範資料.csv",historySampleCSV());});
     $("exportLeads").addEventListener("click",exportLeads);$("exportForecast").addEventListener("click",exportForecast);
     ["leadSearch","riskFilter","consentFilter","districtFilter"].forEach(function(id){$(id).addEventListener("input",renderLeads);$(id).addEventListener("change",renderLeads);});
     $("seasonSelect").addEventListener("change",renderForecast);$("yearSelect").addEventListener("change",renderForecast);
     for(let y=currentYear+1;y>=currentYear-1;y--){const o=document.createElement("option");o.value=String(y);o.textContent=y+" 年";if(y===currentYear+1)o.selected=true;$("yearSelect").appendChild(o);}
-    buildDemo(false);
+    refresh();
   </script>
 </body>
 </html>
