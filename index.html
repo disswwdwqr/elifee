@@ -109,7 +109,7 @@
     <section class="hero">
       <div class="hero-grid">
         <div><div class="eyebrow">E-life Service Insight</div><h1>冷氣換機需求預測系統</h1><p>用設備年限與維修紀錄整理換機關注名單，再以各區安裝紀錄估算旺季需求。系統提供建議與覆核流程，實際聯繫與排程由同仁決定。</p><button class="hero-cta" type="button" data-view="success">查看換機預測成效 <span aria-hidden="true">→</span></button></div>
-        <div class="hero-note"><strong>目前是規則式試辦原型</strong>人口與戶數採臺南市政府 115 年 10 月官方統計；區域需求、缺口與調配數量預設顯示公開補助實績推估情境，匯入內部資料後可依區更新。虛構客戶示範資料不會預設載入。匯入的原始資料只在此瀏覽器處理，關閉頁面後會清除。</div>
+        <div class="hero-note"><strong>目前是規則式試辦原型</strong>人口與戶數採臺南市政府 115 年 10 月官方統計；區域需求、缺口與調配數量預設顯示公開補助實績推估情境，匯入內部資料後可依區更新。客戶與安裝示範資料會在開啟頁面時載入，均為虛構資料；匯入的原始資料只在此瀏覽器處理，關閉頁面後會清除。</div>
       </div>
     </section>
     <div class="notice demo-data-notice" id="demoDataNotice"><strong id="demoDataMessage">臺南市 37 區官方人口戶數與公開補助實績推估情境已載入。缺口、師傅及冷氣數量屬規劃估算；匯入內部資料後可依區更新。</strong><div class="toolbar"><button class="btn btn-primary btn-small" type="button" data-view="demand">查看區域需求與產能</button><button class="btn btn-small" type="button" data-view="imports">資料匯入</button></div></div>
@@ -180,7 +180,7 @@
     </section>
 
     <section class="section view-screen" id="completed" data-screen="completed">
-      <div class="section-head"><div><div class="label">LIST 01 / ACTUAL RESULT</div><h2>換機成功名單</h2><p>只列入客戶 CSV 的 <code>replaced_within_6m=yes</code> 設備，代表觀察後六個月內已實際換機。</p></div><div class="toolbar"><span class="review-badge review-done" id="successRosterCount">0 筆成功</span><button class="btn" id="exportSuccessRoster">匯出成功名單 CSV</button></div></div>
+      <div class="section-head"><div><div class="label">LIST 01 / ACTUAL RESULT</div><h2>換機成功名單</h2><p>只列入客戶 CSV 的 <code>replaced_within_6m=yes</code> 設備，代表觀察後六個月內已實際換機。</p></div><div class="toolbar"><span class="review-badge review-done" id="successRosterCount">0 筆成功</span><a class="btn" href="./冷氣換機成功名單_虛構示範資料.csv" download>下載虛構示範名單</a><button class="btn" id="exportSuccessRoster">匯出成功名單 CSV</button></div></div>
       <div class="panel panel-pad"><div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>安裝年份</th><th>關注分數</th><th>結果</th></tr></thead><tbody id="successRosterRows"></tbody></table><div class="table-empty" id="successRosterEmpty">目前沒有標記為實際換機成功的資料。匯入客戶 CSV 並在 replaced_within_6m 填 yes 後會列在此處。</div></div></div>
     </section>
 
@@ -632,8 +632,8 @@
     }
     $("customerFile").addEventListener("change",async function(e){const f=e.target.files[0];if(!f)return;try{state.customers=parseCustomers(parseCSV(await f.text()));state.demoCustomers=f.name.includes("模擬");$("customerStatus").textContent=(state.demoCustomers?"已匯入模擬資料 ":"已匯入 ")+f.name+"（"+state.customers.length+" 筆）";refresh();toast("客戶設備資料已在本機載入");}catch(err){$("customerStatus").textContent="匯入失敗："+err.message;toast(err.message);}e.target.value="";});
     $("historyFile").addEventListener("change",async function(e){const f=e.target.files[0];if(!f)return;try{state.history=parseHistory(parseCSV(await f.text()));state.demoHistory=/模擬|示範|虛構/.test(f.name);$("historyStatus").textContent=(state.demoHistory?"已匯入虛構示範資料 ":"已匯入 ")+f.name+"（"+state.history.length+" 列）";refresh();toast("安裝紀錄已在本機載入");}catch(err){$("historyStatus").textContent="匯入失敗："+err.message;toast(err.message);}e.target.value="";});
-    $("loadDemo").addEventListener("click",function(){buildDemo(true);});
-    $("clearData").addEventListener("click",function(){state.customers=[];state.history=[];state.reviews={};state.confirmed={};state.deferred={};state.dispatch={};saveReviewState();state.demoCustomers=false;state.demoHistory=false;$("customerStatus").textContent="尚未匯入";$("historyStatus").textContent="尚未匯入";refresh();toast("已清除本機資料");});
+    $("loadDemo").addEventListener("click",function(){localStorage.removeItem("airconDemoDataDismissed");buildDemo(true);});
+    $("clearData").addEventListener("click",function(){state.customers=[];state.history=[];state.reviews={};state.confirmed={};state.deferred={};state.dispatch={};localStorage.setItem("airconDemoDataDismissed","yes");saveReviewState();state.demoCustomers=false;state.demoHistory=false;$("customerStatus").textContent="尚未匯入";$("historyStatus").textContent="尚未匯入";refresh();toast("已清除本機資料");});
     $("downloadCustomerSample").addEventListener("click",function(){downloadFile("冷氣換機_客戶設備維修模擬資料.csv",customerSampleCSV());});
     $("downloadHistorySample").addEventListener("click",function(){downloadFile("冷氣換機_安裝與產能模擬_虛構示範資料.csv",historySampleCSV());});
     $("cloudSettings").addEventListener("click",openCloudSettings);$("closeCloudDialog").addEventListener("click",function(){$("cloudDialog").close();});$("saveCloudConfig").addEventListener("click",function(){loadCloudConfig();renderDispatch();setCloudMessage("設定已保存在此瀏覽器。服務站座標也會用於離線路線起點；Publishable Key 受資料庫權限規則保護。Google Routes 需登入並完成後端設定。");});$("connectCloud").addEventListener("click",connectCloud);$("syncCloudNow").addEventListener("click",syncFromCloud);$("disconnectCloud").addEventListener("click",async function(){if(cloudClient)await cloudClient.auth.signOut();if(cloudChannel&&cloudClient)cloudClient.removeChannel(cloudChannel);cloudChannel=null;cloudClient=null;cloudSignedIn=false;setCloudMessage("已登出；本機資料保留。",false);});$("optimizeRoutes").addEventListener("click",async function(){if(cloudClient){await optimizeRoutesWithTraffic();}else{renderDispatch();toast("已依預約時段與施工工時重排；離線行車時間為估算");}});$("dispatchDate").addEventListener("change",renderDispatch);$("dispatchTechFilter").addEventListener("change",renderDispatch);$("exportDispatch").addEventListener("click",exportDispatch);$("exportLeads").addEventListener("click",exportLeads);$("exportConfirmed").addEventListener("click",exportConfirmed);$("exportSuccessRoster").addEventListener("click",exportSuccessRoster);$("exportPredictedRoster").addEventListener("click",exportPredictedRoster);$("exportFollowup").addEventListener("click",exportFollowup);$("exportForecast").addEventListener("click",exportForecast);$("clearReviews").addEventListener("click",function(){state.reviews={};state.confirmed={};state.deferred={};state.dispatch={};state.liveRoutes={};saveReviewState();clearCloudBranchData();refresh();toast("已清除確認與覆核紀錄");});
@@ -641,7 +641,7 @@
     $("seasonSelect").addEventListener("change",renderForecast);$("yearSelect").addEventListener("change",renderForecast);
     for(let y=currentYear+1;y>=currentYear-1;y--){const o=document.createElement("option");o.value=String(y);o.textContent=y+" 年";if(y===currentYear+1)o.selected=true;$("yearSelect").appendChild(o);}
     navigateToView("overview");
-    refresh();
+    if(localStorage.getItem("airconDemoDataDismissed")!=="yes")buildDemo(false);else refresh();
     if(cloudConfig.projectUrl&&cloudConfig.publishableKey){initCloudClient();cloudClient.auth.getSession().then(function(result){if(result.data&&result.data.session){cloudSignedIn=true;syncFromCloud();subscribeCloud();}});}
     if(cloudConfig.branchId&&!cloudSignedIn)setCloudMessage("已保存分店連線設定；請開啟設定登入並同步。");
   </script>
