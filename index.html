@@ -283,7 +283,7 @@
       const keys=Object.keys(rows[0]);required.forEach(function(pair){if(!keys.includes(pair[0])&&!keys.includes(pair[1]))throw new Error("缺少欄位："+pair[0]);});
       return rows.map(function(r,i){
         const id=get(r,["customer_id","會員代碼"])||("匿名設備-"+(i+1));
-        const yearRaw=get(r,["install_year","安裝年份"]),repairsRaw=get(r,["repair_count_24m","近24月維修次數"]),outcomeRaw=get(r,["replaced_within_6m","六個月內已換機"]);
+        const yearRaw=get(r,["install_year","安裝年份"]),repairsRaw=get(r,["repair_count_24m","近24月維修次數"]),outcomeRaw=get(r,["replaced_within_6m","六個月內已換機"]),latRaw=get(r,["route_lat"]),lngRaw=get(r,["route_lng"]);
         return {id:id,district:districtName(get(r,["district","行政區"])),year:yearRaw===""?null:number(yearRaw),repairs:repairsRaw===""?null:number(repairsRaw),lastRepair:get(r,["last_repair_date","最近維修日期"]),warranty:boolValue(get(r,["warranty_expired","保固到期"])),consent:boolValue(get(r,["marketing_consent","行銷同意"])),outcome:outcomeRaw===""?null:boolValue(outcomeRaw),lat:latRaw===""?null:number(latRaw),lng:lngRaw===""?null:number(lngRaw)};
       });
     }
