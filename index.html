@@ -92,6 +92,7 @@
     .district-chart-legend{gap:10px;margin:0}.district-chart-list{max-height:520px;overflow:auto;border:0;border-radius:9px;background:#fff;scrollbar-color:#cbd1ca transparent;scrollbar-width:thin}.district-chart-row{display:grid;grid-template-columns:22px 62px minmax(80px,1fr) minmax(145px,210px);align-items:center;gap:9px;min-height:38px;padding:6px 8px;border-bottom:1px solid #f2f3f1}.district-chart-row:nth-child(-n+3){border-radius:8px;background:#fff7f2}.district-chart-row:last-child{border-bottom:0}.district-chart-track{display:flex;height:14px;overflow:hidden;border-radius:99px;background:#eceeed}.district-chart-segment{display:flex;align-items:center;justify-content:flex-end;height:100%;min-width:0;padding:0 4px;color:#fff;font-size:8px;font-weight:850;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden}.district-chart-values strong{font-size:9px;white-space:nowrap}.district-chart-values small{display:none}
     @media(max-width:850px){.district-highlights,.district-chart-analysis{grid-template-columns:1fr}.district-management-advice ol{grid-template-columns:repeat(3,minmax(0,1fr));padding-left:18px}}
     @media(max-width:600px){.district-top3-list{grid-template-columns:1fr}.district-top3-row{min-height:86px}.district-chart-row{grid-template-columns:20px 48px minmax(55px,1fr) minmax(116px,135px);gap:5px;padding:6px 5px}.district-chart-values strong{font-size:8px}.district-management-advice ol{grid-template-columns:1fr}}
+    .district-highlights,.district-chart-analysis{display:block}.district-top3{border-color:#f5ccda;background:#fff8fa}.district-top3-crown{color:var(--brand)}.district-top3-row,.district-top3-row:nth-child(2),.district-top3-row:nth-child(3){background:#fff0f4}.district-top3-row:nth-child(2){background:#fff6f8}.district-top3-row:nth-child(3){background:#ffedf2}.district-top3-rank,.district-top3-row:nth-child(2) .district-top3-rank,.district-top3-row:nth-child(3) .district-top3-rank{background:var(--brand-dark);color:#fff}.district-top3-gap,.district-chart-values .gap-text{color:var(--brand-dark)}.district-top3-badge{color:var(--brand-dark)}.district-top3-row:first-child .district-top3-badge{background:var(--brand);color:#fff}.district-chart-row:nth-child(-n+3){background:var(--brand-soft)}.district-chart-row .district-chart-rank,.district-chart-row:nth-child(-n+3) .district-chart-rank,.district-chart-row:nth-child(2) .district-chart-rank,.district-chart-row:nth-child(3) .district-chart-rank{background:#ffe0e9;color:var(--brand-dark)}.district-chart-segment.capacity,.legend-capacity{background:var(--brand-dark)}.district-chart-segment.gap,.legend-gap{background:#f28ba8}.district-chart-segment.gap{color:#76172f}.legend-missing{background:#d3d3d3}.district-chart-kpi:nth-child(3) strong,.district-chart-kpi:nth-child(4) strong,.district-chart-kpi:nth-child(5) strong{color:var(--brand-dark)}
   </style>
 </head>
 <body>
@@ -254,7 +255,6 @@
             <div class="district-top3-head"><span class="district-top3-crown" aria-hidden="true">♛</span><h4 id="districtTop3Title">產能缺口 TOP 3 行政區</h4></div>
             <div class="district-top3-list" id="districtTop3List" role="list" aria-label="需求與產能缺口前三名"></div>
           </section>
-          <aside class="cross-district-note" id="crossDistrictNote" aria-live="polite"><strong>↔ 跨區共用參考</strong><ul><li>估算資料載入中</li><li>實際調度請核對可用師傅、服務範圍與班表。</li></ul></aside>
           </div>
           <div class="district-chart-analysis">
           <section class="district-chart-comparison" aria-labelledby="districtChartComparisonTitle">
@@ -262,7 +262,6 @@
             <div class="district-chart-list" id="districtGapChart" role="list" aria-label="各行政區需求缺口排行"></div>
           <div class="district-chart-empty" id="districtChartEmpty" hidden>目前沒有可繪製的區域需求資料。</div>
           </section>
-          <aside class="district-management-advice" aria-labelledby="districtManagementTitle"><h4 id="districtManagementTitle">💡 管理決策建議</h4><ol id="districtManagementAdvice"><li>依各區缺口排序，優先檢視缺口最大的區域。</li><li>確認跨區支援的師傅與服務範圍。</li><li>依實際訂單與工時安排人力。</li></ol></aside>
           </div>
         </section>
         <div class="analysis-gate"><div><strong id="analysisGateTitle">先完成區域統計分析</strong><p id="analysisGateDetail">需求、產能及各區師傅需求計算完成後，確認結果即可開啟獨立的調撥規劃頁。</p></div><button class="btn btn-primary" id="confirmDemandAnalysis" type="button" disabled>確認統計並開放調撥</button></div>
@@ -725,29 +724,12 @@
       $("chartTotalCapacity").textContent=chartTotal("planned");
       $("chartTotalGap").textContent=chartGap;
       $("chartTotalTechs").textContent=chartTotal("needTechnicians");
-      const allPublicScenario=data.every(function(x){return x.f.proxy&&x.f.gap!=null;}),totalPositiveGap=data.every(function(x){return x.f.gap!=null;})?data.reduce(function(sum,x){return sum+Math.max(x.f.gap,0);},0):null;
-      const separateDistrictTechs=data.every(function(x){return x.f.needTechnicians!=null;})?data.reduce(function(sum,x){return sum+x.f.needTechnicians;},0):null;
       const top3=data.filter(function(x){return x.f.forecast!=null&&x.f.gap!=null&&x.f.gap>0;}).sort(function(a,b){return b.f.gap-a.f.gap;}).slice(0,3);
-      if(allPublicScenario&&totalPositiveGap!=null){
-        const pooledTechs=Math.ceil(totalPositiveGap/(SCENARIO_INSTALLS_PER_TECH_MONTH*(season==="summer"?4:6))),difference=separateDistrictTechs==null?0:Math.max(0,separateDistrictTechs-pooledTechs);
-        const availableTechs=parseInt($("plannedTechnicianCount").textContent,10),staffingGap=Number.isFinite(availableTechs)?Math.max(0,pooledTechs-availableTechs):null;
-        $("crossDistrictNote").innerHTML='<strong>↔ 跨區共用參考</strong><ul><li>各區分開配置約 '+(separateDistrictTechs==null?"部分待補":separateDistrictTechs.toLocaleString("zh-TW"))+ ' 位；若全市可互相支援，理論上可少約 '+difference.toLocaleString("zh-TW")+' 位區域重複預留。</li><li>全市共用約 '+pooledTechs.toLocaleString("zh-TW")+' 位師傅；頁面設定可用 '+(Number.isFinite(availableTechs)?availableTechs.toLocaleString("zh-TW"):"待補")+' 位時，共用情境'+(staffingGap==null?"尚待補可用人數":staffingGap>0?"仍少約 "+staffingGap.toLocaleString("zh-TW")+" 位":"可覆蓋估算人數")+'。</li><li>這是容量估算，不是實際調派名單；仍需確認各區人數、可用工時、排班與服務範圍。</li></ul>';
-      }else{
-        $("crossDistrictNote").innerHTML='<strong>↔ 跨區共用參考</strong><ul><li>跨區支援可用來平衡各區需求缺口。</li><li>目前資料未含各區現有人力，無法判定可支援區與人數。</li><li>匯入可用師傅數、工時、排班與服務範圍後，才能估算實際調度量。</li></ul>';
-      }
       $("districtChartHint").textContent="顯示 "+available.length+" / "+data.length+" 區";
       $("districtTop3List").innerHTML=top3.length?top3.map(function(x,index){
         const f=x.f,districtLabel=districtName(x.d.district)+"區",rankLabel=["最大缺口","第二高","第三高"][index];
         return '<article class="district-top3-row" role="listitem" title="'+esc(districtLabel)+'｜需求 '+f.forecast.toLocaleString("zh-TW")+'｜產能 '+f.planned.toLocaleString("zh-TW")+'｜缺口 '+f.gap.toLocaleString("zh-TW")+' 台"><div class="district-top3-row-head"><span class="district-top3-rank" aria-label="第'+(index+1)+'名">'+(index+1)+'</span><span class="district-top3-name">'+esc(districtLabel)+'</span></div><strong class="district-top3-gap">'+f.gap.toLocaleString("zh-TW")+' <small>台</small></strong><span class="district-top3-badge">'+rankLabel+'</span></article>';
       }).join(""):'<div class="district-top3-empty">目前沒有可比較的正向產能缺口。</div>';
-      const adviceItems=[];
-      if(top3.length){
-        const firstName=districtName(top3[0].d.district)+"區";
-        adviceItems.push("優先處理"+firstName+"，現有產能缺口達 "+top3[0].f.gap.toLocaleString("zh-TW")+" 台。");
-        if(top3.length>1){const nextNames=top3.slice(1).map(function(x){return districtName(x.d.district)+"區";}).join("及"),nextGaps=top3.slice(1).map(function(x){return x.f.gap.toLocaleString("zh-TW")+" 台";}).join("、");adviceItems.push(nextNames+"分別有 "+nextGaps+"缺口，可列為後續優先調度區域。");}
-        adviceItems.push("評估跨區支援可行性，降低各行政區人力配置不均的問題。");
-      }else{adviceItems.push("目前沒有正向產能缺口，可先確認各區需求與規劃產能資料。");adviceItems.push("依實際訂單、可用工時與服務範圍檢視排班。");adviceItems.push("若有區域需求變動，重新確認調度規劃。");}
-      $("districtManagementAdvice").innerHTML=adviceItems.map(function(item){return "<li>"+esc(item)+"</li>";}).join("");
       $("districtGapChart").innerHTML=sorted.filter(function(x){return x.f.forecast!=null;}).map(function(x,index){
         const f=x.f,demand=f.forecast,capacity=f.planned,gap=f.gap,maxShare=100*demand/max;
         const capacityShare=capacity==null?0:100*Math.max(0,Math.min(demand,capacity))/max;
