@@ -229,7 +229,8 @@
           <article class="method"><div class="method-no">02 / 區域需求</div><h3>季節安裝量推估</h3><p>以過去相同月份的安裝量推估下個夏季或淡季，並與匯入的未來規劃產能比較；歷史月份不足時會依可用資料估算。</p></article>
           <article class="method"><div class="method-no">03 / 人工把關</div><h3>同仁確認後再行動</h3><p>技師確認設備狀況，門市確認聯繫方式與優惠，安裝主管確認產能。顧客可拒絕健檢或換機建議。</p></article>
         </div>
-        <div class="source-row"><span>人口與戶數來源：臺南市政府民政局「人口資料」，115 年 10 月各區統計，頁面更新日 115 年 11 月 11 日。</span><a href="https://bca.tainan.gov.tw/News_Population.aspx?n=1131&sms=13853" target="_blank" rel="noreferrer">開啟官方資料 ↗</a></div>
+        <div class="source-row"><span>人口與戶數來源：臺南市政府「行政區域及人口資料」，115 年 10 月各區統計。</span><a href="https://www.tainan.gov.tw/cp.aspx?n=13293" target="_blank" rel="noreferrer">開啟官方資料 ↗</a></div>
+        <div class="source-row"><span>示範 740 筆依 115 年 10 月各區戶數分配（每區至少 1 筆）；設備機齡以 115 年第 2 季住宅平均屋齡作情境代理，並非冷氣實測屋齡。維修、保固、聯絡同意及換機結果都是合成設定；換機結果採低比例展示情境，不代表台南實績或實際需求。</span><a href="https://data.tainan.gov.tw/Resource/d99f51ff-a110-4da3-8208-d349eaba7de1" target="_blank" rel="noreferrer">住宅屋齡資料 ↗</a></div>
         <div class="source-row"><span>進入正式 AI 階段前，需整理歷史購買、設備、維修、預約、完成安裝、取消與產能資料，並用試辦組與比較組驗證是否真的把需求移到淡季。</span><span>原型不會自動發送訊息或派工</span></div>
       </div>
       <div class="footer">本頁為本機端試辦原型。匯入客戶 CSV 僅在目前瀏覽器記憶體處理；覆核與確認名單保存在目前瀏覽器。示範資料為虛構資料，正式使用前請匯入去識別化資料。</div>
@@ -248,6 +249,13 @@
     const population = [
       ["新營",32128,73991],["鹽水",10383,23247],["白河",10734,24627],["柳營",8372,19617],["後壁",9021,20552],["東山",8136,18160],["麻豆",17943,42529],["下營",9472,21460],["六甲",8616,20610],["官田",8736,20470],["大內",3662,8322],["佳里",23680,58014],["學甲",10365,24227],["西港",9770,24707],["七股",8106,20181],["將軍",7091,17345],["北門",3906,9297],["新化",16280,41731],["善化",23697,53992],["新市",15969,38171],["安定",12046,29630],["山上",2786,6692],["玉井",5446,12509],["楠西",3536,8222],["南化",2830,7464],["左鎮",1770,4034],["仁德",32840,77807],["歸仁",28379,71219],["關廟",12645,32912],["龍崎",1412,3148],["永康",99973,235949],["東區",79581,179347],["南區",50601,118186],["北區",56175,125005],["安南",79569,204591],["安平",33292,71957],["中西",34496,74387]
     ].map(function(r){return {district:r[0],households:r[1],population:r[2]};});
+    const averageHousingAgeByDistrict={"東":34.79,"南":37.71,"北":34.48,"安南":28.94,"安平":25.58,"中西":42.96,"新營":36.64,"鹽水":44.07,"白河":48.83,"柳營":41.33,"後壁":49.23,"東山":48.98,"麻豆":39.22,"下營":45.47,"六甲":41.34,"官田":39.5,"大內":51.5,"佳里":36.97,"西港":36.56,"七股":48.57,"將軍":51.45,"北門":53.91,"學甲":44.68,"新化":39.14,"善化":27.66,"新市":27.09,"安定":33.52,"山上":45.34,"玉井":42.93,"楠西":45.77,"南化":50.99,"左鎮":54.14,"仁德":31.26,"歸仁":30.42,"關廟":41.17,"龍崎":65.96,"永康":30.19};
+    const DEMO_SAMPLE_SIZE=740;
+    function allocateDemoSampleCounts(sampleSize){
+      const base=sampleSize>=population.length?1:0,counts=population.map(function(){return base;}),remaining=sampleSize-base*population.length,totalHouseholds=population.reduce(function(sum,d){return sum+d.households;},0),shares=population.map(function(d,i){const exact=remaining*d.households/totalHouseholds,whole=Math.floor(exact);counts[i]+=whole;return {index:i,fraction:exact-whole};});
+      let unassigned=sampleSize-counts.reduce(function(sum,n){return sum+n;},0);shares.sort(function(a,b){return b.fraction-a.fraction||a.index-b.index;});for(let i=0;i<unassigned;i++)counts[shares[i].index]++;
+      return counts;
+    }
     const currentYear = new Date().getFullYear();
     function readLocalObject(key){try{const raw=localStorage.getItem(key);if(!raw)return {};const parsed=JSON.parse(raw);return parsed&&typeof parsed==="object"&&!Array.isArray(parsed)?parsed:{};}catch(e){return {};}}
     const state = {customers:[], history:[], demoCustomers:false, demoHistory:false, dispatch:readLocalObject("airconDispatchPlan"), liveRoutes:readLocalObject("airconLiveRoutes"), reviews:readLocalObject("airconReplacementReviews"), confirmed:readLocalObject("airconConfirmedReplacementList"), deferred:readLocalObject("airconDeferredFollowupList")};
@@ -561,14 +569,16 @@
     }
     function seededRandom(seed){let x=seed>>>0;return function(){x=(1664525*x+1013904223)>>>0;return x/4294967296;};}
     function customerSampleCSV(){
-      const rand=seededRandom(260612),rows=[["customer_id","district","install_year","repair_count_24m","last_repair_date","warranty_expired","marketing_consent","replaced_within_6m","route_lat","route_lng"]];
-      for(let i=0;i<148;i++){
-        const d=population[i%population.length],age=2+Math.floor(rand()*15),year=currentYear-age,repairs=Math.max(0,Math.min(5,Math.floor((age-4)/3)+Math.floor(rand()*3)-1)),hasRecent=repairs>0&&rand()<.62;
-        let last="";if(repairs>0){const date=new Date();date.setDate(date.getDate()-Math.floor(rand()*(hasRecent?330:780)+20));last=date.toISOString().slice(0,10);}
-        const warranty=age>=7?rand()<.84:rand()<.06,consent=rand()<.78;
-        const score=(age>=12?40:age>=10?32:age>=7?20:age>=5?10:0)+(repairs>=4?35:repairs>=3?29:repairs>=2?21:repairs===1?10:0)+(hasRecent?15:0)+(warranty?10:0);
-        const probability=Math.min(.88,.04+score*.0068),outcome=rand()<probability;
-        const lat=22.905+rand()*.18,lng=120.115+rand()*.185;rows.push(["SIM-"+String(i+1).padStart(3,"0"),d.district,year,repairs,last,warranty?"yes":"no",consent?"yes":"no",outcome?"yes":"no",lat.toFixed(6),lng.toFixed(6)]);
+      const rand=seededRandom(260612),rows=[["customer_id","district","install_year","repair_count_24m","last_repair_date","warranty_expired","marketing_consent","replaced_within_6m","route_lat","route_lng"]],sampleCounts=allocateDemoSampleCounts(DEMO_SAMPLE_SIZE),maxPerDistrict=Math.max.apply(null,sampleCounts);let sampleIndex=0;
+      for(let round=0;round<maxPerDistrict;round++){
+        for(let districtIndex=0;districtIndex<population.length;districtIndex++){
+          if(round>=sampleCounts[districtIndex])continue;
+          const d=population[districtIndex],homeAge=averageHousingAgeByDistrict[districtName(d.district)]||37,age=Math.max(2,Math.min(18,Math.round(4+(homeAge-25)*.2+(rand()-.5)*8))),year=currentYear-age,repairs=Math.max(0,Math.min(5,Math.floor(Math.max(0,(age-5)*.34)+rand()*1.5))),hasRecent=repairs>0&&rand()<Math.min(.68,.35+age*.02);
+          let last="";if(repairs>0){const daysAgo=hasRecent?20+Math.floor(rand()*330):386+Math.floor(rand()*400),date=new Date();date.setDate(date.getDate()-daysAgo);last=date.toISOString().slice(0,10);}
+          const warranty=age>=7?rand()<.84:rand()<.08,consent=rand()<.78;
+          const score=(age>=12?40:age>=10?32:age>=7?20:age>=5?10:0)+(repairs>=4?35:repairs>=3?29:repairs>=2?21:repairs===1?10:0)+(hasRecent?15:0)+(warranty?10:0);
+          const probability=Math.min(.08,.005+score*.0008),outcome=rand()<probability,lat=22.905+rand()*.18,lng=120.115+rand()*.185;sampleIndex++;rows.push(["SIM-"+String(sampleIndex).padStart(3,"0"),d.district,year,repairs,last,warranty?"yes":"no",consent?"yes":"no",outcome?"yes":"no",lat.toFixed(6),lng.toFixed(6)]);
+        }
       }
       return rows.map(function(r){return r.map(quoteCSV).join(",");}).join("\r\n");
     }
@@ -587,7 +597,7 @@
         state.customers.slice(0,18).forEach(function(c,i){if(i%5!==4&&c.outcome!==true){const score=scoreCustomer(c);state.confirmed[c.id]={id:c.id,district:c.district,year:c.year,repairs:c.repairs,score:score.score,risk:score.risk,confirmedAt:new Date(Date.now()-(i*86400000)).toISOString(),lat:c.lat,lng:c.lng};state.reviews[c.id]="已確認換機";state.dispatch[c.id]=defaultDispatchJob(state.confirmed[c.id],i);}});
       }
       state.history=parseHistory(parseCSV(historySampleCSV()));
-      state.demoCustomers=true;state.demoHistory=true;$("customerStatus").textContent="已載入 148 筆虛構設備與結果標籤";$("historyStatus").textContent="已載入 37 區、歷史安裝與規劃產能模擬資料";refresh();if(showMessage!==false)toast("已載入模擬資料，所有客戶與安裝數字均為虛構");
+      state.demoCustomers=true;state.demoHistory=true;$("customerStatus").textContent="已載入 "+state.customers.length.toLocaleString("zh-TW")+" 筆虛構設備與結果標籤";$("historyStatus").textContent="已載入 37 區、歷史安裝與規劃產能模擬資料";refresh();if(showMessage!==false)toast("已載入模擬資料，所有客戶與安裝數字均為虛構");
     }
     $("customerFile").addEventListener("change",async function(e){const f=e.target.files[0];if(!f)return;try{state.customers=parseCustomers(parseCSV(await f.text()));state.demoCustomers=f.name.includes("模擬");$("customerStatus").textContent=(state.demoCustomers?"已匯入模擬資料 ":"已匯入 ")+f.name+"（"+state.customers.length+" 筆）";refresh();toast("客戶設備資料已在本機載入");}catch(err){$("customerStatus").textContent="匯入失敗："+err.message;toast(err.message);}e.target.value="";});
     $("historyFile").addEventListener("change",async function(e){const f=e.target.files[0];if(!f)return;try{state.history=parseHistory(parseCSV(await f.text()));state.demoHistory=f.name.includes("模擬");$("historyStatus").textContent=(state.demoHistory?"已匯入模擬資料 ":"已匯入 ")+f.name+"（"+state.history.length+" 列）";refresh();toast("安裝紀錄已在本機載入");}catch(err){$("historyStatus").textContent="匯入失敗："+err.message;toast(err.message);}e.target.value="";});
