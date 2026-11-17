@@ -23,7 +23,7 @@
     .notice{margin:12px 0;padding:12px 14px;border:1px solid #e9dcc0;border-radius:11px;background:#fffaf1;color:#7b6747;font-size:10px;line-height:1.7}.footer{padding:24px 0 34px;color:#8a8e86;font-size:9px;line-height:1.8}.footer a{color:var(--green)}
     .toast{position:fixed;z-index:5;left:50%;bottom:22px;transform:translate(-50%,15px);opacity:0;pointer-events:none;transition:.2s;background:#26352b;color:#fff;padding:11px 15px;border-radius:11px;font-size:11px;box-shadow:0 8px 25px #0002;max-width:calc(100% - 24px)}.toast.show{transform:translate(-50%,0);opacity:1}
     @media(max-width:850px){.hero-grid{grid-template-columns:1fr}.kpis,.success-kpis{grid-template-columns:repeat(2,1fr)}.nav-links a{padding-left:11px;padding-right:11px;font-size:10px}.method-grid{grid-template-columns:1fr}.import-grid{grid-template-columns:1fr}}
-    @media(max-width:600px){.wrap{width:calc(100% - 26px)}.store-topline-inner{height:27px}.store-topline-inner span:last-child{display:none}.nav{height:auto;min-height:62px;padding:10px 0;gap:10px}.brand-mark{width:34px;height:34px}.brand-text strong{font-size:14px}.nav-links{width:100%;padding:0}.nav-links a{padding:12px 10px 10px}.hero{padding-top:19px}.hero-grid{padding:22px 19px;gap:16px}.hero h1{font-size:30px}.hero-note{font-size:10px}.hero-cta{margin-top:13px}.kpi{padding:13px}.kpi-value{font-size:23px}.section-head{align-items:start;flex-direction:column}.insight-grid,.success-compare{grid-template-columns:1fr}.source-row{align-items:start;flex-direction:column}.panel-pad{padding:14px}}
+    @media(max-width:600px){.wrap{width:calc(100% - 26px)}.store-topline-inner{height:27px}.store-topline-inner span:last-child{display:none}.nav{height:auto;min-height:62px;padding:10px 0;gap:10px}.brand-mark{width:34px;height:34px}.brand-text strong{font-size:14px}.nav-links{width:100%;padding:0}.nav-links a{padding:12px 10px 10px}.hero{padding-top:19px}.hero-grid{padding:22px 19px;gap:16px}.hero h1{font-size:30px}.hero-note{font-size:10px}.hero-cta{margin-top:13px}.kpi{padding:13px}.kpi-value{font-size:23px}.section-head{align-items:start;flex-direction:column}.heatmap-head{flex-direction:column}.insight-grid,.success-compare{grid-template-columns:1fr}.source-row{align-items:start;flex-direction:column}.panel-pad{padding:14px}}
 
     html{scroll-behavior:auto}body{height:100vh;height:100dvh;overflow:hidden}
     .app-shell{display:grid;grid-template-columns:244px minmax(0,1fr);height:100vh;height:100dvh;min-height:0}
@@ -48,7 +48,7 @@
     .view-screen{display:none}.view-screen.is-active{display:block}.section.view-screen{margin:0;scroll-margin-top:0}
     .hero{padding:0 0 18px}.kpis{margin:0 0 8px}.hero-cta{border:0;font-family:inherit;cursor:pointer}
     .view-screen > .section-head{margin-top:0}
-    .directory-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.directory-card{padding:18px;border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:var(--shadow)}.directory-card small{display:block;color:var(--brand-dark);font-size:9px;font-weight:850;letter-spacing:.1em}.directory-card h3{margin:8px 0 6px;font-size:14px}.directory-card p{min-height:48px;margin:0 0 14px;color:var(--muted);font-size:10px;line-height:1.7}
+    .heatmap-panel{margin:10px 0 13px;padding:15px;border:1px solid #ececec;border-radius:12px;background:linear-gradient(130deg,#fff 0%,#fffafb 100%)}.heatmap-head{display:flex;align-items:start;justify-content:space-between;gap:12px;margin-bottom:12px}.heatmap-head h3{margin:0;font-size:12px}.heatmap-head p{margin:4px 0 0;color:#858585;font-size:9px;line-height:1.6}.heatmap-totals{display:flex;gap:8px;flex-wrap:wrap;color:#777;font-size:9px}.heatmap-totals strong{color:var(--brand-dark);font-size:12px}.heatmap-legend{display:flex;align-items:center;gap:6px;color:#858585;font-size:8px;white-space:nowrap}.heatmap-swatch{width:11px;height:11px;border-radius:3px;background:#fff0f4}.heatmap-swatch.mid{background:#ff9eba}.heatmap-swatch.hot{background:#e32f67}.heatmap-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:6px}.heat-tile{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;min-height:59px;padding:8px;border:1px solid #f0dce2;border-radius:8px;color:#4b4345;text-align:left;transition:transform .14s,border-color .14s}.heat-tile:hover{transform:translateY(-1px);border-color:#e32f67}.heat-tile.selected{outline:2px solid #e32f67;outline-offset:1px}.heat-tile span{font-size:9px;font-weight:800}.heat-tile strong{font-size:15px;line-height:1}.heatmap-empty{padding:18px;border:1px dashed #ddd;border-radius:9px;text-align:center;color:#858585;font-size:10px}.dispatch-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:12px 0}.dispatch-stat{padding:12px 14px;border:1px solid #ececec;border-radius:10px;background:#fff}.dispatch-stat small{display:block;color:#858585;font-size:9px}.dispatch-stat strong{display:block;margin-top:5px;font-size:18px;color:var(--brand-dark)}.route-visual{display:flex;gap:8px;overflow:auto;padding:4px 0 10px}.route-stop{position:relative;min-width:155px;padding:11px 12px;border:1px solid #e9ece7;border-radius:10px;background:#f9fbf8}.route-stop:not(:last-child):after{content:"→";position:absolute;right:-10px;top:30%;z-index:1;color:#92988e;font-weight:900}.route-stop b{display:block;font-size:10px}.route-stop small{display:block;margin-top:5px;color:#858a82;font-size:9px;line-height:1.5}.dispatch-table input,.dispatch-table select{min-width:88px;height:30px;border:1px solid #e5e5e5;border-radius:6px;padding:0 6px;font-size:9px;background:#fff}.dispatch-table .dispatch-id{min-width:80px}.dispatch-table .dispatch-address{min-width:125px}.route-empty{padding:16px;border:1px dashed #ddd;border-radius:10px;text-align:center;color:#8a8f86;font-size:10px;line-height:1.7}.dispatch-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.dispatch-tools .control{height:34px}.directory-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.directory-card{padding:18px;border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:var(--shadow)}.directory-card small{display:block;color:var(--brand-dark);font-size:9px;font-weight:850;letter-spacing:.1em}.directory-card h3{margin:8px 0 6px;font-size:14px}.directory-card p{min-height:48px;margin:0 0 14px;color:var(--muted);font-size:10px;line-height:1.7}
     .brand-home{cursor:pointer}
     @media(max-width:760px){
       .app-shell{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
@@ -66,9 +66,9 @@
       .content-stage{padding:14px 13px 24px}
     }
     @media(max-width:600px){
-      .hero-grid{padding:18px 16px;gap:12px}.hero h1{font-size:25px}.hero-note{font-size:9px}.directory-card-grid{grid-template-columns:1fr}
+      .hero-grid{padding:18px 16px;gap:12px}.hero h1{font-size:25px}.hero-note{font-size:9px}.directory-card-grid{grid-template-columns:1fr}.dispatch-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.route-stop{min-width:138px}
       .kpis,.success-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .section-head{align-items:start;flex-direction:column}.insight-grid,.success-compare{grid-template-columns:1fr}
+      .section-head{align-items:start;flex-direction:column}.heatmap-head{flex-direction:column}.insight-grid,.success-compare{grid-template-columns:1fr}
       .source-row{align-items:start;flex-direction:column}.panel-pad{padding:13px}
     }
   </style>
@@ -124,7 +124,7 @@
         <div class="import-grid">
           <article class="import-card">
             <h3>客戶設備／維修資料 CSV</h3><p>每列一台設備。會員代碼請使用去識別化代碼。缺少行銷同意欄位時，系統會將名單標記為不可主動聯繫。</p>
-            <div class="fields">customer_id,district,install_year,repair_count_24m,last_repair_date,warranty_expired,marketing_consent,replaced_within_6m</div>
+            <div class="fields">customer_id,district,install_year,repair_count_24m,last_repair_date,warranty_expired,marketing_consent,replaced_within_6m,route_lat,route_lng</div><p>route_lat／route_lng 為排程用座標，可填約略服務地點座標；正式資料請依公司個資規範處理。</p>
             <div class="import-actions"><label class="btn btn-primary file-wrap">選擇客戶 CSV<input type="file" id="customerFile" accept=".csv,text/csv"></label><button class="btn" id="downloadCustomerSample">下載示範資料 CSV</button></div><div class="upload-status" id="customerStatus">尚未匯入</div>
           </article>
           <article class="import-card">
@@ -146,6 +146,7 @@
           <select class="control" id="consentFilter"><option value="all">聯繫狀態</option><option value="yes">可聯繫</option><option value="no">不可主動聯繫</option></select>
           <select class="control" id="districtFilter"><option value="all">全部行政區</option></select>
         </div>
+        <div class="heatmap-panel"><div class="heatmap-head"><div><h3>各區高關注戶數熱力圖</h3><p>顯示各行政區高關注客戶數；顏色越深代表戶數越多。點選區塊可篩選下方名單。行銷同意狀態仍以個別名單為準。</p></div><div class="heatmap-legend"><span>較少</span><i class="heatmap-swatch"></i><i class="heatmap-swatch mid"></i><i class="heatmap-swatch hot"></i><span>較多</span></div></div><div class="heatmap-totals"><span>高關注戶數 <strong id="heatmapHighTotal">0</strong></span><span>有高關注名單行政區 <strong id="heatmapDistrictTotal">0</strong></span></div><div class="heatmap-tiles" id="districtHeatmap"></div></div>
         <div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>機齡</th><th>近 24 月維修</th><th>關注分數</th><th>參考原因</th><th>行銷同意</th><th>人工覆核</th><th>更新覆核</th></tr></thead><tbody id="leadRows"></tbody></table><div class="table-empty" id="leadEmpty">尚無客戶資料。可載入示範資料或匯入 CSV。</div></div>
         <div class="source-row" id="evaluationSummary" style="display:none"></div>
       </div>
@@ -155,6 +156,12 @@
       <div class="section-head"><div><div class="label">03 / Confirmed Replacements</div><h2>已確認換機意願名單</h2><p>同仁在「換機關注名單」按下「確認換機」後會列在此處。確認意願不等於已完成安裝；實際換機成功請看下方「換機成功名單」。</p></div><div class="toolbar"><span class="review-badge review-done" id="confirmedCount">0 筆確認意願</span><button class="btn" id="exportConfirmed">匯出確認名單 CSV</button></div></div>
       <div class="panel panel-pad">
         <div class="table-wrap"><table class="data-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>安裝年份</th><th>近 24 月維修</th><th>關注分數</th><th>確認日期</th><th>更新狀態</th></tr></thead><tbody id="confirmedRows"></tbody></table><div class="table-empty" id="confirmedEmpty">尚無確認換機名單。請到「換機關注名單」按下「確認換機」。</div></div>
+        <div class="section-head" style="margin-top:20px"><div><div class="label">FIELD SERVICE DISPATCH</div><h2>師傅派工與動線安排</h2><p>依日期、師傅與服務座標，整理每日服務順序；可調整預約時間、安裝項目與工時，再重新規劃。</p></div><div class="dispatch-tools"><input class="control" type="date" id="dispatchDate"><select class="control" id="dispatchTechFilter"><option value="all">全部師傅</option></select><button class="btn btn-primary" type="button" id="optimizeRoutes">重新規劃動線</button><button class="btn" type="button" id="exportDispatch">匯出派工表 CSV</button></div></div>
+        <div class="notice"><strong>路線估算說明：</strong>示範資料使用虛構座標；實際資料需提供 route_lat／route_lng。系統用直線距離估計移動時間並排序，未連接道路導航或即時路況，正式派工請再由主管確認。</div>
+        <div class="dispatch-summary"><div class="dispatch-stat"><small>當日已排案件</small><strong id="dispatchJobs">0</strong></div><div class="dispatch-stat"><small>預計移動距離</small><strong id="dispatchDistance">0 km</strong></div><div class="dispatch-stat"><small>預計行車時間</small><strong id="dispatchTravel">0 分</strong></div><div class="dispatch-stat"><small>預估安裝工時</small><strong id="dispatchWork">0 小時</strong></div></div>
+        <div class="panel panel-pad" style="margin-bottom:12px"><h3 style="margin:0 0 9px;font-size:12px">建議拜訪順序</h3><div class="route-visual" id="routeVisual"><div class="route-empty">確認換機名單後，可在下方設定日期、師傅及座標，再產生動線。</div></div><div class="source-row" id="routeDetail"><span>先填好排程欄位，再按「重新規劃動線」。</span></div></div>
+        <div class="table-wrap"><table class="data-table dispatch-table"><thead><tr><th>去識別代碼</th><th>行政區</th><th>服務座標（緯度／經度）</th><th>預約日期</th><th>時段</th><th>指派師傅</th><th>安裝項目</th><th>台數</th><th>工時</th><th>舊機回收</th><th>備註</th><th>路線序號</th></tr></thead><tbody id="dispatchRows"></tbody></table><div class="table-empty" id="dispatchEmpty">尚無確認換機名單可安排派工。可先載入示範資料。</div></div>
+        <div class="source-row"><span>派工資料只保存在目前瀏覽器。正式導入時，建議以系統帳號權限及公司核准的定位資料管理。</span></div>
         <div class="source-row"><span>名單與覆核狀態會保存在目前瀏覽器，可關閉後再開啟；不會上傳到伺服器。匯入的原始客戶資料不會保存。</span><button class="btn btn-small" id="clearReviews">清除確認與覆核紀錄</button></div>
       </div>
     </section>
@@ -236,7 +243,7 @@
     ].map(function(r){return {district:r[0],households:r[1],population:r[2]};});
     const currentYear = new Date().getFullYear();
     function readLocalObject(key){try{const raw=localStorage.getItem(key);if(!raw)return {};const parsed=JSON.parse(raw);return parsed&&typeof parsed==="object"&&!Array.isArray(parsed)?parsed:{};}catch(e){return {};}}
-    const state = {customers:[], history:[], demoCustomers:false, demoHistory:false, reviews:readLocalObject("airconReplacementReviews"), confirmed:readLocalObject("airconConfirmedReplacementList"), deferred:readLocalObject("airconDeferredFollowupList")};
+    const state = {customers:[], history:[], demoCustomers:false, demoHistory:false, dispatch:readLocalObject("airconDispatchPlan"), reviews:readLocalObject("airconReplacementReviews"), confirmed:readLocalObject("airconConfirmedReplacementList"), deferred:readLocalObject("airconDeferredFollowupList")};
     const $ = function(id){return document.getElementById(id);};
     const viewTitles={overview:"總覽",imports:"資料匯入",leads:"換機關注名單",confirmed:"已確認換機意願名單",outcomes:"換機名單分類",completed:"換機成功名單",predicted:"預測可以換機名單",followup:"不換機但可後續再關注名單",success:"換機預測成效儀表板",demand:"區域需求與產能",method:"模型方式與覆核原則"};
     function navigateToView(name){
@@ -270,7 +277,7 @@
       return rows.map(function(r,i){
         const id=get(r,["customer_id","會員代碼"])||("匿名設備-"+(i+1));
         const yearRaw=get(r,["install_year","安裝年份"]),repairsRaw=get(r,["repair_count_24m","近24月維修次數"]),outcomeRaw=get(r,["replaced_within_6m","六個月內已換機"]);
-        return {id:id,district:districtName(get(r,["district","行政區"])),year:yearRaw===""?null:number(yearRaw),repairs:repairsRaw===""?null:number(repairsRaw),lastRepair:get(r,["last_repair_date","最近維修日期"]),warranty:boolValue(get(r,["warranty_expired","保固到期"])),consent:boolValue(get(r,["marketing_consent","行銷同意"])),outcome:outcomeRaw===""?null:boolValue(outcomeRaw)};
+        return {id:id,district:districtName(get(r,["district","行政區"])),year:yearRaw===""?null:number(yearRaw),repairs:repairsRaw===""?null:number(repairsRaw),lastRepair:get(r,["last_repair_date","最近維修日期"]),warranty:boolValue(get(r,["warranty_expired","保固到期"])),consent:boolValue(get(r,["marketing_consent","行銷同意"])),outcome:outcomeRaw===""?null:boolValue(outcomeRaw),lat:latRaw===""?null:number(latRaw),lng:lngRaw===""?null:number(lngRaw)};
       });
     }
     function parseHistory(rows){
@@ -288,14 +295,14 @@
       score=Math.min(100,score);return {score:score,risk:score>=65?"高":score>=40?"中":"低",age:age,reasons:reasons.length?reasons:["目前資料未觸發較高關注條件"]};
     }
     function reviewFor(id){return state.reviews[id]||"待覆核";}
-    function saveReviewState(){try{localStorage.setItem("airconReplacementReviews",JSON.stringify(state.reviews));localStorage.setItem("airconConfirmedReplacementList",JSON.stringify(state.confirmed));localStorage.setItem("airconDeferredFollowupList",JSON.stringify(state.deferred));return true;}catch(e){toast("瀏覽器無法保存紀錄，請匯出 CSV 備份。");return false;}}
+    function saveReviewState(){try{localStorage.setItem("airconReplacementReviews",JSON.stringify(state.reviews));localStorage.setItem("airconConfirmedReplacementList",JSON.stringify(state.confirmed));localStorage.setItem("airconDeferredFollowupList",JSON.stringify(state.deferred));localStorage.setItem("airconDispatchPlan",JSON.stringify(state.dispatch));return true;}catch(e){toast("瀏覽器無法保存紀錄，請匯出 CSV 備份。");return false;}}
     function setReview(id,value){
       const c=state.customers.find(function(x){return x.id===id;});
       if(value==="已確認換機"){
         if(!c){toast("找不到這筆設備資料，請重新匯入客戶 CSV。");return;}
         const s=scoreCustomer(c);
         state.reviews[id]="已確認換機";
-        state.confirmed[id]={id:c.id,district:c.district||"",year:c.year||"",repairs:Number.isFinite(c.repairs)?c.repairs:"",score:s.score==null?"":s.score,risk:s.risk,confirmedAt:new Date().toISOString()};
+        state.confirmed[id]=Object.assign({},state.confirmed[id]||{},{id:c.id,district:c.district||"",year:c.year||"",repairs:Number.isFinite(c.repairs)?c.repairs:"",score:s.score==null?"":s.score,risk:s.risk,confirmedAt:new Date().toISOString(),lat:c.lat,lng:c.lng});if(!state.dispatch[id])state.dispatch[id]=defaultDispatchJob(state.confirmed[id],Object.keys(state.confirmed).length-1);
         delete state.deferred[id];
       }else if(value==="暫緩"){
         state.reviews[id]="暫緩";
@@ -339,8 +346,27 @@
         return '<tr><td class="id-cell">'+esc(r.id)+'</td><td>'+esc(r.district||"未提供")+'區</td><td class="number">'+esc(r.year||"—")+'</td><td class="number">'+esc(r.repairs==null?"—":r.repairs)+' 次</td><td><span class="risk-badge '+(r.risk==="高"?"risk-high":r.risk==="中"?"risk-medium":"risk-low")+'">'+(r.score===""?"—":esc(r.risk||"")+"關注 · "+esc(r.score))+'</span></td><td>'+esc(date)+'</td><td><button class="btn btn-small remove-confirmed" data-id="'+esc(r.id)+'">移回待覆核</button></td></tr>';
       }).join("");
       $("confirmedEmpty").style.display=rows.length?"none":"block";
+      renderDispatch();
       document.querySelectorAll(".remove-confirmed").forEach(function(btn){btn.addEventListener("click",function(){setReview(btn.getAttribute("data-id"),"待覆核");});});
     }
+    const DEMO_TECHS=["林師傅","陳師傅","王師傅","張師傅"];
+    function defaultDispatchJob(saved,index){const base=new Date();base.setDate(base.getDate()+1+(Math.floor(index/6)%3));return {id:saved.id,district:saved.district||"",lat:Number.isFinite(saved.lat)?saved.lat:null,lng:Number.isFinite(saved.lng)?saved.lng:null,date:base.toISOString().slice(0,10),slot:["09:00–11:00","10:00–12:00","13:00–15:00","14:00–16:00"][index%4],tech:DEMO_TECHS[Math.floor(index/3)%DEMO_TECHS.length],item:["分離式冷氣安裝","舊機拆除＋新機安裝","冷氣換新（含回收）"][index%3],units:1+(index%2===0?0:1),hours:index%3===0?2.5:2,oldUnit:index%2===0?"是":"否",note:""};}
+    function saveDispatch(){try{localStorage.setItem("airconDispatchPlan",JSON.stringify(state.dispatch));return true;}catch(e){toast("無法保存派工資料，請匯出 CSV 備份。");return false;}}
+    function geoDistance(a,b){const rad=Math.PI/180,dLat=(b.lat-a.lat)*rad,dLng=(b.lng-a.lng)*rad,x=Math.sin(dLat/2)**2+Math.cos(a.lat*rad)*Math.cos(b.lat*rad)*Math.sin(dLng/2)**2;return 6371*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));}
+    function optimizeGroup(jobs){const pending=jobs.filter(function(j){return j.lat!==null&&j.lat!==""&&j.lat!==undefined&&j.lng!==null&&j.lng!==""&&j.lng!==undefined&&Number.isFinite(Number(j.lat))&&Number.isFinite(Number(j.lng));}).map(function(j){return Object.assign({},j,{lat:Number(j.lat),lng:Number(j.lng)});});if(pending.length<2)return pending;const start={lat:22.997, lng:120.212};let route=[],current=start;while(pending.length){let nearest=0,best=Infinity;pending.forEach(function(j,i){const d=geoDistance(current,j);if(d<best){best=d;nearest=i;}});current=pending.splice(nearest,1)[0];route.push(current);}function length(path){let sum=geoDistance(start,path[0]);for(let i=1;i<path.length;i++)sum+=geoDistance(path[i-1],path[i]);return sum+geoDistance(path[path.length-1],start);}let improved=true,iterations=0;while(improved&&iterations++<30){improved=false;for(let i=0;i<route.length-1;i++){for(let k=i+1;k<route.length;k++){const candidate=route.slice();candidate.splice(i,k-i+1,...candidate.slice(i,k+1).reverse());if(length(candidate)<length(route)-.001){route=candidate;improved=true;}}}}return route;}
+    function renderDispatch(){
+      const confirmed=Object.values(state.confirmed).map(function(saved){const c=state.customers.find(function(x){return x.id===saved.id;});let job=state.dispatch[saved.id];if(!job){job=defaultDispatchJob(saved,Object.keys(state.dispatch).length);state.dispatch[saved.id]=job;}if(c&&Number.isFinite(c.lat)&&Number.isFinite(c.lng)&&(!Number.isFinite(job.lat)||!Number.isFinite(job.lng))){job.lat=c.lat;job.lng=c.lng;}return Object.assign({},job,{id:saved.id,district:saved.district||job.district||""});});
+      const dateInput=$("dispatchDate");if(!dateInput.value){dateInput.value=confirmed.length?confirmed.map(function(j){return j.date;}).sort()[0]:new Date().toISOString().slice(0,10);}const date=dateInput.value,techFilter=$("dispatchTechFilter").value;
+      const techs=Array.from(new Set(confirmed.map(function(j){return j.tech;}).filter(Boolean))).sort();$("dispatchTechFilter").innerHTML='<option value="all">全部師傅</option>'+techs.map(function(t){return '<option value="'+esc(t)+'">'+esc(t)+'</option>';}).join("");if(techFilter!=="all"&&techs.includes(techFilter))$("dispatchTechFilter").value=techFilter;
+      const displayed=confirmed.filter(function(j){return j.date===date&&(techFilter==="all"||j.tech===techFilter);});const routes=[],sequence={};const groups=new Map();displayed.forEach(function(j){const key=(j.tech||"未指派")+"｜"+j.date;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(j);});groups.forEach(function(group,key){const route=optimizeGroup(group);routes.push({key:key,jobs:route});route.forEach(function(j,i){sequence[j.id]=i+1;});});
+      const routeJobs=routes.flatMap(function(r){return r.jobs;});let km=0,minutes=0,work=0;routes.forEach(function(r){if(r.jobs.length){let prev={lat:22.997,lng:120.212};r.jobs.forEach(function(j){const d=geoDistance(prev,j);km+=d;minutes+=d/30*60+8;work+=number(j.hours);prev=j;});const back=geoDistance(prev,{lat:22.997,lng:120.212});km+=back;minutes+=back/30*60;}});
+      $("dispatchJobs").textContent=displayed.length.toLocaleString("zh-TW");$("dispatchDistance").textContent=km.toFixed(1)+" km";$("dispatchTravel").textContent=Math.round(minutes)+" 分";$("dispatchWork").textContent=work.toFixed(1)+" 小時";
+      const cards=[];routes.forEach(function(r){if(r.jobs.length){cards.push('<div class="route-stop"><b>'+esc(r.key.split("｜")[0])+' · 出發</b><small>臺南市區服務站（示意）</small></div>');r.jobs.forEach(function(j,i){cards.push('<div class="route-stop"><b>'+String(i+1).padStart(2,"0")+' · '+esc(j.id)+'</b><small>'+esc(j.district)+'區 · '+esc(j.slot||"時段待排")+'<br>'+esc(j.item||"安裝").replace(/</g,"&lt;")+'</small></div>');});}});$("routeVisual").innerHTML=cards.length?cards.join(""):'<div class="route-empty">這個日期沒有已排案件。請選擇有案件的日期，或在確認名單安排派工日期。</div>';
+      $("routeDetail").innerHTML='<span>依師傅分組，各組由服務站出發並返回；已安排 '+routeJobs.length+' 筆具座標案件。缺少座標 '+(displayed.length-routeJobs.length)+' 筆，未納入動線排序。每段移動時間含 8 分鐘緩衝。</span>';
+      $("dispatchRows").innerHTML=displayed.map(function(j){const seq=sequence[j.id]||"待座標";return '<tr><td class="id-cell">'+esc(j.id)+'</td><td>'+esc(j.district||"待填")+'區</td><td><input class="dispatch-lat" data-id="'+esc(j.id)+'" type="number" step="0.000001" placeholder="緯度" value="'+(j.lat!==null&&j.lat!==""&&j.lat!==undefined&&Number.isFinite(Number(j.lat))?esc(j.lat):"")+'"><input class="dispatch-lng" data-id="'+esc(j.id)+'" type="number" step="0.000001" placeholder="經度" value="'+(j.lng!==null&&j.lng!==""&&j.lng!==undefined&&Number.isFinite(Number(j.lng))?esc(j.lng):"")+'"></td><td><input class="dispatch-field" data-id="'+esc(j.id)+'" data-key="date" type="date" value="'+esc(j.date||"")+'"></td><td><select class="dispatch-field" data-id="'+esc(j.id)+'" data-key="slot">'+["09:00–11:00","10:00–12:00","13:00–15:00","14:00–16:00","彈性時段"].map(function(o){return '<option'+(j.slot===o?' selected':'')+'>'+o+'</option>';}).join("")+'</select></td><td><input class="dispatch-field" data-id="'+esc(j.id)+'" data-key="tech" type="text" placeholder="師傅姓名／代碼" value="'+esc(j.tech||"")+'"></td><td><select class="dispatch-field" data-id="'+esc(j.id)+'" data-key="item">'+["分離式冷氣安裝","舊機拆除＋新機安裝","冷氣換新（含回收）","移機／重裝","待確認"].map(function(o){return '<option'+(j.item===o?' selected':'')+'>'+o+'</option>';}).join("")+'</select></td><td><input class="dispatch-field" data-id="'+esc(j.id)+'" data-key="units" type="number" min="1" max="10" value="'+esc(j.units||1)+'"></td><td><input class="dispatch-field" data-id="'+esc(j.id)+'" data-key="hours" type="number" min="0.5" step="0.5" value="'+esc(j.hours||2)+'"></td><td><select class="dispatch-field" data-id="'+esc(j.id)+'" data-key="oldUnit"><option'+(j.oldUnit==="是"?' selected':'')+'>是</option><option'+(j.oldUnit==="否"?' selected':'')+'>否</option><option'+(j.oldUnit==="待確認"?' selected':'')+'>待確認</option></select></td><td><input class="dispatch-field dispatch-address" data-id="'+esc(j.id)+'" data-key="note" type="text" placeholder="樓層、停車、備料" value="'+esc(j.note||"")+'"></td><td><span class="review-badge '+(seq==="待座標"?"review-pending":"review-done")+'">'+seq+'</span></td></tr>';}).join("");$("dispatchEmpty").style.display=displayed.length?"none":"block";
+      document.querySelectorAll(".dispatch-field,.dispatch-lat,.dispatch-lng").forEach(function(input){input.addEventListener("change",function(){const id=input.getAttribute("data-id");if(!state.dispatch[id])return;const key=input.dataset.key;if(key)state.dispatch[id][key]=input.type==="number"?number(input.value):input.value;else{const pair=input.classList.contains("dispatch-lat")?"lat":"lng";state.dispatch[id][pair]=input.value===""?null:number(input.value);}saveDispatch();renderDispatch();});});saveDispatch();
+    }
+    function exportDispatch(){const rows=[["customer_id","district","route_lat","route_lng","appointment_date","time_window","technician","installation_type","unit_count","estimated_hours","old_unit_removal","service_note"]];Object.values(state.dispatch).filter(function(j){return state.confirmed[j.id];}).forEach(function(j){rows.push([j.id,j.district,j.lat,j.lng,j.date,j.slot,j.tech,j.item,j.units,j.hours,j.oldUnit,j.note]);});downloadFile("冷氣換機派工與動線.csv",rows.map(function(r){return r.map(quoteCSV).join(",");}).join("\r\n"));}
     function exportSuccessRoster(){
       const rows=[["customer_id","district","install_year","attention_score","replacement_result"]];
       state.customers.filter(function(c){return c.outcome===true;}).forEach(function(c){const s=scoreCustomer(c);rows.push([c.id,c.district,c.year,s.score==null?"":s.score,"replaced_within_6m=yes"]);});
@@ -371,11 +397,21 @@
       $("kpiHistoryHint").textContent=state.demoHistory?"目前顯示虛構安裝示範資料":"匯入安裝歷史後產生需求預估";
     }
     function renderDistrictFilter(){
-      const select=$("districtFilter"),old=select.value;const names=Array.from(new Set(state.customers.map(function(c){return c.district;}))).sort();
+      const select=$("districtFilter"),old=select.value;const names=Array.from(new Set(population.map(function(d){return d.district;}).concat(state.customers.map(function(c){return c.district;})))).filter(Boolean).sort();
       select.innerHTML='<option value="all">全部行政區</option>'+names.map(function(n){return '<option value="'+esc(n)+'">'+esc(n)+'區</option>';}).join("");
       if(names.includes(old))select.value=old;
     }
+    function renderDistrictHeatmap(){
+      const counts=new Map(population.map(function(d){return [d.district,new Set()];}));
+      state.customers.forEach(function(c){if(c.outcome===true)return;const score=scoreCustomer(c);if(score.risk!=="高")return;const key=districtName(c.district);if(!counts.has(key))counts.set(key,new Set());counts.get(key).add(c.id);});
+      const ranked=Array.from(counts.entries()).map(function(pair){return {district:pair[0],count:pair[1].size};}).sort(function(a,b){return b.count-a.count||a.district.localeCompare(b.district,"zh-Hant");});
+      const max=ranked.reduce(function(m,x){return Math.max(m,x.count);},0),total=ranked.reduce(function(sum,x){return sum+x.count;},0),nonzero=ranked.filter(function(x){return x.count>0;}).length;
+      $("heatmapHighTotal").textContent=total.toLocaleString("zh-TW");$("heatmapDistrictTotal").textContent=nonzero.toLocaleString("zh-TW");
+      $("districtHeatmap").innerHTML=state.customers.length?ranked.map(function(x){const alpha=x.count?(.12+.68*(x.count/Math.max(1,max))):.045,selected=$("districtFilter").value===x.district;return '<button class="heat-tile'+(selected?' selected':'')+'" type="button" data-district="'+esc(x.district)+'" title="'+esc(x.district)+'區：'+x.count+' 戶高關注" style="background-color:rgba(255,60,116,'+alpha.toFixed(3)+')"><span>'+esc(x.district)+'區</span><strong>'+x.count.toLocaleString("zh-TW")+'</strong></button>';}).join(""):'<div class="heatmap-empty">尚無客戶設備資料。載入示範資料或匯入 CSV 後，會依高關注分數統計各區戶數。</div>';
+      $("districtHeatmap").querySelectorAll("[data-district]").forEach(function(tile){tile.addEventListener("click",function(){const select=$("districtFilter");select.value=select.value===tile.dataset.district?"all":tile.dataset.district;renderLeads();});});
+    }
     function renderLeads(){
+      renderDistrictHeatmap();
       const query=$("leadSearch").value.trim().toLowerCase(),risk=$("riskFilter").value,consent=$("consentFilter").value,district=$("districtFilter").value;
       const rows=state.customers.filter(function(c){return c.outcome!==true;}).map(function(c){return {c:c,s:scoreCustomer(c)};}).filter(function(x){
         return (!query||(x.c.id+" "+x.c.district).toLowerCase().includes(query))&&(risk==="all"||x.s.risk===risk)&&(consent==="all"||(consent==="yes"?x.c.consent:!x.c.consent))&&(district==="all"||x.c.district===district);
@@ -488,14 +524,14 @@
     }
     function seededRandom(seed){let x=seed>>>0;return function(){x=(1664525*x+1013904223)>>>0;return x/4294967296;};}
     function customerSampleCSV(){
-      const rand=seededRandom(260612),rows=[["customer_id","district","install_year","repair_count_24m","last_repair_date","warranty_expired","marketing_consent","replaced_within_6m"]];
+      const rand=seededRandom(260612),rows=[["customer_id","district","install_year","repair_count_24m","last_repair_date","warranty_expired","marketing_consent","replaced_within_6m","route_lat","route_lng"]];
       for(let i=0;i<148;i++){
         const d=population[i%population.length],age=2+Math.floor(rand()*15),year=currentYear-age,repairs=Math.max(0,Math.min(5,Math.floor((age-4)/3)+Math.floor(rand()*3)-1)),hasRecent=repairs>0&&rand()<.62;
         let last="";if(repairs>0){const date=new Date();date.setDate(date.getDate()-Math.floor(rand()*(hasRecent?330:780)+20));last=date.toISOString().slice(0,10);}
         const warranty=age>=7?rand()<.84:rand()<.06,consent=rand()<.78;
         const score=(age>=12?40:age>=10?32:age>=7?20:age>=5?10:0)+(repairs>=4?35:repairs>=3?29:repairs>=2?21:repairs===1?10:0)+(hasRecent?15:0)+(warranty?10:0);
         const probability=Math.min(.88,.04+score*.0068),outcome=rand()<probability;
-        rows.push(["SIM-"+String(i+1).padStart(3,"0"),d.district,year,repairs,last,warranty?"yes":"no",consent?"yes":"no",outcome?"yes":"no"]);
+        const lat=22.905+rand()*.18,lng=120.115+rand()*.185;rows.push(["SIM-"+String(i+1).padStart(3,"0"),d.district,year,repairs,last,warranty?"yes":"no",consent?"yes":"no",outcome?"yes":"no",lat.toFixed(6),lng.toFixed(6)]);
       }
       return rows.map(function(r){return r.map(quoteCSV).join(",");}).join("\r\n");
     }
@@ -510,16 +546,19 @@
     }
     function buildDemo(showMessage){
       state.customers=parseCustomers(parseCSV(customerSampleCSV()));
+      if(!Object.keys(state.confirmed).length){
+        state.customers.slice(0,18).forEach(function(c,i){if(i%5!==4&&c.outcome!==true){const score=scoreCustomer(c);state.confirmed[c.id]={id:c.id,district:c.district,year:c.year,repairs:c.repairs,score:score.score,risk:score.risk,confirmedAt:new Date(Date.now()-(i*86400000)).toISOString(),lat:c.lat,lng:c.lng};state.reviews[c.id]="已確認換機";state.dispatch[c.id]=defaultDispatchJob(state.confirmed[c.id],i);}});
+      }
       state.history=parseHistory(parseCSV(historySampleCSV()));
       state.demoCustomers=true;state.demoHistory=true;$("customerStatus").textContent="已載入 148 筆虛構設備與結果標籤";$("historyStatus").textContent="已載入 37 區、歷史安裝與規劃產能模擬資料";refresh();if(showMessage!==false)toast("已載入模擬資料，所有客戶與安裝數字均為虛構");
     }
     $("customerFile").addEventListener("change",async function(e){const f=e.target.files[0];if(!f)return;try{state.customers=parseCustomers(parseCSV(await f.text()));state.demoCustomers=f.name.includes("模擬");$("customerStatus").textContent=(state.demoCustomers?"已匯入模擬資料 ":"已匯入 ")+f.name+"（"+state.customers.length+" 筆）";refresh();toast("客戶設備資料已在本機載入");}catch(err){$("customerStatus").textContent="匯入失敗："+err.message;toast(err.message);}e.target.value="";});
     $("historyFile").addEventListener("change",async function(e){const f=e.target.files[0];if(!f)return;try{state.history=parseHistory(parseCSV(await f.text()));state.demoHistory=f.name.includes("模擬");$("historyStatus").textContent=(state.demoHistory?"已匯入模擬資料 ":"已匯入 ")+f.name+"（"+state.history.length+" 列）";refresh();toast("安裝紀錄已在本機載入");}catch(err){$("historyStatus").textContent="匯入失敗："+err.message;toast(err.message);}e.target.value="";});
     $("loadDemo").addEventListener("click",function(){buildDemo(true);});
-    $("clearData").addEventListener("click",function(){state.customers=[];state.history=[];state.reviews={};state.confirmed={};state.deferred={};saveReviewState();state.demoCustomers=false;state.demoHistory=false;$("customerStatus").textContent="尚未匯入";$("historyStatus").textContent="尚未匯入";refresh();toast("已清除本機資料");});
+    $("clearData").addEventListener("click",function(){state.customers=[];state.history=[];state.reviews={};state.confirmed={};state.deferred={};state.dispatch={};saveReviewState();state.demoCustomers=false;state.demoHistory=false;$("customerStatus").textContent="尚未匯入";$("historyStatus").textContent="尚未匯入";refresh();toast("已清除本機資料");});
     $("downloadCustomerSample").addEventListener("click",function(){downloadFile("客戶設備資料欄位範例.csv",customerSampleCSV());});
     $("downloadHistorySample").addEventListener("click",function(){downloadFile("安裝與產能資料欄位範例.csv",historySampleCSV());});
-    $("exportLeads").addEventListener("click",exportLeads);$("exportConfirmed").addEventListener("click",exportConfirmed);$("exportSuccessRoster").addEventListener("click",exportSuccessRoster);$("exportPredictedRoster").addEventListener("click",exportPredictedRoster);$("exportFollowup").addEventListener("click",exportFollowup);$("exportForecast").addEventListener("click",exportForecast);$("clearReviews").addEventListener("click",function(){state.reviews={};state.confirmed={};state.deferred={};saveReviewState();refresh();toast("已清除確認與覆核紀錄");});
+    $("optimizeRoutes").addEventListener("click",function(){renderDispatch();toast("已依日期與師傅重新排序拜訪動線");});$("dispatchDate").addEventListener("change",renderDispatch);$("dispatchTechFilter").addEventListener("change",renderDispatch);$("exportDispatch").addEventListener("click",exportDispatch);$("exportLeads").addEventListener("click",exportLeads);$("exportConfirmed").addEventListener("click",exportConfirmed);$("exportSuccessRoster").addEventListener("click",exportSuccessRoster);$("exportPredictedRoster").addEventListener("click",exportPredictedRoster);$("exportFollowup").addEventListener("click",exportFollowup);$("exportForecast").addEventListener("click",exportForecast);$("clearReviews").addEventListener("click",function(){state.reviews={};state.confirmed={};state.deferred={};saveReviewState();refresh();toast("已清除確認與覆核紀錄");});
     ["leadSearch","riskFilter","consentFilter","districtFilter"].forEach(function(id){$(id).addEventListener("input",renderLeads);$(id).addEventListener("change",renderLeads);});
     $("seasonSelect").addEventListener("change",renderForecast);$("yearSelect").addEventListener("change",renderForecast);
     for(let y=currentYear+1;y>=currentYear-1;y--){const o=document.createElement("option");o.value=String(y);o.textContent=y+" 年";if(y===currentYear+1)o.selected=true;$("yearSelect").appendChild(o);}
