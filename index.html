@@ -96,6 +96,8 @@
     @media(max-width:850px){.demand-explain-grid{grid-template-columns:1fr}}
     .district-highlights,.district-chart-analysis{display:block}.district-top3{border-color:#f5ccda;background:#fff8fa}.district-top3-crown{color:var(--brand)}.district-top3-row,.district-top3-row:nth-child(2),.district-top3-row:nth-child(3){background:#fff0f4}.district-top3-row:nth-child(2){background:#fff6f8}.district-top3-row:nth-child(3){background:#ffedf2}.district-top3-rank,.district-top3-row:nth-child(2) .district-top3-rank,.district-top3-row:nth-child(3) .district-top3-rank{background:var(--brand-dark);color:#fff}.district-top3-gap,.district-chart-values .gap-text{color:var(--brand-dark)}.district-top3-badge{color:var(--brand-dark)}.district-top3-row:first-child .district-top3-badge{background:var(--brand);color:#fff}.district-chart-row:nth-child(-n+3){background:var(--brand-soft)}.district-chart-row .district-chart-rank,.district-chart-row:nth-child(-n+3) .district-chart-rank,.district-chart-row:nth-child(2) .district-chart-rank,.district-chart-row:nth-child(3) .district-chart-rank{background:#ffe0e9;color:var(--brand-dark)}.district-chart-segment.capacity,.legend-capacity{background:var(--brand-dark)}.district-chart-segment.gap,.legend-gap{background:#f28ba8}.district-chart-segment.gap{color:#76172f}.legend-missing{background:#d3d3d3}.district-chart-kpi:nth-child(3) strong,.district-chart-kpi:nth-child(4) strong,.district-chart-kpi:nth-child(5) strong{color:var(--brand-dark)}
     .district-top3-row:nth-child(1){background:#f8c4d2}.district-top3-row:nth-child(2){background:#fbdde5}.district-top3-row:nth-child(3){background:#fff0f4}
+  
+    .workflow-block{margin:18px 0;padding:18px;border:1px solid #e7ebe6;border-radius:12px;background:#fbfcfa}.workflow-head h3{margin:5px 0;font-size:16px;color:#303a32}.workflow-head p{max-width:850px;margin:0;color:#737a72;font-size:10px;line-height:1.7}.workflow-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;counter-reset:workflow;list-style:none;margin:13px 0 0;padding:0}.workflow-steps li{position:relative;min-width:0;padding:13px 14px 13px 45px;border:1px solid #e9ece8;border-radius:10px;background:#fff;counter-increment:workflow}.workflow-steps li::before{content:counter(workflow,decimal-leading-zero);position:absolute;top:13px;left:13px;color:#bd4e62;font-size:10px;font-weight:900}.workflow-steps h4{margin:0 0 6px;color:#343d35;font-size:11px}.workflow-steps p{margin:0;color:#6b7269;font-size:10px;line-height:1.7}.workflow-scope{margin-top:12px;padding:11px 13px;border:1px solid #e8dfc9;border-radius:9px;background:#fffaf1;color:#76684d;font-size:10px;line-height:1.75}.workflow-scope strong{color:#5b4d32}@media(max-width:850px){.workflow-steps{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -234,7 +236,7 @@
         <div class="success-empty" id="successEmpty" style="display:none">目前沒有同時具備分數與結果標籤的資料。匯入客戶設備資料時，請提供 <code>replaced_within_6m</code>（六個月內是否已換機）。</div>
         <div class="success-compare" id="successCompare"></div>
         <div class="success-note" id="successNote">預測成功的定義：預測名單中的設備，在觀察期六個月內的換機結果標記為「是」。示範資料為虛構資料；此比較只呈現名單排序與結果的關聯，不能視為促銷活動造成換機的證據。</div>
-        <div class="success-method-note"><strong>這張儀表板怎麼算：</strong>先只保留「有關注分數」且「六個月結果已填是／否」的設備，依分數由高至低排序，前 ceil(可評估設備數 ÷ 3) 筆列為比較中的預測名單。預測名單換機率＝其中結果為「是」的筆數 ÷ 名單筆數；其餘名單也用同一算法計算，兩者相減後以百分點（pp）呈現。畫面百分比與 pp 四捨五入為整數；沒有可比較的其餘名單時，差距顯示「—」。示範資料的結果標籤是依分數設定隨機機率產生，故觀察到的差距是模擬規則造成的示範結果，不是模型準確率，也不能證明聯繫或促銷帶來換機。</div>
+        <div class="success-method-note"><strong>這張儀表板怎麼算：</strong>正式資料應以每筆半年健檢日作為六個月觀察起點，只納入已完整觀察六個月且有關注分數的設備；再依分數排序，前 ceil(可評估設備數 ÷ 3) 筆作比較中的預測名單。預測名單換機率＝其中六個月內已完成換機的設備數 ÷ 名單筆數；其餘名單同樣計算，兩者相減後以百分點（pp）呈現。畫面百分比與 pp 四捨五入為整數。原型目前讀取匯入的 replaced_within_6m 結果欄，不會由安裝完工狀態自動推導；示範結果是依分數設定機率產生，不代表模型準確率，也不能證明聯繫或促銷帶來換機。</div>
       </div>
     </section>
 
@@ -278,7 +280,7 @@
           <div class="demand-explainer-head"><div class="label">DATA → FORECAST → STAFFING</div><h3 id="demandExplainTitle">資料模擬、需求計算與儀表板讀法</h3><p>這頁把官方區域統計、公開補助估算、匯入的安裝紀錄和虛構示範資料放在同一個流程中；先看每筆資料的角色，再沿著需求、產能、缺口和人力往下讀。</p></div>
           <div class="notice"><strong>兩條分析流程彼此獨立：</strong>客戶設備的關注分數用來排序個別設備，成效儀表板比較分數排序與結果標籤；區域需求則用安裝歷史或公開補助量估算。個人分數不會加總成區域需求，人口與戶數也不會判斷任何一戶的換機意願。</div>
           <div class="demand-explain-grid">
-            <article class="demand-explain-card"><small>01 / 先辨認資料來源</small><h4>官方統計、內部紀錄和模擬值用途不同</h4><p>頁面表格的人口、戶數是臺南市 115 年 10 月官方統計，供區域規模參考；公開需求情境為了配合補助年度，另用 114 年 12 月臺南各區戶數及全國戶數作分配比例。匯入的安裝 CSV 才是內部歷史來源。每區「需求參考」欄與上方期間摘要會標示目前採用的來源。</p><p>載入虛構示範資料後，雖然也會產生每月安裝歷史，區域預測仍刻意使用公開補助情境，因示範歷史沒有真實師傅容量和冷氣庫存。匯入非示範的內部資料後，某區有可用歷史就優先用內部估算；該區歷史不足時回到公開情境。</p></article>
+            <article class="demand-explain-card"><small>01 / 先辨認資料來源</small><h4>健檢設備、內部紀錄和公開估算用途不同</h4><p>實際換機關注名單的來源，是用戶購買新機後約半年健檢時，服務人員逐台記下的同戶其他冷氣；新購的那台是服務起點，舊設備才是後續換機候選。建議每筆設備都保留家庭代碼、設備代碼、健檢日期，避免同戶多台設備被合併或重複計入。</p><p>頁面人口、戶數採臺南市 115 年 10 月官方統計，供區域規模參考；公開需求情境則用 114 年 12 月戶數按補助年度分配。匯入安裝 CSV 才是區域內部歷史來源。載入虛構示範資料時，區域預測仍刻意採公開情境；匯入實際內部歷史後，有可用歷史的區域優先使用內部估算。</p></article>
             <article class="demand-explain-card"><small>02 / 區域安裝量模擬</small><h4>用戶數、季節和年份係數造出示範歷史</h4><p>每個行政區先算基準量：<code>2026 年 10 月戶數 × 0.00042</code>。再乘上季節係數（5–8 月 1.55、11 月至次年 4 月 0.83、其他月份 0.58）、年份係數 <code>1 + 0.025 × (年份 − 2024)</code>，以及依區域在清單中的順序循環設定的區域係數 <code>1 + (序號 mod 9) × 0.012</code>，最後四捨五入為整數。</p><p>程式依這套固定公式產生 2024 年至 2026 年 10 月的每月 installations。另產生 2026 年 11 月至 2027 年 8 月的 planned_slots：同樣的基準量乘季節、年份與區域係數，再乘 0.92 後四捨五入。示範檔的每月師傅容量和可用冷氣欄留白；這些數字是為了展示圖表而造，不是實際工單或產能。</p></article>
             <article class="demand-explain-card"><small>03 / 客戶示範資料</small><h4>設備年限、維修、結果標籤都是虛構</h4><p>客戶示範資料共 740 筆，按各區戶數比例分配，並確保每區至少一筆。機齡以各區住宅平均屋齡作參考，加上亂數種子 260612 產生的變動，再限制在 2–18 年；維修次數、最近維修、保固、聯繫同意和六個月結果也依程式規則合成。每十筆中七筆設為 LINE 已綁定，並放入三筆示範預約。</p><p>關注分數＝機齡分（5–6 年 10、7–9 年 20、10–11 年 32、12 年以上 40）＋近 24 月維修分（1 次 10、2 次 21、3 次 29、4 次以上 35）＋一年內維修 15 分＋保固到期 10 分，最高 100 分；每類只取一個級距。65 分以上為高、40–64 分為中、其餘為低，行銷同意不計分。結果標籤的模擬機率為 min(8%，0.5%＋分數 × 0.08%)，所以分數較高的設備在示範資料中較容易被標成已換機。</p><p>這些數字只供名單和儀表板操作，不代表實際客戶、換機率或預測成效；客戶資料不會流入區域需求公式。</p></article>
             <article class="demand-explain-card"><small>04 / 匯入內部歷史時計算</small><h4>比較相同季節，再接上未來規劃</h4><p>夏季是 5–8 月（4 個月），淡季是 11 月至次年 4 月（6 個月）。系統往回最多找四個同季節期間；至少要有該季月份數的 65% 安裝量才納入（夏季至少 3 個月、淡季至少 4 個月）。若只記到部分月份，先按月份比例換算完整季，再取最近最多兩個有效季的平均並四捨五入。</p><span class="demand-formula">完整季估計量＝已記錄安裝量合計 × 季節總月數 ÷ 已記錄月份數<br>需求估算＝最近最多兩個有效季估計量的平均</span><p>未來每個月份都要有對應資料，才會加總該類規劃量；缺月份會顯示待補，不當成 0。需求缺口＝需求估算 − planned_slots 加總；負值代表規劃量高於需求，需調配師傅為 0。正缺口時，師傅數＝ceil(缺口 ÷ 每位師傅期間容量)，其中期間容量是目標期間各月 technician_capacity_per_month 加總，且每月都須提供正值。冷氣需求另算：max(需求估算 − planned_ac_units 加總, 0)。所以內部資料的師傅缺口和冷氣缺口可以不同。</p></article>
@@ -319,6 +321,20 @@
           <article class="method"><div class="method-no">02 / 區域需求</div><h3>季節安裝量推估</h3><p>以過去相同月份的安裝量推估下個夏季或淡季，並與匯入的未來規劃產能比較；歷史月份不足時會依可用資料估算。</p></article>
           <article class="method"><div class="method-no">03 / LINE 與簡訊邀請</div><h3>新購冷氣先完成 LINE 綁定</h3><p>未綁定戶可透過已同意的簡訊邀請連結完成綁定；綁定後才能確認新機訂單，LINE 預約則自動加入已確認換機名單。</p></article>
         </div>
+        <section class="workflow-block" aria-labelledby="replacementWorkflowTitle">
+          <div class="workflow-head"><div class="label">CUSTOMER TO COMPLETED INSTALL</div><h3 id="replacementWorkflowTitle">從半年健檢到換機完成</h3><p>用戶換機候選、已確認預約和已完工案件是不同階段；每一步都把設備、家庭、LINE 預約和安裝結果連起來。</p></div>
+          <ol class="workflow-steps">
+            <li><h4>新機購買後建立半年健檢任務</h4><p>記錄新機的家庭代碼、購買／安裝日期和服務門市，依公司定義安排約半年後的健檢提醒。新購機是回訪契機，不直接視為其他冷氣也要換機。</p></li>
+            <li><h4>健檢時逐台記錄同戶其他冷氣</h4><p>服務人員為每台其他設備建立或更新設備紀錄，包含設備代碼、家庭代碼、行政區、安裝年份、近 24 月維修、最近維修、保固狀態和健檢日期。同戶多台設備各自一筆，已有設備更新原紀錄，避免重複累積。</p></li>
+            <li><h4>把設備列為候選並供同仁覆核</h4><p>系統依機齡、維修和保固規則計算關注分數，顯示觸發原因；名單表示值得再確認，不等於已下單或已確認換機。聯絡前依既有告知與同意設定控管用途及聯繫方式。</p></li>
+            <li><h4>用戶從 LINE 選設備並提出預約</h4><p>LINE 預約表帶入家庭與候選設備識別資料，讓用戶確認要換的設備、地址、偏好日期和安裝需求。LIFF 將原始 ID token 傳到後端驗證，再用已驗證的 LINE 身分對應家庭；不要以瀏覽器送來的顯示名稱或 user ID 當身分證明。</p></li>
+            <li><h4>預約成功後進入已確認換機</h4><p>LINE 預約成功即建立或更新確認案件，保留預約單號、設備、日期和進度。原型目前同戶已有未取消 LINE 預約時會回傳原單；若要讓同戶不同冷氣分別預約，需用設備代碼補上案件關聯，避免不同設備被合併。已確認代表顧客已預約，不代表師傅已派妥或安裝完成。</p></li>
+            <li><h4>按區域和月份核對需求、產能與庫存</h4><p>把已確認預約依行政區、預約月份和設備台數彙總為已承諾需求；尚未預約的健檢候選另列為潛在需求，不要和確認案件混算。再分別比較 planned_slots、每位師傅期間容量和 planned_ac_units。若缺口成立，先用機動人力和可調日期補位；人力或庫存仍不足才增加相應資源。</p></li>
+            <li><h4>排班派工並更新服務進度</h4><p>派工前核對師傅可用時段、技能、工時、服務範圍、路線和備料；依日期與預約時段指派，更新已聯絡、已排程、施工中等進度。區域規劃人數是容量估算，派工名單才是實際可派人員，兩者分開維護。</p></li>
+            <li><h4>完工回寫設備與六個月結果</h4><p>安裝完成後記錄新機、完工日期、舊設備已換機，以及實際區域安裝量；以健檢日判斷是否在六個月內完成。觀察期尚未滿六個月的設備先不放入成效比較，成熟後再更新結果儀表板與未來產能基準。</p></li>
+          </ol>
+          <div class="workflow-scope"><strong>原型目前支援範圍：</strong>可匯入設備 CSV、依規則排序、接收 LINE 預約並自動列入已確認案件、保存進度與安排派工。新機交易自動建立半年健檢任務、同戶多台設備的 household_id／equipment_id 關聯、已確認 LINE 預約自動匯入區域月需求，以及完工後自動回寫健檢結果和安裝歷史，仍需補上欄位或系統串接。</div>
+        </section>
         <div class="source-row"><span>人口與戶數來源：臺南市政府民政局「115 年 10 月現住人口統計表」，資料更新日 2026-11-04。</span><a href="https://data.tainan.gov.tw/Resource/444f4813-cff5-452b-8306-d40a5a8af0a1" target="_blank" rel="noreferrer">開啟官方原始資料 ↗</a></div>
         <div class="source-row"><span>虛構設備樣本、安裝量、排程和換機結果只供操作示範，不代表臺南或全國電子實績；請在按下「載入虛構示範資料」後才查看。正式需求與產能分析需匯入內部實際紀錄。</span><a href="https://data.tainan.gov.tw/Resource/d99f51ff-a110-4da3-8208-d349eaba7de1" target="_blank" rel="noreferrer">住宅屋齡參考資料 ↗</a></div>
         <div class="source-row"><span>進入正式 AI 階段前，需整理歷史購買、設備、維修、預約、完成安裝、取消與產能資料，並用試辦組與比較組驗證是否真的把需求移到淡季。</span><span>LINE 預約可自動入列；LINE 推播通知與自動派工需另行串接</span></div>
